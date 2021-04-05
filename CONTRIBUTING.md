@@ -28,7 +28,7 @@
 Use Github’s web interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/Conscious-Coders/ConsciousCompassion.git
+git remote add upstream https://github.com/Conscious-Coders/Alt-Lane.git
 ```
 
 ### Cut a namespaced feature branch from master
