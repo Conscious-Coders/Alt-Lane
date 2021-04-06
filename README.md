@@ -45,6 +45,8 @@ From within the root directory: Look at package.json file and keep updating
 - npx express-generator
 - npm install pg-promise
 - npm install JW
+- npm install standard --save-dev
+- npm install eslint --save-dev
 ```
 
 ### Roadmap
