@@ -1,7 +1,6 @@
-# Conscious Compassion
+The average debt of a college graudates in the united states is $29,900. The current economic climite has forced people to repay their student loan debt with jobs that don't require the degree that put them in debt in the first place. Students are going into college unsure about their future and unaware of alternative careers opportunities. Due to the lack of information on posssible paths students are forced to pay for unused degrees or forced persue careers they are not passionate about. 
 
-A recent increase of harassment, hate crimes and assault incidents in New York City has negatively impacted various communities and their quality of life. Conscious Compassion aims to empower individuals who have been affected by creating a space to inform others and reach out for support. As an open forum, community members are able post their experiences which allows other individuals in the area to be vigilant and better equipped to make calculated decisions. 
-Conscious Compassion builds community by bringing awareness of unlawful behavior with open discussions. 
+Alt-Lane is a website to bring information about career opportunities to high school students. Students will be exposed to alternative careers paths in their chosen fields via a network of mentors.
 
 ## Team
   - __Product Owner__: Shruti Tamarkar Tuladhar
