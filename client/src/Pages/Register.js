@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+// import LandingNavBar from '../Components/LandingNavBar'
+import Footer from "../Components/Footer"
 import Form from '../Components/Form'
 
+import MentorNavBar from "../Components/MentorNavBar"
 function Register () {
   const { form, handleChange } = Form({
     firstName: '',
@@ -14,8 +17,10 @@ function Register () {
   })
   return (
     <div>
-      <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} />
-      <div className='containter d-flex justify-content-center '>
+      <MentorNavBar/>
+      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+        <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt=""/>
+      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
         <div className='card w-75'>
           <div className='container card-body'>
             <h3 className='card-title'>Register</h3>
@@ -57,7 +62,8 @@ function Register () {
         </div>
 
       </div>
-
+      </div>
+      <Footer/>
     </div>
   )
 }
