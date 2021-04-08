@@ -2,6 +2,8 @@ import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom'
 import React from 'react'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
+import Landing from './Pages/Landing'
+
 import './App.css'
 
 function App () {
@@ -20,6 +22,9 @@ function App () {
       <p className='App-intro'>{test.apiResponse}</p>
       <BrowserRouter>
         <Switch>
+        <Route exact path='/'>
+            <Landing />
+          </Route>
           <Route path='/register'>
             <Register />
           </Route>
