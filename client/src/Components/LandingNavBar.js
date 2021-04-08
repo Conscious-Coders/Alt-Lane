@@ -9,13 +9,13 @@ function LandingNavBar(){
           <a className="navbar-brand" href="#"> 
             <img src='/alt_lane_logo.png' style={{ width: '105px', height: 'auto' }} alt="" />
             </a>
-            <div class=" d-flex" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">Login</a>
+            <div className=" d-flex" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#">Login</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Register</a>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Register</a>
                 </li>
               </ul>
             </div>    

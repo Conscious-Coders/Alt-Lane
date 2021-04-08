@@ -8,16 +8,16 @@ function MentorNavBar(){
           <a className="navbar-brand" href="#"> 
             <img src='/alt_lane_logo.png' style={{ width: '105px', height: 'auto' }} alt="" />
             </a>
-            <div class=" d-flex" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link " aria-current="page" href="#">HOME</a>
+            <div className=" d-flex" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <a className="nav-link " aria-current="page" href="#">HOME</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link " aria-current="page" href="#">PROFILE</a>
+                <li className="nav-item">
+                  <a className="nav-link " aria-current="page" href="#">PROFILE</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">SETTINGS</a>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">SETTINGS</a>
                 </li>
               </ul>
             </div>    
