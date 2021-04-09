@@ -2,6 +2,8 @@ import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom'
 import React from 'react'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
+import MenteeProfile from "./Pages/MenteeProfile"
+import MentorProfile from "./Pages/MentorProfile"
 import Landing from './Pages/Landing'
 
 import './App.css'
@@ -30,6 +32,12 @@ function App () {
           </Route>
           <Route path='/login'>
             <Login />
+          </Route>
+          <Route path='/profile/mentee'>
+            <MenteeProfile />
+          </Route>
+          <Route path='/profile/mentor'>
+            <MentorProfile />
           </Route>
         </Switch>
       </BrowserRouter>

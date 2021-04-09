@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 // import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
-import Form from '../Components/Form'
+import Form from '../Hooks/Form'
 
 import MentorNavBar from "../Components/MentorNavBar"
 function Register () {
