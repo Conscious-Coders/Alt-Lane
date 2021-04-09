@@ -6,6 +6,7 @@ exports.up = function (knex) {
     table.string('email').unique().notNullable()
     table.string('password').notNullable()
     table.string('photo_url')
+    table.string('user_type').notNullable()
   })
 }
 
