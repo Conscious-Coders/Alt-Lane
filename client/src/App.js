@@ -5,6 +5,7 @@ import Login from './Pages/Login'
 import MenteeProfile from "./Pages/MenteeProfile"
 import MentorProfile from "./Pages/MentorProfile"
 import Landing from './Pages/Landing'
+import Homepage from './Pages/Homepage'
 
 import './App.css'
 
@@ -33,6 +34,8 @@ function App () {
           <Route path='/login'>
             <Login />
           </Route>
+          <Route path='/homepage'>
+            <Homepage isMentor={true}/>
           <Route path='/profile/mentee'>
             <MenteeProfile />
           </Route>
