@@ -3,6 +3,7 @@ import React from 'react'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
 import Landing from './Pages/Landing'
+import Homepage from './Pages/Homepage'
 
 import './App.css'
 
@@ -30,6 +31,9 @@ function App () {
           </Route>
           <Route path='/login'>
             <Login />
+          </Route>
+          <Route path='/homepage'>
+            <Homepage isMentor={true}/>
           </Route>
         </Switch>
       </BrowserRouter>
