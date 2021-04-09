@@ -21,21 +21,21 @@ function App () {
 
   return (
     <div className='App'>
-
       <p className='App-intro'>{test.apiResponse}</p>
       <BrowserRouter>
         <Switch>
-        <Route exact path='/'>
-            <Landing />
-          </Route>
+          <Route exact path='/'>
+              <Landing />
+            </Route>
           <Route path='/register'>
-            <Register />
+              <Register />
           </Route>
           <Route path='/login'>
             <Login />
           </Route>
           <Route path='/homepage'>
-            <Homepage isMentor={true}/>
+            <Homepage isMentor={true} />
+            </Route>
           <Route path='/profile/mentee'>
             <MenteeProfile />
           </Route>
