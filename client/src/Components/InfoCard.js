@@ -2,7 +2,7 @@ import React from 'react'
 
 function InfoCard(props) {
   return (
-    <div className="d-flex jusify-content-center">
+    <div className="d-flex justify-content-center">
       <div className="card" style={{ width: '18rem'}}>
         <div className="text-center">
           <img className="rounded-circle z-depth-2" style={{ width: '10rem'}} src= "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="profile img"/>
