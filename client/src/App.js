@@ -6,7 +6,11 @@ import MenteeProfile from "./Pages/MenteeProfile"
 import MentorProfile from "./Pages/MentorProfile"
 import Landing from './Pages/Landing'
 import Homepage from './Pages/Homepage'
+<<<<<<< HEAD
 import Settings from './Pages/Settings'
+=======
+import FindMentor from './Pages/FindMentor'
+>>>>>>> 685c10d49373c16d6ff87f4890d2622138ceb916
 
 import './App.css'
 
@@ -45,6 +49,9 @@ function App () {
           </Route>
           <Route path='/settings'>
             <Settings isMentor={false}/>
+          </Route>
+         <Route path='/find-mentor'>
+            <FindMentor />
           </Route>
         </Switch>
       </BrowserRouter>
