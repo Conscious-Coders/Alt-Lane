@@ -53,11 +53,11 @@ function Register () {
   return (
     <div>
       <LandingNavBar/>
-      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+      <div className="container"  style={{ marginTop:"5%",  marginBottom:"10%"}}>
         <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt=""/>
         
       <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
-        <div className='card w-75'>
+        <div className='card w-75' >
         <div className="panel-heading">
 						<div className="d-flex justify-content-around ">
 							<div className="col-xs-6 fs-3 nav-item">
