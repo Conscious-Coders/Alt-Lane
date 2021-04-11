@@ -1,5 +1,8 @@
 import React from 'react'
+import Footer from '../Components/Footer'
+import LandingNavBar from '../Components/LandingNavBar'
 import Form from '../Hooks/Form'
+import Landing from './Landing'
 
 
 function Login () {
@@ -9,6 +12,7 @@ function Login () {
   })
   return (
     <div>
+      <LandingNavBar/>
       <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt="alt-line logo"/>
       <div className='containter d-flex justify-content-center'>
         <div className='card w-50'>
@@ -34,7 +38,7 @@ function Login () {
         </div>
 
       </div>
-
+      <Footer/>
     </div>
   )
 }
