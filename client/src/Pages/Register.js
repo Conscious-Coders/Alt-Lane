@@ -59,12 +59,12 @@ function Register () {
       <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
         <div className='card w-75'>
         <div className="panel-heading">
-						<div className="d-flex justify-content-around">
+						<div className="d-flex justify-content-around ">
 							<div className="col-xs-6 fs-3 nav-item">
-								<a href="#" className="active nav-link" id="mentee-form-link" onClick={handleMentee}>Mentee Register</a>
+								<a href="#" className="active nav-link link-dark" id="mentee-form-link" onClick={handleMentee}>Mentee Register</a>
 							</div>
 							<div className="col-xs-6 fs-3 nav-item">
-								<a href="#" className="nav-link" id="mentor-form-link" onClick={handleMentor}>Mentor Register</a>
+								<a href="#" className="nav-link link-secondary" id="mentor-form-link" onClick={handleMentor}>Mentor Register</a>
 							</div>
 						</div>
             <hr/>
