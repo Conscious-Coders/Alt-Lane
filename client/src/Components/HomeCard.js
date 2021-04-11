@@ -1,8 +1,9 @@
 import React from 'react'
 
 function HomeCard(props) {
-  let isMentor = props.isMentor; 
-
+  let isMentor = props.isMentor;
+  let interests = props.interests; 
+  console.log(interests); 
   return (
     <div className="card mb-3" style={{width: "700px", height: "auto"}}>
     <div className="d-flex flex-wrap align-items-center row g-0">
@@ -15,12 +16,23 @@ function HomeCard(props) {
         <div className="row">
             <div className="text-start col">
             <h5 className="card-title">{props.name}</h5>
-              { isMentor && <h6 class="card-subtitle mb-2 text-muted">{props.title}</h6>}
+              { !isMentor && <h6 class="card-subtitle mb-2 text-muted">{props.title}</h6>}
+
+              {isMentor && (
+          <div>
+           
+            {interests.map((field) => (
+              <p>{field}</p>
+            ))}
+          </div>
+        )}{" "}
             </div> 
           </div>
         </div>
-          <p className="text-start card-text">{props.bio}</p>
-          { !isMentor && <p> </p>}
+
+        { !isMentor && 
+         <p className="text-start card-text">{props.bio}</p>
+        } 
         </div>
       </div>
     </div>
