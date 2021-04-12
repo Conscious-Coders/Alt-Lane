@@ -9,6 +9,7 @@ router.get('/', async function (request, response) {
       data: data
     })
   } catch (err) {
+    console.log(err)
     response.status(404).send(err)
   }
 })

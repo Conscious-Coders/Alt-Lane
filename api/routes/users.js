@@ -15,6 +15,10 @@ const cors = require('cors')
 // Getting all fields from all users except password
 
 cors({origin: 'http://localhost:3000', credentials: true })
+
+
+
+//DO NOT RETURN status or anything else
 router.get('/login', async function (req, res) {
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
@@ -35,8 +39,12 @@ router.get('/login', async function (req, res) {
        })
        
       })
-      console.log(req.headers)
+
+      
+       console.log(req.headers)
+       //return res.sendStatus(200)
        }catch(err){
+         console.log(err)
      res.status(404).send(err)
    }
  });
@@ -100,11 +108,11 @@ router.patch('/:id', verifyToken, async function (request, response) {
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.params.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
-      console.log(authData.data[0].id)
+      console.log(authData.data[0].user_id)
         try {
         const updateUsers = parseInt(request.params.id)
         let first_name = request.body.first_name
@@ -131,17 +139,19 @@ router.patch('/:id', verifyToken, async function (request, response) {
   }
   })
 })
+
+
 router.put('/:id', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.params.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
-      console.log(authData.data[0].id)
+      console.log(authData.data[0].user_id)
         try {
         const updateUsers = parseInt(request.params.id)
         let first_name = request.body.first_name
