@@ -51,14 +51,18 @@ From within the root directory: Look at package.json file and keep updating
   - npm install dotenv 
   - npm install cors
   - npm install --save-dev nodemon
-  - npm i jsonwebtoken
+  - npm install jsonwebtoken
+  - npm install cookie-parser
 - client: 
   - npm install react react-dom
   - npm install react-responsive-carousel
   - npm install react-router-dom
   - npm install react-slideshow-image -S
   - npm install axios
-
+  - npm install jsonwebtoken
+  - npm install cookie-parser
+  - npm install standard --save-dev
+  - npm install eslint --save-dev
 ```
 
 ### Roadmap
