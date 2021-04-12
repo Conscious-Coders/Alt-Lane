@@ -23,7 +23,6 @@ function App () {
 
   return (
     <div className='App'>
-      <p className='App-intro'>{test.apiResponse}</p>
       <BrowserRouter>
         <Switch>
           <Route exact path='/'>
