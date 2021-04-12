@@ -27,14 +27,17 @@ router.get('/:id', async function (request, response) {
   }
 })
 
-router.post('/', async function (request, response) {
-  try {
-    await db.none('INSERT INTO mentees (parent_name, parent_email) VALUES (${parent_name}, ${parent_email})', request.body)
 
-    return response.send(
-      `The following career_field has been added: ${request.body.name}`
-    )
+router.post('/:id', async function (request, response) {
+  let mentee = parseInt(request.params.id)
+  let parent_name = request.body.parent_name
+  let parent_email = request.body.parent_email
+  try {
+    await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${mentee}, '${parent_name}', '${parent_email}')`)
+    return response.sendStatus(200)
   } catch (err) {
+    console.log(err)
+    console.log(request.body) 
     response.status(404).send(err)
   }
 })
