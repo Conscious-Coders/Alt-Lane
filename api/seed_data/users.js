@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 
 module.exports = [
-  {
+  {//1
     first_name: "Mulan", 
     last_name: "Fa", 
     email: "Fa.Mulan@gmail.com",
@@ -9,7 +9,7 @@ module.exports = [
     photo_url: "https://i.pinimg.com/474x/c4/37/f0/c437f0b83c29b57e2b5fa34474c5ff94--disney-gift-disney-cruiseplan.jpg",
     user_type: "mentor"
   },
-  {
+  {//2
     first_name: "Clark", 
     last_name: "Kent", 
     email: "clark.kent@gmail.com",
@@ -17,7 +17,7 @@ module.exports = [
     photo_url: "https://static.wikia.nocookie.net/superman/images/0/0a/Clarkkent-secretorigin.jpg/revision/latest/scale-to-width-down/340?cb=20100916050519",
     user_type: "mentor"
   },
-  {
+  {//3
     first_name: "Caroline", 
     last_name: "Vigil", 
     email: "CarolineSVigil@yahoo.com",
@@ -25,7 +25,7 @@ module.exports = [
     photo_url: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     user_type: "mentee"
   },
-  {
+  {//4
     first_name: "Fantino", 
     last_name: "Serrato", 
     email: "Lautim1973@gmail.com",
@@ -33,7 +33,7 @@ module.exports = [
     photo_url: "https://images.pexels.com/photos/6501761/pexels-photo-6501761.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     user_type: "mentee"
   },
-  {
+  {//5
     first_name: "Keaana", 
     last_name: "Deldarnesb", 
     email: "KeaanaDeldarnesb@hotmail.com",
