@@ -8,6 +8,7 @@ import Landing from './Pages/Landing'
 import Homepage from './Pages/Homepage'
 import Settings from './Pages/Settings'
 import FindMentor from './Pages/FindMentor'
+import history from './history'
 
 import './App.css'
 
@@ -23,7 +24,7 @@ function App () {
 
   return (
     <div className='App'>
-      <BrowserRouter>
+      <BrowserRouter history={history}>
         <Switch>
           <Route exact path='/'>
               <Landing />
