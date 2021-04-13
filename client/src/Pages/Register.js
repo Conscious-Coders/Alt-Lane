@@ -111,7 +111,7 @@ function Register () {
       form.id = current[0].user_id
 
       console.log(form)
-      const url = `http://localhost:9000/mentors`
+      const url = `http://localhost:9000/${form.userType}s`
       let data = {};
       if(form.userType === "mentee"){
         data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
