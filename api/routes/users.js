@@ -33,8 +33,13 @@ router.post('/login', async function (req, res) {
      if(samePassword)
       jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).cookie('token', token, {sameSite:'strict', httpOnly: true}).json({
+<<<<<<< HEAD
          data, // return only user_id & user_type
          
+=======
+         user_id: data[0].user_id,
+         user_type: data[0].user_type,
+>>>>>>> 2306d71a7a398d79cdb8390ccda661d678fb5648
          token
        })
        

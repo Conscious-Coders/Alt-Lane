@@ -21,9 +21,9 @@ router.get('/', async function (request, response) {
 })
 
 // Using id from users table
-router.get('/:id', async function (request, response) {
+router.get('/singleMentor', async function (request, response) {
   try {
-    const getUser = parseInt(request.params.id)
+    const getUser = parseInt(request.body.id)
     const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${getUser} AND mentors.mentor_id=${getUser}`)
     return response.json({
       data: data
@@ -33,12 +33,22 @@ router.get('/:id', async function (request, response) {
   }
 })
 
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
   let career_field_id = parseInt(request.body.career_field_id)
   let company = request.body.company
   let linkedin_url = request.body.linkedin_url
+
+  jwt.verify(request.token, 'secretKey', async (err, authData) => {
+    console.log(authData)
+    if(err){
+      response.sendStatus(403)
+    } 
+    else if(authData.data[0].user_id !== mentor){
+      response.sendStatus(500)
+      console.log('not working')
+    }else {
   try {
     await db.none(`INSERT INTO mentors (mentor_id, bio, career_field_id, company, linkedin_url) VALUES (${mentor}, '${bio}', ${career_field_id}, '${company}', '${linkedin_url}')`)
 
@@ -47,21 +57,23 @@ router.post('/', async function (request, response) {
     console.log(err)
     response.status(404).send(err)
   }
+}
+})
 })
 
 
-router.put('/:id', verifyToken, async function (request, response) {
+router.put('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
-      let mentor = parseInt(request.params.id)
+      let mentor = parseInt(request.body.id)
       let bio = request.body.bio
       let career_field_id = parseInt(request.body.career_field_id)
       let company = request.body.company
@@ -78,18 +90,18 @@ router.put('/:id', verifyToken, async function (request, response) {
 })
 
 
-router.patch('/:id', verifyToken, async function (request, response) {
+router.patch('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
-      let mentor = parseInt(request.params.id)
+      let mentor = parseInt(request.body.id)
       let bio = request.body.bio
       let career_field_id = parseInt(request.body.career_field_id)
       let company = request.body.company

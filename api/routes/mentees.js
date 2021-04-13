@@ -21,9 +21,9 @@ router.get('/', async function (request, response) {
 })
 
 // Using id from users table
-router.get('/:id', async function (request, response) {
+router.get('/singleMentee', async function (request, response) {
   try {
-    const getUser = parseInt(request.params.id)
+    const getUser = parseInt(request.body.id)
     const data = await db.any(`SELECT mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users, mentees WHERE users.user_id=${getUser} AND mentees.mentee_id=${getUser}`)
     return response.json({
       data: data
@@ -35,33 +35,45 @@ router.get('/:id', async function (request, response) {
 })
 
 
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
   let parent_email = request.body.parent_email
-  try {
-    await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${mentee}, '${parent_name}', '${parent_email}')`)
-    return response.sendStatus(200)
-  } catch (err) {
-    console.log(err)
-    console.log(request.body) 
-    response.status(404).send(err)
+
+  jwt.verify(request.token, 'secretKey', async (err, authData) => {
+    console.log(authData)
+    if(err){
+      response.sendStatus(403)
+    } 
+    else if(authData.data[0].user_id !== mentee){
+      response.sendStatus(500)
+      console.log('not working')
+    }else {
+      try {
+      await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${mentee}, '${parent_name}', '${parent_email}')`)
+      return response.sendStatus(200)
+    } catch (err) {
+      console.log(err)
+      console.log(request.body) 
+      response.status(404).send(err)
+    }
   }
+})
 })
 
 
-router.put('/:id', verifyToken, async function (request, response) {
+router.put('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
-      let mentee = parseInt(request.params.id)
+      let mentee = parseInt(request.body.id)
       let parent_name = request.body.parent_name
       let parent_email = request.body.parent_email
       try {
@@ -75,18 +87,18 @@ router.put('/:id', verifyToken, async function (request, response) {
 })
 
 
-router.patch('/:id', verifyToken, async function (request, response) {
+router.patch('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
-      let mentee = parseInt(request.params.id)
+      let mentee = parseInt(request.body.id)
       let parent_name = request.body.parent_name
       let parent_email = request.body.parent_email
       try {
