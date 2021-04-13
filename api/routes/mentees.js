@@ -35,8 +35,8 @@ router.get('/:id', async function (request, response) {
 })
 
 
-router.post('/:id', async function (request, response) {
-  let mentee = parseInt(request.params.id)
+router.post('/', async function (request, response) {
+  let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
   let parent_email = request.body.parent_email
   try {

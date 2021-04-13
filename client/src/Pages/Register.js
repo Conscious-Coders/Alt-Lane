@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , Redirect} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
 import { Multiselect } from 'multiselect-react-dropdown';
+
 
 function Register () {
   const [photo, setPhoto] = React.useState([])
   const fileSelect = React.useRef(null);
   const careerChoice = React.useRef(null);
   const { form, handleChange } = Form({
+    id: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -19,6 +21,7 @@ function Register () {
     parentName: '',
     parentEmail: '',
     careerField: '',
+    bio: '',
     careerFieldInterest: [],
     company: "",
     linkedin: "",
@@ -43,16 +46,15 @@ function Register () {
     mentor.style.display ="block"
 
   }
+  let careers =[];
+  React.useEffect(async()=>{
+    const fields = await fetch("http://localhost:9000/careers")
+    const allCareers = await fields.json();
+    allCareers.data.forEach(field =>{
+      careers.push({key: field.name, id: field.id})
+    })
+  })
 
-  let careers =[
-    { key: "Option 1", cat: "Group 1" },
-    { key: "Option 2", cat: "Group 1" },
-    { key: "Option 3", cat: "Group 1" },
-    { key: "Option 4", cat: "Group 2" },
-    { key: "Option 5", cat: "Group 2" },
-    { key: "Option 6", cat: "Group 2" },
-    { key: "Option 7", cat: "Group 2" }
-  ];
   
   const uploadFile = (e)=>{
     let photo = e.target.files[0];
@@ -65,58 +67,74 @@ function Register () {
   const formData = new FormData();
   formData.append('file', photo);
   formData.append('upload_preset', unsignedPreset);
-  const handleSubmit= (e )=>{
+  const getAllVals =()=>{
+    const values = careerChoice.current.getSelectedItems();
+    form.careerField = values[0].id
+  }
+  
+
+  const handleSubmit= async (e )=>{
     e.preventDefault();
     getAllVals()
     form.userType = e.target.id
-    let data ={}
-    if(form.userType === "mentee"){
-      data ={parent_name: form.parentName, parent_email: form.parentEmail}
-    }else{
-      data ={bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
-    }
-    //sending user images to cloudinary to then store a image url in the db
-    fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
+   
+    try{   //sending user images to cloudinary to then store a image url in the db
+      const response = await fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
         method: 'POST',
         body: formData
-      }).then(res => res.json())
-      .then(data => form.photoUrl = data.secure_url)
-      .catch(err => console.log(err));
+     })
+     const result = await response.json()
+     form.photoUrl = result.secure_url
+    }
+    catch(err){console.log(err)}
+    let isPosted = ""
+    try{
+      const usersPost = await fetch("http://localhost:9000/users",{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          first_name: form.firstName, 
+          last_name: form.lastName, 
+          email: form.email, 
+          password: form.password, 
+          photo_url: form.photoUrl, 
+          user_type: form.userType
+        })
+      })
+
+      const id = await fetch("http://localhost:9000/users")
+      const getId = await id.json();
+      const current = await getId.data.filter(ele => ele.email === form.email)
+      form.id = current[0].user_id
 
       console.log(form)
-    fetch("http://localhost:9000/users",{
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        first_name: form.firstName, 
-        last_name: form.lastName, 
-        email: form.email, 
-        password: form.password, 
-        photo_url: form.photoUrl, 
-        user_type: form.userType
+      const url = `http://localhost:9000/mentors`
+      let data = {};
+      if(form.userType === "mentee"){
+        data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
+      }else{
+        data = {mentor_id: form.id, bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
+      }
+      const menteeMentorPost = await fetch(url,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       })
-    }).then(res => res.json()).then(data => console.log(data))
-    .catch(err =>console.log(err))
+      const postData = await menteeMentorPost.json()
+      
+    }
+    catch(err){
+      console.log(err)
+    }
+      
     
-    fetch(`http://localhost:9000/mentors`,{
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(
-        {bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin})
-    }).then(res => res.json())
-    .catch(err =>console.log(err))
 
-  }
-  const getAllVals =()=>{
-    const values = careerChoice.current.getSelectedItems();
-    console.log(values)
-    form.careerField = values[0].key
   }
 
   

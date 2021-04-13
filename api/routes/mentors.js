@@ -33,8 +33,8 @@ router.get('/:id', async function (request, response) {
   }
 })
 
-router.post('/:id', async function (request, response) {
-  let mentor = parseInt(request.params.id)
+router.post('/', async function (request, response) {
+  let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
   let career_field_id = parseInt(request.body.career_field_id)
   let company = request.body.company
