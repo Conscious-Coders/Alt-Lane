@@ -25,7 +25,7 @@ router.post('/login', async function (req, res) {
     const password = req.body.password
     const data = await db.any(`SELECT users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
-     
+     console.log(data)
      let samePassword = verifyPass(password, data[0].password)
      console.log(samePassword)
      //if password matches
@@ -34,6 +34,7 @@ router.post('/login', async function (req, res) {
       jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).cookie('token', token, {sameSite:'strict', httpOnly: true}).json({
          data, // return only user_id & user_type
+         
          token
        })
        
