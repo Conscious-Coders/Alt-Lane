@@ -13,7 +13,7 @@ import history from './history'
 import './App.css'
 
 function App () {
-  // We are testing adding
+  // Have state here later
   const [test, setTest] = React.useState({})
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ function App () {
             <Login />
           </Route>
           <Route path='/homepage'>
-            <Homepage isMentor={true} />
+            <Homepage />
             </Route>
           <Route path='/profile/mentee'>
             <MenteeProfile />

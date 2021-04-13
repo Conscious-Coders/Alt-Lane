@@ -4,6 +4,7 @@ import LandingNavBar from '../Components/LandingNavBar'
 import Form from '../Hooks/Form'
 import {Redirect, Route} from 'react-router-dom';
 import history from '../history'
+import { render } from 'react-dom';
 
 function Login () {
   const { form, handleChange } = Form({
@@ -11,10 +12,12 @@ function Login () {
     password: ''
   })
 
+  // send token, id and usertype 
+  const [token, setToken] = useState(null);
+
   const handleSubmit = async e => {
     e.preventDefault();
     
-
     const result = await (await fetch('http://localhost:9000/users/login', {
       method: 'POST',
       withCredentials: 'true', 
@@ -26,13 +29,13 @@ function Login () {
         password: form.password,
       }),
     })).json();
-    console.log(result);
-    if(result.token) {
-      console.log("inside the token if statment")
-      return ( history.push('/homepage') )
-      }
+      console.log(result); 
+      setToken(result.token);   
 }
 
+    if(token) {
+      return <Redirect to='/homepage'/>
+    }
 
   return (
     <div>
