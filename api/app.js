@@ -1,3 +1,6 @@
+/* eslint-disable no-multiple-empty-lines */
+/* eslint-disable object-curly-spacing */
+/* eslint-disable no-unused-vars */
 require('dotenv').config()
 const createError = require('http-errors')
 const express = require('express')
@@ -11,8 +14,7 @@ const testAPIRouter = require('./routes/testAPI')
 const careersRouter = require('./routes/career_fields')
 const menteesRouter = require('./routes/mentees')
 const mentorsRouter = require('./routes/mentors')
-
-
+const jwt = require('jsonwebtoken')
 const pg = require('pg-promise')
 const db = require('./db')
 const app = express()
@@ -28,7 +30,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-
+app.use(cors({origin: 'http://localhost:3000', credentials: true }))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/testAPI', testAPIRouter)
@@ -36,6 +38,8 @@ app.use('/test', testAPIRouter)
 app.use('/careers', careersRouter)
 app.use('/mentees', menteesRouter)
 app.use('/mentors', mentorsRouter)
+app.use('/users/login', usersRouter)
+app.use('/users/:id', usersRouter)
 
 
 // catch 404 and forward to error handler
