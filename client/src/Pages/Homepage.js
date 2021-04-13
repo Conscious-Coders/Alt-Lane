@@ -11,12 +11,15 @@ function Homepage (props) {
       {isMentor ? <MentorNavBar/> : <MenteeNavBar/>}
         <div style={{paddingTop: '10%'}}>
           <div Nameclass="homepage">
+              {isMentor ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
             <div className="col">
-            <div className="row d-flex justify-content-center">
-              <HomeCard name="Clark Kent" title="Editor" isMentor={isMentor}/>
-            </div>
-            <div className="row d-flex justify-content-center">
-              <HomeCard name="Peter Parker" title="Photographer" isMentor={isMentor} bio={"This would be bio"}/>
+              <div className="row d-flex justify-content-center">
+                <HomeCard name="Clark Kent" title="Editor" isMentor={isMentor} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
+              </div>
+              <div className="col">
+              <div className="row d-flex justify-content-center">
+                <HomeCard name="Clark Kent" title="Editor" isMentor={isMentor} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
+              </div>
             </div>
             </div>
           </div>
@@ -26,4 +29,4 @@ function Homepage (props) {
   )
 }
 
-export default Homepage; 
+export default Homepage;

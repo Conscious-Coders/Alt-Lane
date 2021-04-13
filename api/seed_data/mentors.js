@@ -1,17 +1,19 @@
 module.exports = [
   {
-    user_id: "1",
+    mentor_id: "1",
     bio: "Div Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, enim eaque rem quod totam eveniet veniam repudiandae numquam quidem aut, fuga, vero pariatur alias...",
+    career_field_id: "2",
     company: "Disney", 
     linkedin_url: "https://www.linkedin.com/company/the-walt-disney-company",
-    career_field_id: "2"
+    
   },
   {
-    user_id: "2",
+    mentor_id: "2",
     bio: "Div Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, enim eaque rem quod totam eveniet veniam repudiandae numquam quidem aut, fuga, vero pariatur alias.",
+    career_field_id: "5",
     company: "Marvel", 
     linkedin_url: "https://www.linkedin.com/company/marvel-studios?trk=similar-pages_result-card_full-click",
-    career_field_id: "5"
+    
   }
 
 ]

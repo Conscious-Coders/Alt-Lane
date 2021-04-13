@@ -1,8 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("mentors", function (table) {
-    table.increments("id");
-    table.integer("user_id");
-    table.foreign("user_id").onDelete("CASCADE").references("id").inTable("users");
+    table.integer("mentor_id").unique()
+    table.foreign("mentor_id").onDelete("CASCADE").references("user_id").inTable("users");
     table.string("bio");
     table.integer("career_field_id").notNullable();
     table.string("company");
