@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link , Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
@@ -7,6 +7,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 
 
 function Register () {
+  const [registered, setRegistered ] = React.useState(null)
   const [photo, setPhoto] = React.useState([])
   const fileSelect = React.useRef(null);
   const careerChoice = React.useRef(null);
@@ -70,6 +71,8 @@ function Register () {
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
     form.careerField = values[0].id
+    // values.forEach(val => form.careerFieldInterest.push(val.id))
+    // console.log(form.careerFieldInterest)
   }
   
 
@@ -87,9 +90,9 @@ function Register () {
      form.photoUrl = result.secure_url
     }
     catch(err){console.log(err)}
-    let isPosted = ""
+
     try{
-      const usersPost = await fetch("http://localhost:9000/users",{
+      await fetch("http://localhost:9000/users",{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -109,8 +112,8 @@ function Register () {
       const getId = await id.json();
       const current = await getId.data.filter(ele => ele.email === form.email)
       form.id = current[0].user_id
-
-      console.log(form)
+      setRegistered(true)
+    
       const url = `http://localhost:9000/${form.userType}s`
       let data = {};
       if(form.userType === "mentee"){
@@ -126,15 +129,17 @@ function Register () {
         },
         body: JSON.stringify(data)
       })
-      const postData = await menteeMentorPost.json()
-      
+      await menteeMentorPost.json()
+     
     }
     catch(err){
       console.log(err)
     }
       
-    
-
+  }
+  if(registered){
+    console.log(registered)
+    return(<Redirect to="/login"/>)
   }
 
   
@@ -205,6 +210,8 @@ function Register () {
               <label htmlFor='careerField' className='col-sm-2 col-form-label'>Career Field Interest </label>
               <div className='col-sm-10'>
                 <Multiselect
+                ref = {careerChoice}
+                onChange = {getAllVals}
                 options={careers}
                 displayValue="key"
                 selectionLimit="3"
