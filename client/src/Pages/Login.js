@@ -5,32 +5,63 @@ import Form from '../Hooks/Form'
 import {Redirect, Route} from 'react-router-dom';
 import history from '../history'
 import { render } from 'react-dom';
+import { AuthContext } from "../App";
 
 function Login () {
-  const { form, handleChange } = Form({
-    email: '',
-    password: ''
-  })
+  const { dispatch } = React.useContext(AuthContext);
+
+  const initialState = {
+    email: "",
+    password: "",
+    isSubmitting: false,
+    errorMessage: null
+  };
+  const [form, setForm] = React.useState(initialState);
+
+  const handleChange  =  event =>{
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value
+    });
+  }
 
   // send token, id and usertype 
   const [token, setToken] = useState(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setForm({
+      ...form,
+      isSubmitting: true,
+      errorMessage: null
+    });
+    try{
+      const result = await (await fetch('http://localhost:9000/users/login', {
+        method: 'POST',
+        withCredentials: 'true', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      })).json();
+      dispatch({
+        type: "LOGIN",
+        payload: result
+      })
+        console.log(result); 
+        setToken(result.token);  
+    }
+    catch(error){
+      setForm({
+        ...form,
+        isSubmitting: false,
+        errorMessage: error.message || error.statusText
+      });
+    }
     
-    const result = await (await fetch('http://localhost:9000/users/login', {
-      method: 'POST',
-      withCredentials: 'true', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-      }),
-    })).json();
-      console.log(result); 
-      setToken(result.token);   
 }
 
     if(token) {
@@ -68,7 +99,16 @@ function Login () {
                   name='password' />
                 </div>
               </div>
-              <button href='#' className='btn btn-dark'>LOGIN</button>
+              {form.errorMessage && (
+              <span className="form-error">{form.errorMessage}</span>
+              )}
+              <button href='#' className='btn btn-dark' disabled={form.isSubmitting}>
+                {form.isSubmitting ? (
+                  "Loading..."
+                ) : (
+                  "Login"
+                )}
+              </button>
             </form>
           </div>
 

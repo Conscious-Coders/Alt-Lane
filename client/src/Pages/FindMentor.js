@@ -5,11 +5,43 @@ import MenteeNavBar from "../Components/MenteeNavBar"
 import { Slide } from "react-slideshow-image";
 //import "./styles.css";
 import "react-slideshow-image/dist/styles.css";
+import { AuthContext } from "../App";
 
+const initialState = {
+  props: [],
+  isFetching: false,
+  hasError: false,
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_ALL_MENTORS":
+      return {
+        ...state,
+        isFetching: true,
+        hasError: false
+      };
+    case "FETCH_SUCCESS_MENTORS":
+      return {
+        ...state,
+        isFetching: false,
+        props: action.payload
+      };
+    case "FETCH_MENTORS_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+        isFetching: false
+      };
+    default:
+      return state;
+  }
+};
 function FindMentor() {
     const slideRef = React.useRef();
-    const [state, setState] = React.useState({current:0})
- 
+    //const [state, setState] = React.useState({current:0})
+    const { state: authState } = React.useContext(AuthContext);
+    const [state, dispatch] = React.useReducer(reducer, initialState);
+    
     const back = ()=> {
       slideRef.current.goBack();
     }
@@ -25,12 +57,19 @@ function FindMentor() {
       infinite: true,
       easing: "ease",
     };
-    
+  
     const [mentors, setMentors] = React.useState([])
     React.useEffect(()=>{
+      dispatch({
+        type: "FETCH_ALL_MENTORS"
+      });
       fetch("http://localhost:9000/mentors")
       .then(response =>response.json())
       .then(res => {
+        dispatch({
+          type: "FETCH_SUCCESS_MENTORS",
+          payload: res
+        });
           const allMentors = []
           res.data.map( mentor =>
             allMentors.push({ 
@@ -49,8 +88,13 @@ function FindMentor() {
           setMentors(allMentors)
           return mentors
 
-      }).catch(err => console.log(err))  
-    }, [state])
+      }).catch(err => {
+        console.log(err)
+        dispatch({
+          type: "FETCH_MENTORS_FAILURE"
+        });
+      })  
+    }, [authState.token])
 
     const slideImages = [];
       mentors.forEach(mentor =>{
@@ -58,9 +102,16 @@ function FindMentor() {
       })
 
     return (
+      <React.Fragment>
       <div className="contianer-fluid" >
         <MenteeNavBar/>
-        <div className="contianer-fluid"style={{ paddingTop:"8%",  marginBottom:"10%"}}>
+        {state.isFetching ? (
+        <span className="loader">LOADING...</span>
+      ) : state.hasError ? (
+        <span className="error">AN ERROR HAS OCCURED</span>
+      ) : (
+        <>
+           <div className="contianer-fluid"style={{ paddingTop:"8%",  marginBottom:"10%"}}>
           <div style={{paddingBottom:"10px"}}>
             <h1>Find a Mentor</h1>
           </div>
@@ -83,7 +134,11 @@ function FindMentor() {
           </div>
         </div>
         <Footer/>
+        </>
+      )}
+      
       </div>
+      </React.Fragment>
     );
   
 }
