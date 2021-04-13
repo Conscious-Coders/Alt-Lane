@@ -74,7 +74,7 @@ function FindMentor() {
                     </button>
                     {each}
                     <button style={{backgroundColor:"white", border: "none"}} onClick={next} type="button">
-                      <span class="carousel-control-next-icon" style={{filter:"invert(1)"}} ></span>
+                      <span className="carousel-control-next-icon" style={{filter:"invert(1)"}} ></span>
                     </button>
                   </div>
                 </div>

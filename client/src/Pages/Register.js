@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , Redirect} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
@@ -7,23 +7,30 @@ import { Multiselect } from 'multiselect-react-dropdown';
 
 
 function Register () {
+  const [photo, setPhoto] = React.useState([])
+  const fileSelect = React.useRef(null);
+  const careerChoice = React.useRef(null);
   const { form, handleChange } = Form({
+    id: '',
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     photoUrl: '',
+    userType: '',
     parentName: '',
     parentEmail: '',
-    careerFieldInterest: '',
+    careerField: '',
+    bio: '',
+    careerFieldInterest: [],
     company: "",
     linkedin: "",
   })
   
   const handleMentee = (e)=>{
     e.preventDefault();
-    let mentor= document.getElementById("mentor-form")
-    let menteee = document.getElementById("mentee-form")
+    let mentor= document.getElementById("mentor")
+    let menteee = document.getElementById("mentee")
     mentor.style.display ="none"
     mentor.removeAttribute("class")
     menteee.setAttribute("class", "active")
@@ -31,24 +38,105 @@ function Register () {
   }
   const handleMentor = (e)=>{
     e.preventDefault();
-    let mentor = document.getElementById("mentor-form")
-    let mentee = document.getElementById("mentee-form")
+    let mentor = document.getElementById("mentor")
+    let mentee = document.getElementById("mentee")
     mentee.style.display ="none"
     mentee.removeAttribute("active")
     mentor.setAttribute("class", "active")
     mentor.style.display ="block"
 
   }
+  let careers =[];
+  React.useEffect(async()=>{
+    const fields = await fetch("http://localhost:9000/careers")
+    const allCareers = await fields.json();
+    allCareers.data.forEach(field =>{
+      careers.push({key: field.name, id: field.id})
+    })
+  })
 
-  let careers =[
-    { key: "Option 1", cat: "Group 1" },
-    { key: "Option 2", cat: "Group 1" },
-    { key: "Option 3", cat: "Group 1" },
-    { key: "Option 4", cat: "Group 2" },
-    { key: "Option 5", cat: "Group 2" },
-    { key: "Option 6", cat: "Group 2" },
-    { key: "Option 7", cat: "Group 2" }
-  ];
+  
+  const uploadFile = (e)=>{
+    let photo = e.target.files[0];
+    if(photo){
+      setPhoto(photo)
+    }
+  }
+
+  const unsignedPreset = "lsaabzji";
+  const formData = new FormData();
+  formData.append('file', photo);
+  formData.append('upload_preset', unsignedPreset);
+  const getAllVals =()=>{
+    const values = careerChoice.current.getSelectedItems();
+    form.careerField = values[0].id
+  }
+  
+
+  const handleSubmit= async (e )=>{
+    e.preventDefault();
+    getAllVals()
+    form.userType = e.target.id
+   
+    try{   //sending user images to cloudinary to then store a image url in the db
+      const response = await fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
+        method: 'POST',
+        body: formData
+     })
+     const result = await response.json()
+     form.photoUrl = result.secure_url
+    }
+    catch(err){console.log(err)}
+    let isPosted = ""
+    try{
+      const usersPost = await fetch("http://localhost:9000/users",{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          first_name: form.firstName, 
+          last_name: form.lastName, 
+          email: form.email, 
+          password: form.password, 
+          photo_url: form.photoUrl, 
+          user_type: form.userType
+        })
+      })
+
+      const id = await fetch("http://localhost:9000/users")
+      const getId = await id.json();
+      const current = await getId.data.filter(ele => ele.email === form.email)
+      form.id = current[0].user_id
+
+      console.log(form)
+      const url = `http://localhost:9000/${form.userType}s`
+      let data = {};
+      if(form.userType === "mentee"){
+        data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
+      }else{
+        data = {mentor_id: form.id, bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
+      }
+      const menteeMentorPost = await fetch(url,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      const postData = await menteeMentorPost.json()
+      
+    }
+    catch(err){
+      console.log(err)
+    }
+      
+    
+
+  }
+
   
   return (
     <div>
@@ -70,7 +158,7 @@ function Register () {
             <hr/>
 					</div>
           <div className='container card-body'>
-            <form id="mentee-form" style={{display:"block"}}  >
+            <form onSubmit={handleSubmit} id="mentee" style={{display:"block"}}  >
               <div className='mb-3 row'>
                 <label htmlFor='firstName' className='col-sm-2 col-form-label' >First Name</label>
                 <div className='col-sm-10'>
@@ -98,19 +186,19 @@ function Register () {
               <div className='mb-3 row'>
                 <label htmlFor='photoUrl' className='col-sm-2 col-form-label'>Upload an image </label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.photoUrl} onChange={handleChange} type='photoUrl' id='photoUrl' name='photoUrl' />
+                  <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
                 </div>
               </div>
               <div className='mb-3 row'>
                 <label htmlFor='parentName' className='col-sm-2 col-form-label'>Parent Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.parentName} onChange={handleChange} type='parentName' id='parentName' name='parentName' />
+                  <input className='form-control' value={form.parentName} onChange={handleChange} type='text' id='parentName' name='parentName' />
                 </div>
               </div>
               <div className='mb-3 row'>
                 <label htmlFor='parentEmail' className='col-sm-2 col-form-label'>Parent Email</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.parentEmail} onChange={handleChange} type='parentEmail' id='parentEmail' name='parentEmail' />
+                  <input className='form-control' value={form.parentEmail} onChange={handleChange} type='email' id='parentEmail' name='parentEmail' />
                 </div>
               </div>
               <div className='mb-3 row'>
@@ -125,17 +213,17 @@ function Register () {
             </div>
               <button href='#' className='btn btn-dark'>Register</button>
             </form>
-            <form id="mentor-form" style={{display:"none"}} >
+            <form onSubmit={handleSubmit} id="mentor" style={{display:"none"}} >
               <div className='mb-3 row'>
                 <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' />
+                  <input className='form-control' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' />
                 </div>
               </div>
               <div className='mb-3 row'>
                 <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' />
+                  <input className='form-control' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' />
                 </div>
               </div>
               <div className='mb-3 row'>
@@ -153,35 +241,37 @@ function Register () {
               <div className='mb-3 row'>
                 <label htmlFor='company' className='col-sm-2 col-form-label'>Company</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.company} onChange={handleChange} type='company' id='company' name='company' />
+                  <input className='form-control' value={form.company} onChange={handleChange} type='text' id='company' name='company' />
                 </div>
               </div>
               <div className='mb-3 row'>
                 <label htmlFor='linkedin' className='col-sm-2 col-form-label'>LinkedIn</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.linkedin} onChange={handleChange} type='linkedin' id='linkedin' name='linkedin' />
+                  <input className='form-control' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='linkedin' />
                 </div>
               </div>
               <div className='mb-3 row'>
                 <label htmlFor='bio' className='col-sm-2 col-form-label'>Bio</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.bio} onChange={handleChange} type='bio' id='bio' name='bio' />
+                  <input className='form-control' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' />
                 </div>
               </div>
               <div className='mb-3 row'>
               <label htmlFor='careerField' className='col-sm-2 col-form-label'>Career Field Interest </label>
               <div className='col-sm-10'>
-                <Multiselect
+                <Multiselect id="careers"
+                ref = {careerChoice}
+                onChange = {getAllVals}
                 options={careers}
                 displayValue="key"
-                selectionLimit="3"
+                selectionLimit="1"
                 />
               </div>
             </div>
               <div className='mb-3 row'>
-                <label htmlFor='photoUrl' className='col-sm-2 col-form-label'>Upload an image</label>
+                <label htmlFor='photoUrl'  className='col-sm-2 col-form-label'>Upload an image</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.photoUrl} onChange={handleChange} type='photoUrl' id='photoUrl' name='photoUrl' />
+                  <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
                 </div>
               </div>
               
