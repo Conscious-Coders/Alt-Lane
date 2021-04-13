@@ -19,7 +19,7 @@ cors({origin: 'http://localhost:3000', credentials: true })
 
 
 //DO NOT RETURN status or anything else
-router.get('/login', async function (req, res) {
+router.post('/login', async function (req, res) {
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
     const password = req.body.password
@@ -30,17 +30,14 @@ router.get('/login', async function (req, res) {
      console.log(samePassword)
      //if password matches
     
-     
      if(samePassword)
       jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).cookie('token', token, {sameSite:'strict', httpOnly: true}).json({
-         data,
+         data, // return only user_id & user_type
          token
        })
        
       })
-
-      
        console.log(req.headers)
        //return res.sendStatus(200)
        }catch(err){
@@ -195,8 +192,8 @@ router.delete('/:id', verifyToken, async function (request, response) {
     await db.none('DELETE FROM users WHERE user_id=$1', deleteUser)
     return response.sendStatus(200)
     
-  } catch (err) {
-    response.status(404).send(err)
+  } catch (e) {
+    response.status(404).send(e)
   }
   }
 })

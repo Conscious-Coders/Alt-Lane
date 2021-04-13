@@ -8,11 +8,12 @@ import Landing from './Pages/Landing'
 import Homepage from './Pages/Homepage'
 import Settings from './Pages/Settings'
 import FindMentor from './Pages/FindMentor'
+import history from './history'
 
 import './App.css'
 
 function App () {
-  // We are testing adding
+  // Have state here later
   const [test, setTest] = React.useState({})
 
   React.useEffect(() => {
@@ -23,7 +24,7 @@ function App () {
 
   return (
     <div className='App'>
-      <BrowserRouter>
+      <BrowserRouter history={history}>
         <Switch>
           <Route exact path='/'>
               <Landing />
@@ -35,7 +36,7 @@ function App () {
             <Login />
           </Route>
           <Route path='/homepage'>
-            <Homepage isMentor={true} />
+            <Homepage />
             </Route>
           <Route path='/profile/mentee'>
             <MenteeProfile />
