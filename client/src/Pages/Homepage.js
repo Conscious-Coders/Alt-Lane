@@ -6,11 +6,13 @@ import Footer from '../Components/Footer'
 
 function Homepage (props) {
   let isMentor = props.isMentor; 
+ 
   return (
     <div>
+      
       {isMentor ? <MentorNavBar/> : <MenteeNavBar/>}
         <div style={{paddingTop: '10%'}}>
-          <div Nameclass="homepage">
+          <div className="homepage">
               {isMentor ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
             <div className="col">
               <div className="row d-flex justify-content-center">
