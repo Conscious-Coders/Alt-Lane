@@ -21,16 +21,18 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      // localStorage.setItem("user", JSON.stringify(action.payload.user));
+      // localStorage.setItem("token", JSON.stringify(action.payload.token));
+      console.log("this is the payload",action.payload)
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
-        token: action.payload.token
+        user: action.payload.user_id,
+        userType: action.payload.user_type,
+        token: action.payload.token,
       };
     case "LOGOUT":
-      localStorage.clear();
+      // localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
@@ -55,9 +57,8 @@ function App () {
   return (
     <AuthContext.Provider  value={{state,dispatch}}>
       <div className='App'>
-      
+    
         <BrowserRouter history={history}>
-        {!state.isAuthenticated ? <Login /> : <FindMentor/>}
           <Switch>
             <Route exact path='/'>
                 <Landing />
@@ -66,21 +67,24 @@ function App () {
                 <Register />
             </Route>
             <Route path='/login'>
-              <Login />
+              {!state.isAuthenticated ? <Login /> : <FindMentor/>
+                // state.userType === "mentor"? <MentorProfile/>: <MenteeProfile/>
+              }
+              {console.log(state.userType)}
             </Route>
             <Route path='/homepage'>
               <Homepage />
             </Route>
             <Route path='/profile/mentee'>
-              <MenteeProfile />
+              {!state.isAuthenticated && state.userType === "mentee"? <Login /> : <MenteeProfile />}
             </Route>
             <Route path='/profile/mentor'>
-              <MentorProfile />
+              {!state.isAuthenticated && state.userType === "mentor" ? <Login /> : <MentorProfile />}
             </Route>
             <Route path='/settings'>
               <Settings isMentor={false}/>
             </Route>
-          <Route path='/find-mentor'>
+            <Route path='/find-mentor'>
               <FindMentor />
             </Route>
           </Switch>
