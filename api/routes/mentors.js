@@ -42,22 +42,13 @@ router.get('/:singleMentor', async function (request, response) {
   }
 })
 
-router.post('/', verifyToken, async function (request, response) {
+router.post('/', async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
   let career_field_id = parseInt(request.body.career_field_id)
   let company = request.body.company
   let linkedin_url = request.body.linkedin_url
 
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== mentor){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
   try {
     await db.none(`INSERT INTO mentors (mentor_id, bio, career_field_id, company, linkedin_url) VALUES (${mentor}, '${bio}', ${career_field_id}, '${company}', '${linkedin_url}')`)
 
@@ -66,8 +57,6 @@ router.post('/', verifyToken, async function (request, response) {
     console.log(err)
     response.status(404).send(err)
   }
-}
-})
 })
 
 
