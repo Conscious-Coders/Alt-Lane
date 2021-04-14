@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
 
+
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users RIGHT OUTER JOIN mentees ON (users.user_id = mentees.mentee_id)')
@@ -21,9 +22,10 @@ router.get('/', async function (request, response) {
 })
 
 // Using id from users table
-router.get('/singleMentee', async function (request, response) {
+//Is used as a Get Method request
+router.post('/singleMentee', async function (request, response) {
   try {
-    const getUser = parseInt(request.body.id)
+    const mentee = parseInt(request.body.mentee_id)
     const data = await db.any(`SELECT mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users, mentees WHERE users.user_id=${getUser} AND mentees.mentee_id=${getUser}`)
     return response.json({
       data: data
@@ -41,7 +43,6 @@ router.post('/', verifyToken, async function (request, response) {
   let parent_email = request.body.parent_email
 
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
@@ -64,7 +65,6 @@ router.post('/', verifyToken, async function (request, response) {
 
 router.put('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
@@ -89,7 +89,6 @@ router.put('/', verifyToken, async function (request, response) {
 
 router.patch('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
