@@ -37,20 +37,11 @@ router.post('/singleMentee', async function (request, response) {
 })
 
 
-router.post('/', verifyToken, async function (request, response) {
+router.post('/', async function (request, response) {
   let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
-  let parent_email = request.body.parent_email
-
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== mentee){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
-      try {
+  let parent_email = request.body.parent_email  
+    try {
       await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${mentee}, '${parent_name}', '${parent_email}')`)
       return response.sendStatus(200)
     } catch (err) {
@@ -58,8 +49,7 @@ router.post('/', verifyToken, async function (request, response) {
       console.log(request.body) 
       response.status(404).send(err)
     }
-  }
-})
+ 
 })
 
 

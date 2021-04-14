@@ -11,6 +11,7 @@ function Register () {
   const [photo, setPhoto] = React.useState([])
   const fileSelect = React.useRef(null);
   const careerChoice = React.useRef(null);
+  const menteeCareer = React.useRef(null);
   const { form, handleChange } = Form({
     id: '',
     firstName: '',
@@ -47,15 +48,20 @@ function Register () {
     mentor.style.display ="block"
 
   }
-  let careers =[];
-  React.useEffect(async()=>{
-    const fields = await fetch("http://localhost:9000/careers")
-    const allCareers = await fields.json();
-    allCareers.data.forEach(field =>{
-      careers.push({key: field.name, id: field.id})
-    })
-  })
-
+ const [careers, setCareers] = React.useState([])
+  React.useEffect(()=>{
+    async function getCareers(){
+      const fields = await fetch("http://localhost:9000/careers")
+      const allCareers = await fields.json();
+      let careers =[];
+      allCareers.data.forEach(field =>{
+        careers.push({key: field.name, id: field.id})
+      })
+      setCareers(careers)
+    }
+    getCareers()
+   
+  },[])
   
   const uploadFile = (e)=>{
     let photo = e.target.files[0];
@@ -68,19 +74,29 @@ function Register () {
   const formData = new FormData();
   formData.append('file', photo);
   formData.append('upload_preset', unsignedPreset);
+
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
     form.careerField = values[0].id
-    // values.forEach(val => form.careerFieldInterest.push(val.id))
-    // console.log(form.careerFieldInterest)
+   
   }
+  const menteeInterests = ()=>{
+    const values = menteeCareer.current.getSelectedItems();
+    console.log("MENTEE", menteeCareer.current.getSelectedItems())
+     values.forEach(val => form.careerFieldInterest.push(val.id))
+    console.log(form.careerFieldInterest)
+  } 
   
 
   const handleSubmit= async (e )=>{
     e.preventDefault();
-    getAllVals()
     form.userType = e.target.id
-   
+    if(form.userType === "mentee"){
+      menteeInterests()
+    }else{
+      getAllVals()
+    }
+
     try{   //sending user images to cloudinary to then store a image url in the db
       const response = await fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
         method: 'POST',
@@ -92,7 +108,7 @@ function Register () {
     catch(err){console.log(err)}
 
     try{
-      await fetch("http://localhost:9000/users",{
+      const postUser =await fetch("http://localhost:9000/users",{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -107,10 +123,13 @@ function Register () {
           user_type: form.userType
         })
       })
-
+      
       const id = await fetch("http://localhost:9000/users")
+     
       const getId = await id.json();
+      console.log(getId)
       const current = await getId.data.filter(ele => ele.email === form.email)
+      console.log(current)
       form.id = current[0].user_id
       setRegistered(true)
     
@@ -129,7 +148,22 @@ function Register () {
         },
         body: JSON.stringify(data)
       })
+      console.log(menteeMentorPost)
       await menteeMentorPost.json()
+      console.log(form)
+      if(form.userType === "mentee"){
+        const menteeMentorPost = await fetch("http://localhost:9000/mentee_interests",{
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            mentee_id: form.id,
+            career_field_array: form.careerFieldInterest
+          })
+        })
+      }
      
     }
     catch(err){
@@ -209,9 +243,9 @@ function Register () {
               <div className='mb-3 row'>
               <label htmlFor='careerField' className='col-sm-2 col-form-label'>Career Field Interest </label>
               <div className='col-sm-10'>
-                <Multiselect
-                ref = {careerChoice}
-                onChange = {getAllVals}
+              <Multiselect id="careers"
+                ref = {menteeCareer}
+                onChange ={menteeInterests}
                 options={careers}
                 displayValue="key"
                 selectionLimit="3"
@@ -268,7 +302,7 @@ function Register () {
               <div className='col-sm-10'>
                 <Multiselect id="careers"
                 ref = {careerChoice}
-                onChange = {getAllVals}
+                onChange ={getAllVals}
                 options={careers}
                 displayValue="key"
                 selectionLimit="1"

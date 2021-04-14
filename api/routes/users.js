@@ -61,7 +61,7 @@ router.get('/', async function (request, response) {
 
 
 //Is used as a Get Method request
-router.post('/', async function (request, response) {
+router.post('/get', async function (request, response) {
   try {
     const getUser = parseInt(request.body.user_id)
     const data = await db.any(`SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users WHERE user_id=${getUser}`)
