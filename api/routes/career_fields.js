@@ -14,9 +14,10 @@ router.get('/', async function (request, response) {
   }
 })
 
-router.get('/:id', async function (request, response) {
+//Is used as a Get Method request
+router.post('/get_id_data', async function (request, response) {
   try {
-    const getUser = parseInt(request.params.id)
+    const getUser = parseInt(request.body.id)
     const data = await db.any(`SELECT * FROM career_fields WHERE id=${getUser}`)
     return response.json({
       data: data
@@ -25,6 +26,7 @@ router.get('/:id', async function (request, response) {
     response.status(404).send(err)
   }
 })
+
 
 router.post('/', async function (request, response) {
   try {
@@ -38,9 +40,10 @@ router.post('/', async function (request, response) {
   }
 })
 
-router.patch('/:id', async function (request, response) {
+
+router.patch('/', async function (request, response) {
   try {
-    const updateUser = parseInt(request.params.id)
+    const updateUser = parseInt(request.body.id)
     await db.any(`UPDATE career_fields SET name=$<name> WHERE id=${updateUser}`, request.body)
 
     return response.send(
@@ -52,9 +55,25 @@ router.patch('/:id', async function (request, response) {
   }
 })
 
-router.delete('/:id', async function (request, response) {
+
+router.put('/', async function (request, response) {
   try {
-    const deleteUser = parseInt(request.params.id)
+    const updateUser = parseInt(request.body.id)
+    await db.any(`UPDATE career_fields SET name=$<name> WHERE id=${updateUser}`, request.body)
+
+    return response.send(
+      `The following career field id has been updated: ${updateUser}`
+    )
+  } catch (err) {
+    console.log(err)
+    response.status(404).send(err)
+  }
+})
+
+
+router.delete('/', async function (request, response) {
+  try {
+    const deleteUser = parseInt(request.body.id)
     await db.none('DELETE FROM career_fields WHERE id=$1', deleteUser)
 
     return response.send(

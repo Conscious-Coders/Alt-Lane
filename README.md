@@ -53,6 +53,7 @@ From within the root directory: Look at package.json file and keep updating
   - npm install --save-dev nodemon
   - npm install jsonwebtoken
   - npm install cookie-parser
+  - npm install uuid-random
 - client: 
   - npm install react react-dom
   - npm install react-responsive-carousel
@@ -63,6 +64,7 @@ From within the root directory: Look at package.json file and keep updating
   - npm install cookie-parser
   - npm install standard --save-dev
   - npm install eslint --save-dev
+  - npm install uuid-random
 ```
 
 ### Roadmap
