@@ -1,7 +1,6 @@
 import React, {useEffect, useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import Form from '../Hooks/Form'
 import {Redirect, Route} from 'react-router-dom';
 import history from '../history'
 import { render } from 'react-dom';
@@ -51,7 +50,7 @@ function Login () {
         type: "LOGIN",
         payload: result
       })
-        console.log(result); 
+        console.log("This is the data from backend", result); 
         setToken(result.token);  
     }
     catch(error){

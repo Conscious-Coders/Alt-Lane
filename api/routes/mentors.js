@@ -21,9 +21,9 @@ router.get('/', async function (request, response) {
 })
 
 // Using id from users table
-router.get('/singleMentor', async function (request, response) {
+router.get('/:singleMentor', async function (request, response) {
   try {
-    const getUser = parseInt(request.body.id)
+    const getUser = parseInt(request.params.singleMentor)
     const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${getUser} AND mentors.mentor_id=${getUser}`)
     return response.json({
       data: data
