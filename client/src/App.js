@@ -67,8 +67,8 @@ function App () {
                 <Register />
             </Route>
             <Route path='/login'>
-              {!state.isAuthenticated ? <Login /> : <FindMentor/>
-                // state.userType === "mentor"? <MentorProfile/>: <MenteeProfile/>
+              {!state.isAuthenticated ? <Login /> : 
+                state.userType === "mentor"? <MentorProfile/>: <MenteeProfile/>
               }
               {console.log(state.userType)}
             </Route>

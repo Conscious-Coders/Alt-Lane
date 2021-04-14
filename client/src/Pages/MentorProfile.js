@@ -30,27 +30,29 @@ function MentorProfile (){
 
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
-    form.careerField = values[0].id
+    //form.careerField = values[0].id
     // values.forEach(val => form.careerFieldInterest.push(val.id))
     // console.log(form.careerFieldInterest)
   }
 
 
-  let careers =[];
- 
+  const [careers, setCareers] = React.useState([])
+  let selectedValues= []
   React.useEffect(()=>{
     async function fetchCareers(){
       const fields = await fetch("http://localhost:9000/careers")
       const allCareers = await fields.json();
+      console.log(allCareers)
+      let careers =[];
       allCareers.data.forEach(field =>{
+        console.log(field)
         careers.push({key: field.name, id: field.id})
       })
+      setCareers(careers)
     } 
     fetchCareers();
     async function fetchMentor(){
-      console.log(authState)
       const response = await fetch(`http://localhost:9000/mentors/${authState.user}`)
-      console.log(response)
       const result = await response.json()
       setForm({ 
       firstName: result.data[0].first_name,
@@ -63,14 +65,17 @@ function MentorProfile (){
       company: result.data[0].company,
       linkedin: result.data[0].linkedin_url,
     })
-    console.log(form)
-      console.log("This is what is returned",result.data[0])
     }
     fetchMentor() 
-
+  
    
   }, [authState.user])
-  let selectedValues= [{key:form.careerField}]
+  careers.forEach(career =>{
+    if(career.id === form.careerField ){
+      selectedValues.push(career)
+    }
+  })
+
 
   return(
     <div>

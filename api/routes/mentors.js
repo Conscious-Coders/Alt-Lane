@@ -34,13 +34,13 @@ router.get('/:singleMentor', async function (request, response) {
 //     const mentor = parseInt(request.body.mentor_id)
 //     const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${mentor} AND mentors.mentor_id=${mentor}`)
 // >>>>>>> main
-//     return response.json({
-//       data: data
-//     })
-//   } catch (err) {
-//     response.status(404).send(err)
-//   }
-// })
+    return response.json({
+      data: data
+    })
+  } catch (err) {
+    response.status(404).send(err)
+  }
+})
 
 router.post('/', verifyToken, async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
