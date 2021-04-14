@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
 
+
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM mentee_interests')
@@ -21,10 +22,11 @@ router.get('/', async function (request, response) {
 })
 
 //Will return all interests for a single mentee
-router.get('/singleMenteeInterest', async function (request, response) {
+//Is used as a Get Method request
+router.post('/interests_for_one_mentee', async function (request, response) {
     try {
-      const getInterests = parseInt(request.body.id)  
-      const data = await db.any(`SELECT career_fields.name FROM mentee_interests JOIN career_fields ON mentee_id=${getInterests} AND mentee_interests.career_field_id = career_fields.id`)
+      const mentee_id = parseInt(request.body.mentee_id)  
+      const data = await db.any(`SELECT career_fields.name FROM mentee_interests JOIN career_fields ON mentee_interests.career_field_id = career_fields.id WHERE mentee_id=${mentee_id}`)
       return response.json({
         data: data
       })
@@ -35,48 +37,55 @@ router.get('/singleMenteeInterest', async function (request, response) {
 })
 
 
-//Will return all interests for a single mentee
-router.get('/career_field_name_with_id', async function (request, response) {
-    try {
-      const getInterests = parseInt(request.body.id)  
-      const data = await db.any(`SELECT id, name FROM career_fields JOIN mentee_interests ON mentee_id=${getInterests} AND career_fields.id = mentee_interests.career_field_id`)
-      return response.json({
-        data: data
-      })
-    } catch (err) {
-      console.log(err)
-      response.status(404).send(err)
+router.post('/add_mentee_and_interest', verifyToken, async function (request, response) {
+    const mentee = parseInt(request.body.mentee_id)
+    const career_id = parseInt(request.body.career_id)
+    jwt.verify(request.token, 'secretKey', async (err, authData) => {
+      console.log(authData)
+      if(err){
+        response.sendStatus(403)
+      } 
+      else if(authData.data[0].user_id !== mentee){
+        response.sendStatus(500)
+        console.log('not working')
+      }else {
+        try {
+          await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES (${mentee}, ${career_id})`)
+    
+          return response.sendStatus(200)
+      } catch (err) {
+        console.log(err)
+        response.status(404).send(err)
+      }
     }
+  })
 })
 
 
-router.get('/mentee/:id', async function (request, response) {
-    try {
-      const getInterests = parseInt(request.params.id)  //JOIN mentors ON career_fields.id = mentors.career_field_id JOIN mentorship ON mentors.user_id = mentorship.mentor_id JOIN mentees ON users.id = mentees.user_id/, mentors.user_id, mentors.company, mentors.linkedin_url, mentees.parent_name,mentees.parent_email
-      const data = await db.any(`SELECT users.first_name, users.last_name, users.photo_url, career_fields.name, mentor_id FROM users JOIN mentee_interests ON mentee_id=${getInterests} AND mentee_interests.mentee_id = users.user_id JOIN career_fields ON mentee_interests.career_field_id = career_fields.id JOIN mentorship ON mentee_interests.mentee_id = mentorship.mentee_id`)
-      return response.json({
-        data: data
-      })
-    } catch (err) {
-      console.log(err)
-      response.status(404).send(err)
+router.delete('/', verifyToken, async function (request, response) {
+  jwt.verify(request.token, 'secretKey', async (err, authData) => {
+    console.log(authData)
+    if(err){
+      response.sendStatus(403)
+    } 
+    else if(authData.data[0].user_id !== parseInt(request.body.mentee_id)){
+      response.sendStatus(500)
+      console.log('not working')
+    }else {
+      console.log(authData.data[0].user_id)
+      try {
+        const mentee = parseInt(request.body.mentee_id)
+        const career_id = parseInt(request.body.career_id)
+      
+        await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee} AND career_field_id = ${career_id}`)
+        return response.sendStatus(200)
+    
+      }catch(err){
+        console.log(err)
+        response.status(404).send(err)
+      }
     }
+  })
 })
 
-
-router.get('/temp/:email/:pass', async function (request, response) {
-  try {
-    const getInterests = request.params.email  //JOIN mentorship ON users.id=mentorship.mentor_id
-    const getPass = request.params.pass
-    console.log(getInterests)
-    console.log(getPass)
-    const data = await db.any(`SELECT users.id, users.first_name, users.last_name, users.user_type, mentorship.mentee_id FROM users JOIN mentorship ON users.email = '${getInterests}' AND users.password = '${getPass}' AND users.id = mentorship.mentor_id`)
-    return response.json({
-      data: data
-    })
-  } catch (err) {
-    console.log(err)
-    response.status(404).send(err)
-  }
-})
 module.exports = router

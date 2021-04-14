@@ -7,18 +7,18 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
+const randomToken = require('uuid-random')
 /* GET users listing. */
 // router.get('/', function (req, res, next) {
 //   res.send('respond with a resource')
 // })
-
-// Getting all fields from all users except password
 
 cors({origin: 'http://localhost:3000', credentials: true })
 
 
 
 //DO NOT RETURN status or anything else
+//Is used as a Get Method request
 router.post('/login', async function (req, res) {
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
@@ -64,10 +64,12 @@ router.get('/', async function (request, response) {
   }
 })
 
-router.get('/:id', async function (request, response) {
+
+//Is used as a Get Method request
+router.post('/', async function (request, response) {
   try {
-    const getUser = parseInt(request.params.id)
-    const data = await db.any(`SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users WHERE id=${getUser}`)
+    const getUser = parseInt(request.body.user_id)
+    const data = await db.any(`SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users WHERE user_id=${getUser}`)
     return response.json({
       data: data
     })
@@ -77,10 +79,11 @@ router.get('/:id', async function (request, response) {
 })
 
 // Getting password of user with specified id
-router.get('/pass/:id', async function (request, response) {
+//Is used as a Get Method request
+router.post('/pass', async function (request, response) {
   try {
-    const getPass = parseInt(request.params.id)
-    const data = await db.any(`SELECT password FROM users WHERE users.user_id=${getPass}`, request.body)
+    const getPass = parseInt(request.body.password)
+    const data = await db.any(`SELECT password FROM users WHERE users.user_id=${getPass}`)
     return response.json({
       data: data
     })
@@ -105,19 +108,18 @@ router.post('/', async function (request, response) {
   }
 })
 
-router.patch('/:id', verifyToken, async function (request, response) {
+router.patch('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
-      console.log(authData.data[0].user_id)
         try {
-        const updateUsers = parseInt(request.params.id)
+        const updateUsers = parseInt(request.body.user_id)
         let first_name = request.body.first_name
         let last_name = request.body.last_name
         let email = request.body.email
@@ -144,19 +146,19 @@ router.patch('/:id', verifyToken, async function (request, response) {
 })
 
 
-router.put('/:id', verifyToken, async function (request, response) {
+router.put('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
         try {
-        const updateUsers = parseInt(request.params.id)
+        const updateUsers = parseInt(request.body.user_id)
         let first_name = request.body.first_name
         let last_name = request.body.last_name
         let email = request.body.email
@@ -182,19 +184,19 @@ router.put('/:id', verifyToken, async function (request, response) {
   })
 })
 
-router.delete('/:id', verifyToken, async function (request, response) {
+router.delete('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
     console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
-    else if(authData.data[0].user_id !== parseInt(request.params.id)){
+    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
       response.sendStatus(500)
       console.log('not working')
     }else {
       console.log(authData.data[0].user_id)
   try {
-    const deleteUser = parseInt(request.params.id)
+    const deleteUser = parseInt(request.body.user_id)
     await db.none('DELETE FROM users WHERE user_id=$1', deleteUser)
     return response.sendStatus(200)
     

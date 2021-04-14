@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
 
+
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users RIGHT OUTER JOIN mentors ON (users.user_id = mentors.mentor_id)')
@@ -21,10 +22,11 @@ router.get('/', async function (request, response) {
 })
 
 // Using id from users table
-router.get('/singleMentor', async function (request, response) {
+//Is used as a Get Method request
+router.post('/singleMentor', async function (request, response) {
   try {
-    const getUser = parseInt(request.body.id)
-    const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${getUser} AND mentors.mentor_id=${getUser}`)
+    const mentor = parseInt(request.body.mentor_id)
+    const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${mentor} AND mentors.mentor_id=${mentor}`)
     return response.json({
       data: data
     })
@@ -64,7 +66,6 @@ router.post('/', verifyToken, async function (request, response) {
 
 router.put('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
@@ -92,7 +93,6 @@ router.put('/', verifyToken, async function (request, response) {
 
 router.patch('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //console.log(authData)
     if(err){
       response.sendStatus(403)
     } 
