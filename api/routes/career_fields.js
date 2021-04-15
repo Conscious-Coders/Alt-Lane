@@ -1,7 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../db')
+const verifyToken = require('../middleware/verifytoken')
+const verifyPass = require('../middleware/verifypassword')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+var cookieParser = require('cookie-parser');
+const cors = require('cors')
 
+cors({origin: 'http://localhost:3000', credentials: true })
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM career_fields')

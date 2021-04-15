@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 const cors = require('cors')
 const randomToken = require('uuid-random')
 
-
+cors({origin: 'http://localhost:3000', credentials: true })
 
 router.get('/', async function (request, response){
   try{

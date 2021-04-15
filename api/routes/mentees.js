@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
 
-
+cors({origin: 'http://localhost:3000', credentials: true })
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users RIGHT OUTER JOIN mentees ON (users.user_id = mentees.mentee_id)')

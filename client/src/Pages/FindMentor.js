@@ -63,7 +63,9 @@ function FindMentor() {
       dispatch({
         type: "FETCH_ALL_MENTORS"
       });
-      fetch("http://localhost:9000/mentors")
+      fetch("http://localhost:9000/mentors", {
+        withCredentials: 'true'
+      })
       .then(response =>response.json())
       .then(res => {
         dispatch({
