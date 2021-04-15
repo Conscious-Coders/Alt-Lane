@@ -77,11 +77,19 @@ router.post('/get', async function (request, response) {
 //Is used as a Get Method request
 router.post('/pass', async function (request, response) {
   try {
-    const getPass = parseInt(request.body.password)
-    const data = await db.any(`SELECT password FROM users WHERE users.user_id=${getPass}`)
-    return response.json({
-      data: data
-    })
+    const user_id = parseInt(request.body.user_id)
+    const password = request.body.password
+    const data = await db.any(`SELECT password FROM users WHERE users.user_id=${user_id}`)
+
+    let samePassword = verifyPass(password, data[0].password)
+
+    console.log(samePassword); 
+    
+    if(samePassword) {
+      return response.json({
+        isVerified: samePassword
+      })
+    }
   } catch (err) {
     response.status(404).send(err)
   }
