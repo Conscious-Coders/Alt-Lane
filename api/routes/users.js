@@ -13,13 +13,15 @@ const randomToken = require('uuid-random')
 //   res.send('respond with a resource')
 // })
 
-cors({origin: 'http://localhost:3000', credentials: true })
+
 
 
 
 //DO NOT RETURN status or anything else
 //Is used as a Get Method request
 router.post('/login', async function (req, res) {
+  console.log('trying to login')
+  console.log(req.body)
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
     const password = req.body.password
@@ -31,10 +33,16 @@ router.post('/login', async function (req, res) {
      //if password matches
     
      if(samePassword)
+     // jwtData = { userId: data[0] }
       jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
-       await res.status(202).cookie('token', token, {sameSite:'strict', httpOnly: true}).json({
+       await res.status(202).
+      //  setHeader('Authorization', token, {
+      //    samesite:'lax', 
+      //   // httpOnly: true
+      //   })
+        json({
 
-         data, // return only user_id & user_type
+         //data, // return only user_id & user_type
          
 
          user_id: data[0].user_id,
@@ -48,7 +56,7 @@ router.post('/login', async function (req, res) {
        //return res.sendStatus(200)
        }catch(err){
          console.log(err)
-     res.status(404).send(err)
+     res.status(400).send(err)
    }
  });
   

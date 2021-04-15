@@ -9,6 +9,7 @@ import { AuthContext } from "../App";
 
 function Profile (){
   const { state: authState } = React.useContext(AuthContext);
+  console.log( authState)
   const careerChoice = React.useRef(null);
   const menteeCareer = React.useRef(null);
   const [interest, setMenteeInterests] = React.useState([])
@@ -60,10 +61,12 @@ function Profile (){
     fetchCareers();
     console.log(authState.user)
     async function fetchMentor(){
+
       const response = await fetch(`http://localhost:9000/${authState.userType}s/${authState.user}`)
       console.log(response)
       const result = await response.json()
       console.log(result)
+
       setForm({ 
       firstName: result.data[0].first_name,
       lastName: result.data[0].last_name,
@@ -99,8 +102,6 @@ function Profile (){
       selectedValues.push(career)
     }
   })
-
-  
   interest.forEach(interest =>{
     careers.filter(career => {
       if(career.key === interest.name){
