@@ -61,7 +61,8 @@ function Profile (){
     fetchCareers();
 
     async function fetchMentor(){
-      const response = await fetch(`/mentees/${authState.user}`)
+      const response = await fetch(`/${authState.userType}s
+      /${authState.user}`)
       console.log(authState.user)
       const result = await response.json()
       console.log(result.data)
