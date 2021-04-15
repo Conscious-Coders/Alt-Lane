@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import Form from '../Hooks/Form'
 import Footer from "../Components/Footer"
-import MentorNavBar from "../Components/MentorNavBar"
-import MenteeNavBar from "../Components/MenteeNavBar"
+import LoginNav from "../Components/LoginedNavBar"
+
 import { AuthContext } from "../App";
 
 function Settings () {
@@ -10,6 +10,8 @@ function Settings () {
   const { state: authState } = React.useContext(AuthContext);
   const userId = authState.user; 
   const userType = authState.userType; 
+  const authToken = authState.token; 
+
   const [editBtn, setEditBtn]  = useState("Edit")
 
   const [userData, setUserData] = useState({
@@ -17,7 +19,6 @@ function Settings () {
     oldPassword: '', 
     newPassword: '', 
   })
-
 
   useEffect(() => { 
     async function getUserInfo() {
@@ -106,7 +107,7 @@ function Settings () {
     console.log(userData.email); 
     console.log(userData.oldPassword); 
     console.log(userData.newPassword); 
-    
+
     console.log("this is submiting")
 
     let isValidRequest = await checkPassword(); 
@@ -122,8 +123,7 @@ function Settings () {
 
   return(
     <div>
-      {userType === "mentor" ? <MentorNavBar/> : <MenteeNavBar/>}
-
+        <LoginNav userType={userType} authToken={authToken}/>
       <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
     <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
