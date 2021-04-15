@@ -90,6 +90,7 @@ function Profile (){
       const response = await fetch(`http://localhost:9000/mentee_interests/interests_for_one_mentee`,{method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authState.token}`
       },
       body: JSON.stringify({mentee_id: authState.user})
    })

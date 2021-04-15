@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
 
-function LoginedNavBar(){
+function LoginedNavBar(props){
+
+  const userType = props.userType; 
+  const token = props.authToken; 
+
 
   return(
       <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
