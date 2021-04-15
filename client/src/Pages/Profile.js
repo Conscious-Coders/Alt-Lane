@@ -58,10 +58,12 @@ function Profile (){
       setCareers(careers)
     } 
     fetchCareers();
-
+    console.log(authState.user)
     async function fetchMentor(){
-      const response = await fetch(`http://localhost:9000/mentees/${authState.user}`)
+      const response = await fetch(`http://localhost:9000/${authState.userType}s/${authState.user}`)
+      console.log(response)
       const result = await response.json()
+      console.log(result)
       setForm({ 
       firstName: result.data[0].first_name,
       lastName: result.data[0].last_name,
