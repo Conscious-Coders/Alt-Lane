@@ -59,12 +59,14 @@ function Profile (){
       setCareers(careers)
     } 
     fetchCareers();
-
+    console.log(authState.user)
     async function fetchMentor(){
+
       const response = await fetch(`/mentees/${authState.user}`)
       console.log(authState.user)
       const result = await response.json()
       console.log(result.data)
+
       setForm({ 
       firstName: result.data[0].first_name,
       lastName: result.data[0].last_name,
