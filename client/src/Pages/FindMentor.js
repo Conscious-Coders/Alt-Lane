@@ -63,9 +63,7 @@ function FindMentor() {
       dispatch({
         type: "FETCH_ALL_MENTORS"
       });
-      fetch("http://localhost:9000/mentors", {
-        withCredentials: 'true'
-      })
+      fetch("http://localhost:9000/mentors", {withCredentials:"true"})
       .then(response =>response.json())
       .then(res => {
         dispatch({
@@ -98,9 +96,12 @@ function FindMentor() {
       })  
     }, [authState.token])
 
+    console.log("this is the stance ->", authState)
+    //Mentee-mentor post request
+    
     const slideImages = [];
       mentors.forEach(mentor =>{
-        slideImages.push(<MentorCard name={mentor.firstName} photo={mentor.photo} company={mentor.company} bio={mentor.bio}/>)
+        slideImages.push(<MentorCard mentor_id={mentor.userId} name={mentor.firstName} photo={mentor.photo} company={mentor.company} bio={mentor.bio} mentee_id={authState.user} token={authState.token}/>)
       })
 
     return (
