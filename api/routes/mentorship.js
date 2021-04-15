@@ -9,8 +9,6 @@ var cookieParser = require('cookie-parser');
 const cors = require('cors')
 const randomToken = require('uuid-random')
 
-cors({origin: 'http://localhost:3000', credentials: true })
-
 router.get('/', async function (request, response){
   try{
     const data = await db.any('SELECT * FROM mentorship')
@@ -66,27 +64,37 @@ router.post('/get_mentors_for_mentee', async function (request, response) {
 
 
 router.post('/', verifyToken, async function (request, response) {
-  const mentee = parseInt(request.body.mentee_id)
+  const mentee = parseInt(request.userId)
   const mentor = parseInt(request.body.mentor_id)
   const emailToken = randomToken()
-    console.log(emailToken)
-    jwt.verify(request.token, 'secretKey', async (err, authData) => {
-      if(err){
-        response.sendStatus(403)
-      } 
-      else if(authData.data[0].user_id !== mentee){
-        response.sendStatus(500)
-        console.log('not working')
-      }else {
-        try {
-        await db.none(`INSERT INTO mentorship (mentor_id, mentee_id, status, temp_token) VALUES (${mentor}, ${mentee}, 'pending', '${emailToken}')`)
-        return response.sendStatus(200)
-      } catch (err) {
-        console.log(err)
-        response.status(404).send(err)
-      }
-    }
-  })
+  console.log(emailToken)
+
+  try {
+    await db.none(`INSERT INTO mentorship (mentor_id, mentee_id, status, temp_token) VALUES (${mentor}, ${mentee}, 'pending', '${emailToken}')`)
+    return response.sendStatus(200)
+  } catch (err) {
+    return response.status(500).json({
+      message: err.message
+    })
+  }
+    // jwt.verify(request.token, 'secretKey', async (err, authData) => {
+    //   if(err){
+    //     console.log(err)
+    //     response.sendStatus(403)
+    //   } 
+    //   else if(authData.data[0].user_id !== mentee){
+    //     response.sendStatus(500)
+    //     console.log('not working')
+    //   }else {
+    //     try {
+    //     await db.none(`INSERT INTO mentorship (mentor_id, mentee_id, status, temp_token) VALUES (${mentor}, ${mentee}, 'pending', '${emailToken}')`)
+    //     return response.sendStatus(200)
+    //   } catch (err) {
+    //     console.log(err)
+    //     response.status(404).send(err)
+    //   }
+    // }
+  //})
 })
 
 

@@ -3,7 +3,7 @@ import React from 'react'
 import './App.css'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
-import Profile from "./Pages/MenteeProfile"
+import Profile from './Pages/Profile'
 import Landing from './Pages/Landing'
 import Homepage from './Pages/Homepage'
 import Settings from './Pages/Settings'
@@ -66,7 +66,7 @@ function App () {
             </Route>
             <Route path='/login'>
               {!state.isAuthenticated ? <Login /> : 
-               <Profile/>
+               <Homepage/>
               }
               {console.log(state.userType)}
             </Route>
@@ -77,14 +77,11 @@ function App () {
             <Route path='/profile'>
               {!state.isAuthenticated? <Login /> : <Profile />}
             </Route>
-            {/* <Route path='/profile/mentor'>
-              {!state.isAuthenticated? <Login /> : <Profile />}
-            </Route> */}
             <Route path='/settings'>
-              <Settings isMentor={false}/>
+            {!state.isAuthenticated? <Login /> : <Settings isMentor={false}/>}    
             </Route>
             <Route path='/find-mentor'>
-              <FindMentor />
+              {!state.isAuthenticated? <Login /> : <FindMentor />}
             </Route>
           </Switch>
         </BrowserRouter>

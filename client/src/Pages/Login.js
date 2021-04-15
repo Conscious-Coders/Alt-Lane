@@ -5,7 +5,9 @@ import {Redirect, Route} from 'react-router-dom';
 import history from '../history'
 import { render } from 'react-dom';
 import { AuthContext } from "../App";
+import axios from 'axios';
 
+axios.defaults.withCredentials = 'true'
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
 
@@ -35,23 +37,25 @@ function Login () {
       errorMessage: null
     });
     try{
-      const result = await (await fetch('http://localhost:9000/users/login', {
+      const result = await fetch('http://localhost:9000/users/login', {
         method: 'POST',
-        withCredentials: 'true', 
+        //withCredentials: 'true', 
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           email: form.email,
           password: form.password,
         }),
-      })).json();
-      dispatch({
-        type: "LOGIN",
-        payload: result
+      }).then((res)=> res.json()).then(data =>{
+        dispatch({
+          type: "LOGIN",
+          payload: data
+        })
+          setToken(data.token);  
       })
-        console.log("This is the data from backend", result); 
-        setToken(result.token);  
+      
     }
     catch(error){
       setForm({
