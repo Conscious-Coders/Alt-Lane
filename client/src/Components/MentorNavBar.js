@@ -14,7 +14,7 @@ function MentorNavBar(){
                   <Link className="nav-link" to="/homepage">HOME</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile/mentor">PROFILE</Link>
+                  <Link className="nav-link" to="/profile">PROFILE</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/settings">SETTINGS</Link>

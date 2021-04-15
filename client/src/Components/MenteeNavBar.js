@@ -17,7 +17,7 @@ function MenteeNavBar(){
                   <Link className="nav-link" to="/find-mentor">FIND MENTOR</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile/mentee">PROFILE</Link>
+                  <Link className="nav-link" to="/profile">PROFILE</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/settings">SETTINGS</Link>
