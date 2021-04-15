@@ -23,9 +23,9 @@ router.get('/', async function (request, response) {
 
 // Using id from users table
 //Is used as a Get Method request
-router.post('/singleMentee', async function (request, response) {
+router.get('/:singleMentee', async function (request, response) {
   try {
-    const mentee = parseInt(request.body.mentee_id)
+    const getUser = parseInt(request.params.singleMentee)
     const data = await db.any(`SELECT mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users, mentees WHERE users.user_id=${getUser} AND mentees.mentee_id=${getUser}`)
     return response.json({
       data: data
