@@ -101,26 +101,15 @@ router.post('/', verifyToken, async function (request, response) {
 router.put('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-
-    jwt.verify(request.token, 'secretKey', async (err, authData) => {
-      if(err){
-        response.sendStatus(403)
-      } 
-      else if(authData.data[0].user_id !== mentee){
-        response.sendStatus(500)
-        console.log('not working')
-      }else {
         try {
-
         await db.none(`UPDATE mentorship SET status = 'active', temp_token= null WHERE mentee_id=${mentee} AND mentor_id = ${mentor}`)
         return response.sendStatus(200)
       } catch (err) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
+ 
 
 
 router.patch('/', verifyToken, async function (request, response) {

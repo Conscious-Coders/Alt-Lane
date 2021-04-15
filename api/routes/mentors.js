@@ -43,6 +43,7 @@ router.get('/:singleMentor', async function (request, response) {
   }
 })
 
+//for register
 router.post('/', async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
@@ -62,15 +63,6 @@ router.post('/', async function (request, response) {
 
 
 router.put('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
-      console.log(authData.data[0].user_id)
       let mentor = parseInt(request.body.id)
       let bio = request.body.bio
       let career_field_id = parseInt(request.body.career_field_id)
@@ -83,20 +75,11 @@ router.put('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
 
 
 router.patch('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
+ 
       console.log(authData.data[0].user_id)
       let mentor = parseInt(request.body.id)
       let bio = request.body.bio
@@ -110,8 +93,7 @@ router.patch('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
+
 
 module.exports = router
