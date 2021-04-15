@@ -35,30 +35,21 @@ router.get('/:singleMentor', async function (request, response) {
 //     const mentor = parseInt(request.body.mentor_id)
 //     const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${mentor} AND mentors.mentor_id=${mentor}`)
 // >>>>>>> main
-//     return response.json({
-//       data: data
-//     })
-//   } catch (err) {
-//     response.status(404).send(err)
-//   }
-// })
+    return response.json({
+      data: data
+    })
+  } catch (err) {
+    response.status(404).send(err)
+  }
+})
 
-router.post('/', verifyToken, async function (request, response) {
+router.post('/', async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
   let career_field_id = parseInt(request.body.career_field_id)
   let company = request.body.company
   let linkedin_url = request.body.linkedin_url
 
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== mentor){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
   try {
     await db.none(`INSERT INTO mentors (mentor_id, bio, career_field_id, company, linkedin_url) VALUES (${mentor}, '${bio}', ${career_field_id}, '${company}', '${linkedin_url}')`)
 
@@ -67,8 +58,6 @@ router.post('/', verifyToken, async function (request, response) {
     console.log(err)
     response.status(404).send(err)
   }
-}
-})
 })
 
 

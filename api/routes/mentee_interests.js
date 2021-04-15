@@ -21,6 +21,58 @@ router.get('/', async function (request, response) {
   }
 })
 
+//for register
+router.post('/interestsArray', async function (request, response) {
+  const mentee = parseInt(request.body.mentee_id)
+  const career_ids = request.body.career_field_array
+  console.log(career_ids)
+      try {
+        let values = ""
+        for(let i =0; i < career_ids.length; i++) {
+          if(i === career_ids.length -1){
+            values += `(${mentee}, ${career_ids[i]})`
+          }else{
+            values += `(${mentee}, ${career_ids[i]}),`
+          }
+        }
+        console.log(values) 
+        //await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee} AND career_field_id = ${career_id}`)
+        await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES ${values}`)
+  
+        return response.sendStatus(200)
+    } catch (err) {
+      console.log(err)
+      response.status(404).send(err)
+    }
+
+})
+//for deleting all interests and adding new ones for profile
+router.post('/deleteInterests', async function (request, response) {
+  const mentee = parseInt(request.body.mentee_id)
+  const career_ids = request.body.career_field_array
+  console.log(career_ids)
+      try {
+        let values = ""
+        for(let i =0; i < career_ids.length; i++) {
+          if(i === career_ids.length -1){
+            values += `(${mentee}, ${career_ids[i]})`
+          }else{
+            values += `(${mentee}, ${career_ids[i]}),`
+          }
+        }
+        
+        console.log(values) 
+        await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee}`)
+        await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES ${values}`)
+  
+        return response.sendStatus(200)
+    } catch (err) {
+      console.log(err)
+      response.status(404).send(err)
+    }
+
+})
+
 //Will return all interests for a single mentee
 //Is used as a Get Method request
 router.post('/interests_for_one_mentee', async function (request, response) {
@@ -38,7 +90,7 @@ router.post('/interests_for_one_mentee', async function (request, response) {
 
 
 router.post('/add_mentee_and_interest', verifyToken, async function (request, response) {
-    const mentee = parseInt(request.body.mentee_id)
+    const mentee = parseInt(request.body.m3entee_id)
     const career_id = parseInt(request.body.career_id)
     jwt.verify(request.token, 'secretKey', async (err, authData) => {
       console.log(authData)
