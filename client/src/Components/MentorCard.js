@@ -1,6 +1,34 @@
 import React from 'react'
 
 function MentorCard(props) {
+console.log(props.token)
+console.log(props.mentee_id)
+
+
+  const handleClick = (event=>{
+    const connectMentorship = async (currentMentor, currentMentee)=>{
+      try{
+      await fetch("http://localhost:9000/mentorship",{
+        method: 'POST',
+        withCredentials : "true",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mentee_id: currentMentee, 
+          mentor_id: currentMentor
+        })
+      })
+      console.log("check database for mentee 18")
+      }catch(err){
+        console.log(err) 
+      }
+    } 
+    connectMentorship(props.mentor_id, props.mentee_id)
+  })
+
+
   return (
     <div className="d-flex justify-content-center">
       <div className="card" style={{ width: '22rem', background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
@@ -15,7 +43,7 @@ function MentorCard(props) {
           </div>
             <p className="card-text text-dark fw-light">{props.bio}</p>
             <div className="d-flex justify-content-end">
-              <button className="btn btn-light"> Connect </button>
+              <button className="btn btn-light" onClick={handleClick}> Connect </button>
             </div>
         </div>
       </div>
