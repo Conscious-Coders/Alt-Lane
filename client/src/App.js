@@ -3,8 +3,7 @@ import React from 'react'
 import './App.css'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
-import Profile from "./Pages/MenteeProfile"
-import MentorProfile from "./Pages/Profile"
+import Profile from './Pages/Profile'
 import Landing from './Pages/Landing'
 import Homepage from './Pages/Homepage'
 import Settings from './Pages/Settings'
@@ -57,7 +56,6 @@ function App () {
   return (
     <AuthContext.Provider  value={{state,dispatch}}>
       <div className='App'>
-    
         <BrowserRouter history={history}>
           <Switch>
             <Route exact path='/'>
@@ -68,24 +66,22 @@ function App () {
             </Route>
             <Route path='/login'>
               {!state.isAuthenticated ? <Login /> : 
-               <MentorProfile/>
+               <Homepage/>
               }
               {console.log(state.userType)}
             </Route>
+
             <Route path='/homepage'>
-              <Homepage />
+               {!state.isAuthenticated ? <Login /> : <Homepage />}
             </Route>
-            <Route path='/profile/mentee'>
-              {!state.isAuthenticated && state.userType === "mentee"? <Login /> : <Profile />}
-            </Route>
-            <Route path='/profile/mentor'>
-              {!state.isAuthenticated && state.userType === "mentor" ? <Login /> : <Profile />}
+            <Route path='/profile'>
+              {!state.isAuthenticated? <Login /> : <Profile />}
             </Route>
             <Route path='/settings'>
-              <Settings isMentor={false}/>
+            {!state.isAuthenticated? <Login /> : <Settings isMentor={false}/>}    
             </Route>
             <Route path='/find-mentor'>
-              <FindMentor />
+              {!state.isAuthenticated? <Login /> : <FindMentor />}
             </Route>
           </Switch>
         </BrowserRouter>

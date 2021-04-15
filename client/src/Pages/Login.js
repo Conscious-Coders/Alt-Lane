@@ -37,7 +37,7 @@ function Login () {
       errorMessage: null
     });
     try{
-      const result = await fetch('/users/login', {
+      const result = await fetch('http://localhost:9000/users/login', {
         method: 'POST',
         //withCredentials: 'true', 
         headers: {
@@ -48,13 +48,14 @@ function Login () {
           email: form.email,
           password: form.password,
         }),
-      }).then((res)=> res.json());
-      dispatch({
-        type: "LOGIN",
-        payload: result
+      }).then((res)=> res.json()).then(data =>{
+        dispatch({
+          type: "LOGIN",
+          payload: data
+        })
+          setToken(data.token);  
       })
-        console.log("This is the data from backend", result); 
-        setToken(result.token);  
+      
     }
     catch(error){
       setForm({

@@ -3,24 +3,26 @@ import MentorNavBar from '../Components/MentorNavBar'
 import MenteeNavBar from '../Components/MenteeNavBar'
 import HomeCard from '../Components/HomeCard'
 import Footer from '../Components/Footer'
+import { AuthContext } from "../App";
 
 function Homepage (props) {
-  let isMentor = props.isMentor; 
- 
+  const { state: authState } = React.useContext(AuthContext);
+  const [data, setData] = React.useState([])
+  //get all the mentors or mentees for the user if they have 
+  //
   return (
-    <div>
-      
-      {isMentor ? <MentorNavBar/> : <MenteeNavBar/>}
-        <div style={{paddingTop: '10%'}}>
+    <div >
+      {authState.userType === "mentor" ? <MentorNavBar/> : <MenteeNavBar/>}
+        <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
           <div className="homepage">
-              {isMentor ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
+              {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
             <div className="col">
               <div className="row d-flex justify-content-center">
-                <HomeCard name="Clark Kent" title="Editor" isMentor={isMentor} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
+                <HomeCard name="Clark Kent" title="Editor" userId={authState.user} userType={authState.userType} bio={"this is a mentee"} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
               </div>
               <div className="col">
               <div className="row d-flex justify-content-center">
-                <HomeCard name="Clark Kent" title="Editor" isMentor={isMentor} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
+                <HomeCard name="Clark Kent" title="Editor" userId={authState.user} userType={authState.userType} bio={"this is a mentee"} interests={["STEM", "Art", "Social Work"]}/>
               </div>
             </div>
             </div>

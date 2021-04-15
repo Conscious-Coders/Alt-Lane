@@ -59,10 +59,12 @@ function Profile (){
       setCareers(careers)
     } 
     fetchCareers();
-    console.log(authState.user)
+
     async function fetchMentor(){
 
-      const response = await fetch(`http://localhost:9000/${authState.userType}s/${authState.user}`)
+      const response = await fetch(`http://localhost:9000/${authState.userType}s/${authState.user}`,{ headers:{
+        'Authorization': `Bearer ${authState.token}`
+       }})
       console.log(response)
       const result = await response.json()
       console.log(result)
@@ -92,6 +94,7 @@ function Profile (){
       body: JSON.stringify({mentee_id: authState.user})
    })
       const result = await response.json();
+      console.log(result)
       setMenteeInterests(result.data)
     }
     getMenteeInterests()

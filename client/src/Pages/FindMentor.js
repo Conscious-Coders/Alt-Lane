@@ -63,15 +63,15 @@ function FindMentor() {
       dispatch({
         type: "FETCH_ALL_MENTORS"
       });
-      fetch("/mentors", {
+      fetch("http://localhost:9000/mentors", {
        // credentials: 'include'
        headers:{
         'Authorization': `Bearer ${authState.token}`
        }
       })
-      .then(response =>response.json())
+      .then(response => response.json())
       .then(res => {
-        console.log(authState.token)
+       console.log(res)
         dispatch({
           type: "FETCH_SUCCESS_MENTORS",
           payload: res
@@ -102,7 +102,6 @@ function FindMentor() {
       })  
     }, [authState.token])
 
-    console.log("this is the stance ->", authState)
     //Mentee-mentor post request
     
     const slideImages = [];
