@@ -41,10 +41,6 @@ router.post('/login', async function (req, res) {
       //   // httpOnly: true
       //   })
         json({
-
-         //data, // return only user_id & user_type
-         
-
          user_id: data[0].user_id,
          user_type: data[0].user_type,
 
@@ -88,7 +84,7 @@ router.post('/get', async function (request, response) {
 
 // Getting password of user with specified id
 //Is used as a Get Method request
-router.post('/pass', async function (request, response) {
+router.post('/pass', verifyToken, async function (request, response) {
   try {
     const user_id = parseInt(request.body.user_id)
     const password = request.body.password
@@ -125,15 +121,6 @@ router.post('/', async function (request, response) {
 })
 
 router.patch('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
         try {
         const updateUsers = parseInt(request.body.user_id)
         let first_name = request.body.first_name
@@ -157,22 +144,11 @@ router.patch('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-  }
   })
-})
+
 
 
 router.put('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
-      console.log(authData.data[0].user_id)
         try {
         const updateUsers = parseInt(request.body.user_id)
         let first_name = request.body.first_name
@@ -196,9 +172,7 @@ router.put('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-  }
   })
-})
 
 router.delete('/', verifyToken, async function (request, response) {
   jwt.verify(request.token, 'secretKey', async (err, authData) => {

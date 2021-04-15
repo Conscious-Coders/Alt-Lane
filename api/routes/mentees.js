@@ -23,6 +23,7 @@ router.get('/', async function (request, response) {
 
 // Using id from users table
 //Is used as a Get Method request
+// for register
 router.get('/:singleMentee', async function (request, response) {
   try {
     const getUser = parseInt(request.params.singleMentee)
@@ -36,7 +37,7 @@ router.get('/:singleMentee', async function (request, response) {
   }
 })
 
-
+//for register
 router.post('/', async function (request, response) {
   let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
@@ -54,14 +55,7 @@ router.post('/', async function (request, response) {
 
 
 router.put('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
+ 
       console.log(authData.data[0].user_id)
       let mentee = parseInt(request.body.id)
       let parent_name = request.body.parent_name
@@ -72,20 +66,11 @@ router.put('/', verifyToken, async function (request, response) {
       }catch (err) {
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
 
 
 router.patch('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
+ 
       console.log(authData.data[0].user_id)
       let mentee = parseInt(request.body.id)
       let parent_name = request.body.parent_name
@@ -96,8 +81,6 @@ router.patch('/', verifyToken, async function (request, response) {
       }catch (err) {
         response.status(404).send(err)
       }
-    }
-  })
-})
-
+    })
+ 
 module.exports = router
