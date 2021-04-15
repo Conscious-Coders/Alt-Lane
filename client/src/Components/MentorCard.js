@@ -1,7 +1,7 @@
 import React from 'react'
 
 function MentorCard(props) {
-console.log(props.token)
+console.log('token', props.token)
 console.log(props.mentee_id)
 
 
@@ -10,10 +10,11 @@ console.log(props.mentee_id)
       try{
       await fetch("http://localhost:9000/mentorship",{
         method: 'POST',
-        withCredentials : "true",
+        //credentials : 'include',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${props.token}`
         },
         body: JSON.stringify({
           mentee_id: currentMentee, 

@@ -63,9 +63,15 @@ function FindMentor() {
       dispatch({
         type: "FETCH_ALL_MENTORS"
       });
-      fetch("http://localhost:9000/mentors", {withCredentials:"true"})
+      fetch("/mentors", {
+       // credentials: 'include'
+       headers:{
+        'Authorization': `Bearer ${authState.token}`
+       }
+      })
       .then(response =>response.json())
       .then(res => {
+        console.log(authState.token)
         dispatch({
           type: "FETCH_SUCCESS_MENTORS",
           payload: res
