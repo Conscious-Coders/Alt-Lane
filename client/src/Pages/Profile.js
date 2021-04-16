@@ -2,8 +2,7 @@ import React from 'react'
 import { Multiselect } from 'multiselect-react-dropdown';
 import Form from '../Hooks/Form'
 import Footer from "../Components/Footer"
-import MentorNavBar from "../Components/MentorNavBar"
-import MenteeNavBar from "../Components/MenteeNavBar"
+import LoginNav from "../Components/LoginedNavBar"
 import { AuthContext } from "../App";
 
 
@@ -132,9 +131,9 @@ function Profile (){
 
   return(
     <div>
+    <LoginNav/>
     {authState.userType === "mentor"? (
     <div>
-      <MentorNavBar/>
        <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
         
        <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
@@ -217,7 +216,6 @@ function Profile (){
       
     )
     : (<div>
-         <MenteeNavBar/>
     <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
     <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>

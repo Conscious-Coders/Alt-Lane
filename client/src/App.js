@@ -31,11 +31,14 @@ const reducer = (state, action) => {
         token: action.payload.token,
       };
     case "LOGOUT":
-      // localStorage.clear();
+      localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
-        user: null
+        user: null,
+        userType: null,
+        token: null,
+
       };
     default:
       return state;
