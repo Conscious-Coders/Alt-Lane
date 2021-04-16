@@ -2,8 +2,7 @@ import React from 'react'
 import { Multiselect } from 'multiselect-react-dropdown';
 import Form from '../Hooks/Form'
 import Footer from "../Components/Footer"
-import MentorNavBar from "../Components/MentorNavBar"
-import MenteeNavBar from "../Components/MenteeNavBar"
+import LoginNav from "../Components/LoginedNavBar"
 import { AuthContext } from "../App";
 
 
@@ -14,22 +13,20 @@ function Profile (){
   const menteeCareer = React.useRef(null);
   const [interest, setMenteeInterests] = React.useState([])
   const [form, setForm] = React.useState({})
-  const { formed, handleChange } = Form({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    photoUrl: '',
-    userType: '',
-    parentName: '',
-    parentEmail: '',
-    careerField: '',
-    bio: '',
-    careerFieldInterest: [],
-    company: "",
-    linkedin: "",
-  })
+
+
+  function handleChange (event) {
+    const name = event.target.name
+    const value = event.target.value
+
+    setForm({
+      ...form,
+      [name]: value
+    })
+    console.log("look here ->", name)
+    console.log(value)
+  }
+
 
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
@@ -114,11 +111,29 @@ function Profile (){
     })
   })
 
+
+  const [editBtn, setEditBtn] = React.useState(true);
+
+
+  const btnClick = (event=>{
+    if(editBtn===false){
+      setEditBtn(true)
+
+    }else{
+      setEditBtn(false)
+    }
+  })
+
+
+  const submitClick=(event=>{
+
+  })
+
   return(
     <div>
+    <LoginNav/>
     {authState.userType === "mentor"? (
     <div>
-      <MentorNavBar/>
        <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
         
        <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
@@ -129,37 +144,40 @@ function Profile (){
          <div className='card w-75 col-8'>
            <div className='card-body'>
              <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
-               <button className="btn btn-dark ">Edit</button>
+             {editBtn === true? (
+                  <button className="btn btn-dark " onClick={btnClick}>Edit</button>) 
+              : (
+                  <button className="btn btn-dark " onClick={btnClick}>Cancel</button>)}
              </div>
              <form>
                <div className='mb-3 row'>
                  <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' disabled/>
+                   <input className='form-control' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' disabled={editBtn}/>
                  </div>
                </div>
                <div className='mb-3 row'>
                  <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' disabled/>
+                   <input className='form-control' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' disabled={editBtn}/>
                  </div>
                </div>
                <div className='mb-3 row'>
                  <label htmlFor='email' className='col-sm-2 col-form-label'>Email</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.email} onChange={handleChange} type='email' id='email' name='email' disabled />
+                   <input className='form-control' value={form.email} onChange={handleChange} type='email' id='email' name='email' disabled={editBtn} />
                  </div>
                </div>
                <div className='mb-3 row'>
                  <label htmlFor='company' className='col-sm-2 col-form-label'>Company</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.company} onChange={handleChange} type='text' id='company' name='parentName' disabled/>
+                   <input className='form-control' value={form.company} onChange={handleChange} type='text' id='company' name='parentName' disabled={editBtn}/>
                  </div>
                </div>
                <div className='mb-3 row'>
                  <label htmlFor='linkedin' className='col-sm-2 col-form-label'>LinkedIn</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='parentEmail' disabled/>
+                   <input className='form-control' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='parentEmail' disabled={editBtn}/>
                  </div>
                </div>
                <div className='mb-3 row'>
@@ -180,10 +198,16 @@ function Profile (){
                <div className='mb-3 row'>
                  <label htmlFor='bio' className='col-sm-2 col-form-label'>Bio</label>
                  <div className='col-sm-10'>
-                   <input className='form-control' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' disabled />
+                   <input className='form-control' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' disabled={editBtn} />
                  </div>
                </div>
              </form>
+             {editBtn === true? ('') 
+            : (
+                <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
+                  <button className="btn btn-dark " onClick={submitClick}>Submit</button>
+                </div>
+              )}
            </div>
          </div>
        </div>
@@ -192,7 +216,6 @@ function Profile (){
       
     )
     : (<div>
-         <MenteeNavBar/>
     <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
     <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
@@ -203,38 +226,35 @@ function Profile (){
       <div className='card w-75 col-8'>
         <div className='card-body'>
           <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
-            <button className="btn btn-dark ">Edit</button>
+          {editBtn === true? (<button className="btn btn-dark " onClick={btnClick}>Edit</button>) 
+          : (<button className="btn btn-dark " onClick={btnClick}>Cancel</button>)}
+            
           </div>
        
           <form>
             <div className='mb-3 row'>
               <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
               <div className='col-sm-10'>
-                <input className='form-control' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' disabled/>
+                <input className='form-control' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' disabled={editBtn}/>
               </div>
             </div>
             <div className='mb-3 row'>
               <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
               <div className='col-sm-10'>
-                <input className='form-control' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' disabled />
+                <input className='form-control' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' disabled={editBtn} />
               </div>
             </div>
-            <div className='mb-3 row'>
-              <label htmlFor='email' className='col-sm-2 col-form-label'>Email</label>
-              <div className='col-sm-10'>
-                <input className='form-control' value={form.email} onChange={handleChange} type='email' id='email' name='email' disabled/>
-              </div>
-            </div>
+            
             <div className='mb-3 row'>
               <label htmlFor='parentName' className='col-sm-2 col-form-label'>Parent Name</label>
               <div className='col-sm-10'>
-                <input className='form-control' value={form.parentName} onChange={handleChange} type='parentName' id='parentName' name='parentName' disabled/>
+                <input className='form-control' value={form.parentName} onChange={handleChange} type='parentName' id='parentName' name='parentName' disabled={editBtn}/>
               </div>
             </div>
             <div className='mb-3 row'>
               <label htmlFor='parentEmail' className='col-sm-2 col-form-label'>Parent Email</label>
               <div className='col-sm-10'>
-                <input className='form-control' value={form.parentEmail} onChange={handleChange} type='parentEmail' id='parentEmail' name='parentEmail' disabled/>
+                <input className='form-control' value={form.parentEmail} onChange={handleChange} type='parentEmail' id='parentEmail' name='parentEmail' disabled={editBtn}/>
               </div>
             </div>
             <div className='mb-3 row'>
@@ -244,16 +264,22 @@ function Profile (){
                 ref = {menteeCareer}
                 onChange ={menteeInterests}
                 options={careers}
-                disablePreSelectedValues={true}
+                disablePreSelectedValues={editBtn}
                 selectedValues={selectedValues}
                 displayValue="key"
                 selectionLimit="3"
-                disable = {true}
+                disable = {editBtn}
                 />
                 
               </div>
             </div>
           </form>
+          {editBtn === true? ('') 
+            : (
+                <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
+                  <button className="btn btn-dark " onClick={submitClick}>Submit</button>
+                </div>
+              )}
         </div>
       </div>
     </div>
