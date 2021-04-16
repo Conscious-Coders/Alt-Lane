@@ -122,10 +122,9 @@ function Settings () {
 
   return(
     <div>
-        <LoginNav/>
-      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
-     
-    <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
+      <LoginNav/>
+        <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
     
       <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
         <div className='card-body'>

@@ -11,7 +11,11 @@ import {
   NavItem
 } from 'reactstrap';
 
-function LoginedNavBar(){
+function LoginedNavBar(props){
+
+  const userType = props.userType; 
+  const token = props.authToken; 
+
 
   const { state: authState } = useContext(AuthContext);
   const { dispatch } = useContext(AuthContext);
