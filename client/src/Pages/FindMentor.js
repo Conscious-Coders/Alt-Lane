@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from "../Components/Footer"
 import MentorCard from "../Components/MentorCard"
-import MenteeNavBar from "../Components/MenteeNavBar"
+import LoginNav from "../Components/LoginedNavBar"
 import { Slide } from "react-slideshow-image";
 //import "./styles.css";
 import "react-slideshow-image/dist/styles.css";
@@ -112,7 +112,7 @@ function FindMentor() {
     return (
       <React.Fragment>
       <div className="contianer-fluid" >
-        <MenteeNavBar/>
+        <LoginNav/>
         {state.isFetching ? (
         <span className="loader">LOADING...</span>
       ) : state.hasError ? (

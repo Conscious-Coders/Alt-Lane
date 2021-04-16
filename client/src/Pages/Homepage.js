@@ -1,6 +1,5 @@
 import React from 'react'
-import MentorNavBar from '../Components/MentorNavBar'
-import MenteeNavBar from '../Components/MenteeNavBar'
+import LoginNav from "../Components/LoginedNavBar"
 import HomeCard from '../Components/HomeCard'
 import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
@@ -12,7 +11,7 @@ function Homepage (props) {
   //
   return (
     <div >
-      {authState.userType === "mentor" ? <MentorNavBar/> : <MenteeNavBar/>}
+    <LoginNav />
         <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
           <div className="homepage">
               {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
