@@ -2,6 +2,8 @@ import React from 'react'
 import InfoCard from '../Components/InfoCard'
 
 function DefaultHome () {
+  console.log("This is inside the defult home")
+
   return (
   <div>
     <div className="container py-4">

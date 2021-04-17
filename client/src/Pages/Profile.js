@@ -8,7 +8,6 @@ import { AuthContext } from "../App";
 
 function Profile (){
   const { state: authState } = React.useContext(AuthContext);
-  console.log( authState)
   const careerChoice = React.useRef(null);
   const menteeCareer = React.useRef(null);
   const [interest, setMenteeInterests] = React.useState([])
