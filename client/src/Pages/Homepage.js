@@ -5,7 +5,7 @@ import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
 
-function Homepage (props) {
+function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
   const [data, setData] = React.useState([])
   const [homeInfo, setHomeInfo] = React.useState([])
@@ -35,10 +35,6 @@ function Homepage (props) {
       setData(relationship)
     }
     getMentorship()
-    // console.log("data",data)
-   
-   
-
   },[authState.token, authState.user, authState.userType])
 
   React.useEffect(()=>{
@@ -105,7 +101,7 @@ function Homepage (props) {
   return (
     <div >
       <LoginNav />
-        {!data? <DefaultHome/>: 
+        {!data ? <DefaultHome/> : 
           <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
