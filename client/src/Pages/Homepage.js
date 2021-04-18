@@ -4,6 +4,7 @@ import HomeCard from '../Components/HomeCard'
 import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
+import Chat from '../Components/Chat'
 
 function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
@@ -108,9 +109,10 @@ function Homepage () {
 
   return (
     <div >
-      <LoginNav />
+      <LoginNav /> 
         {!data ? <DefaultHome/> : 
           <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
+            <Chat />
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
