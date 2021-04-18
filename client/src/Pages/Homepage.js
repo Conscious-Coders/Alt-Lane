@@ -6,22 +6,21 @@ import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
 import Chat from '../Components/Chat'
 
-function Homepage (props) {
+function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
   const [data, setData] = React.useState([])
   const [homeInfo, setHomeInfo] = React.useState([])
   const [careers, setCareers] = React.useState([])
+  const [display, setDisplay] = React.useState([])
   //get all the mentors or mentees for the user if they have 
-  const relationship = []
-  const allRelation = []
   React.useEffect(()=>{
+    const relationship = []
     async function getMentorship(){
       const res = await fetch('http://localhost:9000/mentorship',{ 
         headers:{
         'Authorization': `Bearer ${authState.token}`
        }})
-       const result = await res.json()
-      
+      const result = await res.json()
       result.data.forEach(user => {
         if(authState.userType === "mentor"){
             if(user.mentor_id === authState.user){
@@ -36,43 +35,6 @@ function Homepage (props) {
       setData(relationship)
     }
     getMentorship()
-    // console.log("data",data)
-   
-   
-
-  },[authState.token, authState.user, authState.userType])
-
-  React.useEffect(()=>{
-    let fetchType = ""
-    if(authState.userType === "mentee"){
-      fetchType = "mentor"
-    }else{
-      fetchType = "mentee"
-    }
-      //for each mentor a mentee has get their first and last name , bio, position 
-    //for each mentee get a mentor gets their first and last name and all of their interests 
-    async function getInfoDisplay(){
-       data.forEach(mentor =>{
-        async function getStuff (){
-          const response = await fetch(`http://localhost:9000/${fetchType}s/${mentor.user}`,{ 
-            headers:{
-            'Authorization': `Bearer ${authState.token}`
-           }})
-            const result = await response.json()
-            allRelation.push({
-              name: result.data[0].first_name + " "+ result.data[0].last_name,
-              firsName: result.data[0].first_name,
-              lastName: result.data[0].last_name,
-              bio: result.data[0].bio,
-              career: result.data[0].career_field_id,
-              photoUrl: result.data[0].photo_url
-            })
-          setHomeInfo(allRelation)
-        }
-        getStuff()
-      })
-    }
-    getInfoDisplay()
 
     if(authState.userType === "mentee"){
       async function getCareers(){
@@ -90,10 +52,52 @@ function Homepage (props) {
       getCareers()
     }
 
-  }, [authState.token, authState.userType, data])
-//  console.log(data)
-//  console.log(homeInfo)
-  if(homeInfo){
+  },[authState.token, authState.user, authState.userType])
+
+  React.useEffect(()=>{
+    let fetchType = ""
+    if(authState.userType === "mentee"){
+      fetchType = "mentor"
+    }else{
+      fetchType = "mentee"
+    }
+    async function getStuff() {
+      await fetch(`http://localhost:9000/${fetchType}s`, {
+        headers: {
+          'Authorization': `Bearer ${authState.token}`
+        }
+      }).then(res => res.json())
+      .then(result =>{
+        console.log(result.data)
+        setDisplay(result.data)
+      })
+    }
+    getStuff()
+     // for each mentor a mentee has get their first and last name , bio, position 
+    // or for each mentee get a mentor gets their first and last name and all of their interests 
+    if(data){
+      console.log(display)
+      const info = []
+      data.forEach(id =>{
+        display.forEach(user =>{
+          if(user.user_id === id.user){
+            info.push({
+              name: user.first_name + " " + user.last_name,
+              firsName: user.first_name,
+              lastName: user.last_name,
+              bio: user.bio,
+              career: user.career_field_id,
+              photoUrl: user.photo_url
+            })
+          }
+        })
+      })
+      setHomeInfo(info)
+    }
+
+  }, [authState.token, authState.userType, data, display])
+
+  if(homeInfo !==0){
     homeInfo.forEach(user =>{
       careers.forEach(career =>{
         if(career.id === user.career){
@@ -102,21 +106,25 @@ function Homepage (props) {
       })
     })
   }
-  
+
   return (
     <div >
       <LoginNav />
+<<<<<<< HEAD
         {!data? <DefaultHome/>:
            
+=======
+        {!data ? <DefaultHome/> : 
+>>>>>>> 23ff631b53c11136f4644e63d22797201841e83d
           <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
             <Chat />
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
-                {homeInfo && (
+                {homeInfo &&(
                 <div className="row d-flex justify-content-center">
-                 {homeInfo.map( mentor  => (
-                  <div className= "row d-flex justify-content-center">
+                 {homeInfo.map((mentor, index ) => (
+                  <div className= "row d-flex justify-content-center" key={index}>
                     <HomeCard name={mentor.name} photo={mentor.photoUrl} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
