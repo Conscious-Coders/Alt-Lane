@@ -5,8 +5,6 @@ import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
 import { Multiselect } from 'multiselect-react-dropdown';
 
-//This needs to be changed and tailored
-
 
 function Register () {
   const [registered, setRegistered ] = React.useState(null)
