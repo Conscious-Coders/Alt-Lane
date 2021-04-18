@@ -9,7 +9,6 @@ import Homepage from './Pages/Homepage'
 import Settings from './Pages/Settings'
 import FindMentor from './Pages/FindMentor'
 import history from './history'
-import VerifyEmail from './Pages/VerifyEmail'
 
 export const AuthContext = React.createContext();
 
@@ -79,16 +78,13 @@ function App () {
                {!state.isAuthenticated ? <Login /> : <Homepage />}
             </Route>
             <Route path='/profile'>
-              {!state.isAuthenticated ? <Login /> : <Profile />}
+              {!state.isAuthenticated? <Login /> : <Profile />}
             </Route>
             <Route path='/settings'>
-            {!state.isAuthenticated ? <Login /> : <Settings isMentor={false}/>}    
+            {!state.isAuthenticated? <Login /> : <Settings isMentor={false}/>}    
             </Route>
             <Route path='/find-mentor'>
-              {!state.isAuthenticated ? <Login /> : <FindMentor />}
-            </Route>
-            <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
-              <VerifyEmail />
+              {!state.isAuthenticated? <Login /> : <FindMentor />}
             </Route>
           </Switch>
         </BrowserRouter>

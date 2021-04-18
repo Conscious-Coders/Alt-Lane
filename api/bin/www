@@ -21,26 +21,6 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-const io = require('socket.io')(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST']
-  }
-})
-
-io.on('connection', socket => {
-  //console.log(socket.id)
-
-  socket.on('incoming-message', (data) => {
-    console.log('receiving message', data)
-    socket.broadcast.emit('new message', data)
-  })
-
-  socket.on('disconnect', () => {
-    console.log('client went offline')
-  })
-})
-
 /**
  * Listen on provided port, on all network interfaces.
  */

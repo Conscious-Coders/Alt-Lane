@@ -26,7 +26,7 @@ function Settings () {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authState.token}`
+          'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify({
           user_id: userId
@@ -61,7 +61,7 @@ function Settings () {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authState.token}`
+        'Authorization': `Bearer ${authToken}`
       },
       body: JSON.stringify({
         user_id: userId,
@@ -73,16 +73,16 @@ function Settings () {
   }
 
   async function updateUserInfo() {
-    console.log("line 75 this is the update fetch function")
     const response = await (fetch('http://localhost:9000/users', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authState.token}`
+        'Authorization': `Bearer ${authToken}`
       },
       body: JSON.stringify({
         user_id: userId,
-        password: userData.newPassword
+        password: userData.newPassword,
+        email: userData.email
       })
     }))
     return response; 
@@ -113,7 +113,6 @@ function Settings () {
     let isValidRequest = await checkPassword(); 
 
     if(isValidRequest.isVerified) {
-      console.log("line 110 inside the if statemnt")
       updateUserInfo()
     } else {
       console.log("error! can't make changes")
@@ -123,10 +122,9 @@ function Settings () {
 
   return(
     <div>
-        <LoginNav userType={userType} authToken={authToken}/>
-      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
-     
-    <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
+      <LoginNav/>
+        <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
     
       <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
         <div className='card-body'>
@@ -154,7 +152,7 @@ function Settings () {
                 <input className='form-control' disabled={isDisable} value={userData.newPassword} onChange={handleChange} type='password' id='newPassword' name='newPassword' />
               </div>
             </div>
-                <button href='#' className='btn btn-dark' >
+                <button type="submit" disabled={isDisable} className='btn btn-dark' >
                      Submit
                 </button>
           </form>
