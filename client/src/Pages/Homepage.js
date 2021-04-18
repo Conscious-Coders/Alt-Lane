@@ -109,13 +109,8 @@ function Homepage () {
 
   return (
     <div >
-      <LoginNav />
-<<<<<<< HEAD
-        {!data? <DefaultHome/>:
-           
-=======
+      <LoginNav /> 
         {!data ? <DefaultHome/> : 
->>>>>>> 23ff631b53c11136f4644e63d22797201841e83d
           <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
             <Chat />
             <div className="homepage">
