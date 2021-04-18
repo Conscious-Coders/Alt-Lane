@@ -44,7 +44,9 @@ app.use('/mentees', menteesRouter)
 app.use('/mentors', mentorsRouter)
 app.use('/mentee_interests', mentee_interestsRouter)
 app.use('/mentorship', mentorshipRouter)
-
+app.get('/socket.io', function (req, res) {
+  //
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
