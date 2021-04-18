@@ -63,37 +63,49 @@ router.post('/', async function (request, response) {
 
 
 router.put('/', verifyToken, async function (request, response) {
-      let mentor = parseInt(request.body.id)
-      let bio = request.body.bio
-      let career_field_id = parseInt(request.body.career_field_id)
-      let company = request.body.company
-      let linkedin_url = request.body.linkedin_url
-      try {
-        await db.none(`UPDATE mentors SET bio='${bio}', career_field_id=${career_field_id}, company='${company}', linkedin_url='${linkedin_url}' WHERE mentor_id=${mentor}`)
+    let mentor = parseInt(request.body.mentor_id)
+    let bio = request.body.bio
+    let career_field_id = parseInt(request.body.career_field_id)
+    let company = request.body.company
+    let linkedin_url = request.body.linkedin_url
+      
+    try {
+        if (bio) await db.any(`UPDATE mentors SET bio='${bio}' WHERE mentor_id=${mentor}`)
+
+        if (career_field_id) await db.any(`UPDATE mentors SET career_field_id=${career_field_id} WHERE mentor_id=${mentor}`)
+
+        if (company) await db.any(`UPDATE mentors SET company='${company}' WHERE mentor_id=${mentor}`)
+
+        if (linkedin_url) await db.any(`UPDATE mentors SET linkedin_url='${linkedin_url}' WHERE mentor_id=${mentor}`)
         return response.sendStatus(200)
       }catch (err) {
         console.log(err)
         response.status(404).send(err)
       }
-    })
+})
 
 
 router.patch('/', verifyToken, async function (request, response) {
- 
-      console.log(authData.data[0].user_id)
-      let mentor = parseInt(request.body.id)
-      let bio = request.body.bio
-      let career_field_id = parseInt(request.body.career_field_id)
-      let company = request.body.company
-      let linkedin_url = request.body.linkedin_url
-      try {
-        await db.none(`UPDATE mentors SET bio='${bio}', career_field_id=${career_field_id}, company='${company}', linkedin_url='${linkedin_url}' WHERE mentor_id=${mentor}`)
-        return response.sendStatus(200)
-      }catch (err) {
-        console.log(err)
-        response.status(404).send(err)
-      }
-    })
+  let mentor = parseInt(request.body.mentor_id)
+  let bio = request.body.bio
+  let career_field_id = parseInt(request.body.career_field_id)
+  let company = request.body.company
+  let linkedin_url = request.body.linkedin_url
+    
+  try {
+      if (bio) await db.any(`UPDATE mentors SET bio='${bio}' WHERE mentor_id=${mentor}`)
+
+      if (career_field_id) await db.any(`UPDATE mentors SET career_field_id=${career_field_id} WHERE mentor_id=${mentor}`)
+
+      if (company) await db.any(`UPDATE mentors SET company='${company}' WHERE mentor_id=${mentor}`)
+
+      if (linkedin_url) await db.any(`UPDATE mentors SET linkedin_url='${linkedin_url}' WHERE mentor_id=${mentor}`)
+      return response.sendStatus(200)
+    }catch (err) {
+      console.log(err)
+      response.status(404).send(err)
+    }
+})
 
 
 module.exports = router
