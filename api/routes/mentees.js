@@ -56,31 +56,35 @@ router.post('/', async function (request, response) {
 
 router.put('/', verifyToken, async function (request, response) {
  
-      console.log(authData.data[0].user_id)
-      let mentee = parseInt(request.body.id)
-      let parent_name = request.body.parent_name
-      let parent_email = request.body.parent_email
-      try {
-        await db.none(`UPDATE mentees SET parent_name='${parent_name}', parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
+    let mentee = parseInt(request.body.mentee_id)
+    let parent_name = request.body.parent_name
+    let parent_email = request.body.parent_email
+    
+    try {
+        if (parent_name) await db.any(`UPDATE mentees SET parent_name='${parent_name}' WHERE mentee_id=${mentee}`)
+        if (parent_email) await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
+
         return response.sendStatus(200)
       }catch (err) {
         response.status(404).send(err)
       }
-    })
+})
 
 
 router.patch('/', verifyToken, async function (request, response) {
  
-      console.log(authData.data[0].user_id)
-      let mentee = parseInt(request.body.id)
-      let parent_name = request.body.parent_name
-      let parent_email = request.body.parent_email
-      try {
-        await db.none(`UPDATE mentees SET parent_name='${parent_name}', parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
-        return response.sendStatus(200)
-      }catch (err) {
-        response.status(404).send(err)
-      }
-    })
+  let mentee = parseInt(request.body.mentee_id)
+  let parent_name = request.body.parent_name
+  let parent_email = request.body.parent_email
+  
+  try {
+      if (parent_name) await db.any(`UPDATE mentees SET parent_name='${parent_name}' WHERE mentee_id=${mentee}`)
+      if (parent_email) await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
+
+      return response.sendStatus(200)
+    }catch (err) {
+      response.status(404).send(err)
+    }
+})
  
 module.exports = router
