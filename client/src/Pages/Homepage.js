@@ -47,21 +47,19 @@ function Homepage () {
     }
     getMenteeInterests()
 
-
-    // if(authState.userType === "mentee"){
-      async function getCareers(){
-        const fields = await fetch("http://localhost:9000/careers",{ 
-          headers:{
-          'Authorization': `Bearer ${authState.token}`
-         }})
-        const allCareers = await fields.json();
-        let careers =[];
-        allCareers.data.forEach(field =>{
-          careers.push({key: field.name, id: field.id})
-        })
-        setCareers(careers)
-      }
-      getCareers()
+    async function getCareers(){
+      const fields = await fetch("http://localhost:9000/careers",{ 
+        headers:{
+        'Authorization': `Bearer ${authState.token}`
+        }})
+      const allCareers = await fields.json();
+      let careers =[];
+      allCareers.data.forEach(field =>{
+        careers.push({key: field.name, id: field.id})
+      })
+      setCareers(careers)
+    }
+    getCareers()
 
   },[authState.token, authState.user, authState.userType])
 
