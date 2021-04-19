@@ -11,6 +11,8 @@ function Homepage () {
   const [homeInfo, setHomeInfo] = React.useState([])
   const [careers, setCareers] = React.useState([])
   const [display, setDisplay] = React.useState([])
+  const [menteeInterest, setMenteeInterest] = React.useState([])
+  
   //get all the mentors or mentees for the user if they have 
   React.useEffect(()=>{
     const relationship = []
@@ -35,7 +37,18 @@ function Homepage () {
     }
     getMentorship()
 
-    if(authState.userType === "mentee"){
+    async function getMenteeInterests(){
+      const res = await fetch('http://localhost:9000/mentee_interests',{ 
+        headers:{
+        'Authorization': `Bearer ${authState.token}`
+       }})
+      const result = await res.json()
+      setMenteeInterest(result.data)
+    }
+    getMenteeInterests()
+
+
+    // if(authState.userType === "mentee"){
       async function getCareers(){
         const fields = await fetch("http://localhost:9000/careers",{ 
           headers:{
@@ -49,10 +62,11 @@ function Homepage () {
         setCareers(careers)
       }
       getCareers()
-    }
 
   },[authState.token, authState.user, authState.userType])
 
+  // for each mentor a mentee has get their first and last name , bio, position 
+  // or for each mentee get a mentor gets their first and last name and all of their interests 
   React.useEffect(()=>{
     let fetchType = ""
     if(authState.userType === "mentee"){
@@ -67,36 +81,67 @@ function Homepage () {
         }
       }).then(res => res.json())
       .then(result =>{
-        console.log(result.data)
         setDisplay(result.data)
       })
     }
     getStuff()
-     // for each mentor a mentee has get their first and last name , bio, position 
-    // or for each mentee get a mentor gets their first and last name and all of their interests 
-    if(data){
-      console.log(display)
+  
+  }, [authState.token, authState.userType, data])
+
+  React.useEffect(()=>{
+      if(data){
       const info = []
       data.forEach(id =>{
         display.forEach(user =>{
           if(user.user_id === id.user){
             info.push({
+              id: user.user_id,
               name: user.first_name + " " + user.last_name,
               firsName: user.first_name,
               lastName: user.last_name,
               bio: user.bio,
               career: user.career_field_id,
-              photoUrl: user.photo_url
+              photoUrl: user.photo_url,
+              interestId: "",
+              interestNames: "",
             })
           }
         })
       })
       setHomeInfo(info)
     }
+  }, [authState.userType, data, display])
+  
+  //get mentee interests for each mentee 
+  if(menteeInterest !== 0){
+    homeInfo.forEach(user=>{
+      const interests = []
+      menteeInterest.forEach(mentee => {
+        if(mentee.mentee_id === user.id){
+          interests.push(mentee.career_field_id)
+        }
+      })
+      user.interestId = interests
+    })
+  }
+  
+  //get the name of the interests for the mentees
+  if(careers.length !== 0 &&  authState.userType === "mentor"){
+    homeInfo.forEach(user =>{
+      let interestName = "";
+      user.interestId.forEach(field =>{
+        careers.forEach(career =>{
+          if(career.id === field){  
+            interestName = interestName + " " + career.key
+          }
+        })     
+      })
+      user.interestNames = interestName 
+    })
+  }
 
-  }, [authState.token, authState.userType, data, display])
-
-  if(homeInfo !==0){
+  //get the career field names for mentors 
+  if(homeInfo.length !== 0 && careers.length !== 0 &&  authState.userType === "mentee"){
     homeInfo.forEach(user =>{
       careers.forEach(career =>{
         if(career.id === user.career){
@@ -104,8 +149,8 @@ function Homepage () {
         }
       })
     })
-  }
-
+  } 
+  
   return (
     <div >
       <LoginNav />
@@ -114,7 +159,7 @@ function Homepage () {
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
-                {homeInfo &&(
+                {homeInfo && authState.userType === "mentee" &&(
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentor, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
@@ -124,9 +169,19 @@ function Homepage () {
                 </div>
               )}{" "}
               </div>
+              <div> 
+              {homeInfo && authState.userType === "mentor" &&(
+                <div className="row d-flex justify-content-center">
+                 {homeInfo.map((mentee, index ) => (
+                  <div className= "row d-flex justify-content-center" key={index}>
+                    <HomeCard name={mentee.name} photo={mentee.photoUrl} interests={mentee.interestNames} userId={authState.user} userType={authState.userType} bio={mentee.bio}  />
+                  </div>
+                ))}
+                </div>
+              )}{" "}
+              </div>
             </div>
           </div> 
-        
         }   
         
       <Footer/>
