@@ -110,43 +110,48 @@ function Settings () {
 
   return(
     <div>
-      <LoginNav/>
-        <div className="container"  style={{ marginTop:"10%", height: "40vh", marginBottom:"10%"}}>
-          <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
-            <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
-              <div className='card-body'>
-                <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
-                  <button className="btn btn-dark" onClick={enableEdit}>{editBtn}</button>
-                </div>
-                <form onSubmit={handleSubmit}>
-                  <div className='mb-3 row'>
-                    <label htmlFor='firstName' className='col-sm-2 col-form-label'>Email</label>
-                    <div className='col-sm-10'>
-                      <input className='form-control' disabled={isDisable} value={userData.email} onChange={handleChange} type='email' id='email' name='email' />
-                    </div>
-                  </div>
-                  <div className='mb-3 row'>
-                    <label htmlFor='password' className='col-sm-2 col-form-label'>Old Password</label>
-                    <div className='col-sm-10'>
-                      <input className='form-control' disabled={isDisable} value={userData.oldPassword} onChange={handleChange} type='password' id='oldPassword' name='oldPassword' />
-                    </div>
-                  </div>
-                  <div className='mb-3 row'>
-                    <label htmlFor='password' className='col-sm-2 col-form-label'>New Password</label>
-                    <div className='col-sm-10'>
-                      <input className='form-control' disabled={isDisable} value={userData.newPassword} onChange={handleChange} type='password' id='newPassword' name='newPassword' />
-                    </div>
-                  </div>
-                  <div>
-                    <button type="submit" hidden={isDisable} className='btn btn-dark '>
-                        Submit
-                    </button>
-                  </div>
-                </form>
+
+        <LoginNav userType={authState.userType} authToken={authToken}/>
+      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+     
+      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
+    
+      <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
+        <div className='card-body'>
+          <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
+            <button className="btn btn-dark" onClick={enableEdit}>{editBtn}</button>
+          </div>
+       
+          <form onSubmit={handleSubmit}>
+            <div className='mb-3 row'>
+              <label htmlFor='firstName' className='col-sm-2 col-form-label'>Email</label>
+              <div className='col-sm-10'>
+                <input className='form-control' disabled={isDisable} value={userData.email} onChange={handleChange} type='email' id='email' name='email' />
               </div>
             </div>
-          </div>
+            
+            <div className='mb-3 row'>
+              <label htmlFor='password' className='col-sm-2 col-form-label'>Old Password</label>
+              <div className='col-sm-10'>
+                <input className='form-control' disabled={isDisable} value={userData.oldPassword} onChange={handleChange} type='password' id='oldPassword' name='oldPassword' />
+              </div>
+            </div>
+            <div className='mb-3 row'>
+              <label htmlFor='password' className='col-sm-2 col-form-label'>New Password</label>
+              <div className='col-sm-10'>
+                <input className='form-control' disabled={isDisable} value={userData.newPassword} onChange={handleChange} type='password' id='newPassword' name='newPassword' />
+              </div>
+            </div>
+                <button href='#' className='btn btn-dark' >
+                     Submit
+                </button>
+          </form>
         </div>
+    </div>
+    </div>
+
+
+      </div>
       <Footer/>
     </div>
   )
