@@ -4,9 +4,10 @@ import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
 import { Multiselect } from 'multiselect-react-dropdown';
+
 import Button from '../Components/Button'
 import './Register.scss'
-//This needs to be changed and tailored
+
 
 function Register () {
   const [registered, setRegistered ] = React.useState(null)

@@ -36,10 +36,23 @@ return (
     // https://www.webprofits.com.au/
   <div >
     <LandingNavBar />
+
+    <div className="container py-4">
+        <div className="p-5 mb-4 bg-light rounded-3">
+          <div className="container-fluid py-5">
+            <h1 className="display-5 fw-bold">Alt-Lane</h1>
+
+            <p>Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
+
+            <p>Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle ßit to your liking.</p>
+
+          </div>
+
       <div>
         <div >
         {/* need to pick images & make them same size */}
           <UncontrolledCarousel items={items} controls={false}/>
+
         </div>
         <div className="container marketing">
         <div className="container marketing">
