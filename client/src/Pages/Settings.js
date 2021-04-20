@@ -9,11 +9,9 @@ function Settings () {
 
   const { state: authState } = React.useContext(AuthContext);
   const userId = authState.user; 
-  const userType = authState.userType; 
   const authToken = authState.token; 
-
+  const [isDisable, setDisable] = useState(true)
   const [editBtn, setEditBtn]  = useState("Edit")
-
   const [userData, setUserData] = useState({
     email: '',
     oldPassword: '', 
@@ -88,8 +86,6 @@ function Settings () {
     return response; 
   }
  
-  const [isDisable, setDisable] = useState(true)
-
   function enableEdit () {
     if(isDisable === true) {
       setDisable(false)
@@ -103,27 +99,18 @@ function Settings () {
 
   const handleSubmit = async e =>  {
     e.preventDefault();
-
-    console.log(userData.email); 
-    console.log(userData.oldPassword); 
-    console.log(userData.newPassword); 
-
-    console.log("this is submiting")
-
     let isValidRequest = await checkPassword(); 
-
     if(isValidRequest.isVerified) {
       console.log("line 110 inside the if statemnt")
       updateUserInfo()
     } else {
       console.log("error! can't make changes")
     }
-
   }
 
   return(
     <div>
-        <LoginNav userType={userType} authToken={authToken}/>
+        <LoginNav userType={authState.userType} authToken={authToken}/>
       <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
     <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
@@ -158,14 +145,13 @@ function Settings () {
                      Submit
                 </button>
           </form>
+
+          </div>
+          </div>
+          </div>
         </div>
-
-      </div>
-
+      <Footer/>
     </div>
-    </div>
-    <Footer/>
-  </div>
   )
 }
 export default Settings
