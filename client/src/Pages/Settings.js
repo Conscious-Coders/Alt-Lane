@@ -24,7 +24,7 @@ function Settings () {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
+          'Authorization': `Bearer ${authState.token}`
         },
         body: JSON.stringify({
           user_id: userId
@@ -59,7 +59,7 @@ function Settings () {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
+        'Authorization': `Bearer ${authState.token}`
       },
       body: JSON.stringify({
         user_id: userId,
@@ -71,16 +71,16 @@ function Settings () {
   }
 
   async function updateUserInfo() {
+    console.log("line 75 this is the update fetch function")
     const response = await (fetch('http://localhost:9000/users', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
+        'Authorization': `Bearer ${authState.token}`
       },
       body: JSON.stringify({
         user_id: userId,
-        password: userData.newPassword,
-        email: userData.email
+        password: userData.newPassword
       })
     }))
     return response; 
@@ -101,6 +101,7 @@ function Settings () {
     e.preventDefault();
     let isValidRequest = await checkPassword(); 
     if(isValidRequest.isVerified) {
+      console.log("line 110 inside the if statemnt")
       updateUserInfo()
     } else {
       console.log("error! can't make changes")

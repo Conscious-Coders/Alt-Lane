@@ -1,10 +1,12 @@
 import React from 'react'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
 import { Multiselect } from 'multiselect-react-dropdown';
-
+import Button from '../Components/Button'
+import './Register.scss'
+//This needs to be changed and tailored
 
 function Register () {
   const [registered, setRegistered ] = React.useState(null)
@@ -28,25 +30,37 @@ function Register () {
     company: "",
     linkedin: "",
   })
+  //switch between mentee/mentor register
+  window.onload = function(){
+    var menteeRegister = document.querySelector("#menteeRegister");
+    var mentorRegister = document.querySelector("#mentorRegister");
+    setTimeout(function(){ mentorRegister.checked = true})
+    setTimeout(function(){ menteeRegister.checked = true})
+    
+  }
   
   const handleMentee = (e)=>{
     e.preventDefault();
+    const mentorLink = document.getElementById("mentor-form-link")
+    const menteeLink = document.getElementById("mentee-form-link")
     let mentor= document.getElementById("mentor")
-    let menteee = document.getElementById("mentee")
+    let mentee = document.getElementById("mentee")
+    mentorLink.style.color = "gray"
     mentor.style.display ="none"
-    mentor.removeAttribute("class")
-    menteee.setAttribute("class", "active")
-    menteee.style.display ="block"
+    mentee.style.display ="block"
+    menteeLink.style.color = "#A0AAE7"
   }
   const handleMentor = (e)=>{
     e.preventDefault();
+    const menteeLink = document.getElementById("mentee-form-link")
+    const mentorLink = document.getElementById("mentor-form-link")
     let mentor = document.getElementById("mentor")
     let mentee = document.getElementById("mentee")
+    menteeLink.style.color = "gray"
     mentee.style.display ="none"
-    mentee.removeAttribute("active")
-    mentor.setAttribute("class", "active")
-    mentor.style.display ="block"
 
+    mentor.style.display ="block"
+    mentorLink.style.color = "#A0AAE7"
   }
  const [careers, setCareers] = React.useState([])
   React.useEffect(()=>{
@@ -63,28 +77,29 @@ function Register () {
    
   },[])
   
+  //get the image uploaded by user
   const uploadFile = (e)=>{
     let photo = e.target.files[0];
     if(photo){
       setPhoto(photo)
     }
   }
-
+  //set the data to post to cloudinary 
   const unsignedPreset = "lsaabzji";
   const formData = new FormData();
   formData.append('file', photo);
   formData.append('upload_preset', unsignedPreset);
 
+  //get the values for mentor interests 
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
     form.careerField = values[0].id
    
   }
+  //get the values for mentee interests as an array of ids
   const menteeInterests = ()=>{
     const values = menteeCareer.current.getSelectedItems();
-    console.log("MENTEE", menteeCareer.current.getSelectedItems())
-     values.forEach(val => form.careerFieldInterest.push(val.id))
-    console.log(form.careerFieldInterest)
+    values.forEach(val => form.careerFieldInterest.push(val.id))
   } 
   
 
@@ -172,78 +187,70 @@ function Register () {
       
   }
   if(registered){
-    console.log(registered)
     return(<Redirect to="/login"/>)
   }
 
-  
   return (
     <div>
       <LandingNavBar/>
       <div className="container"  style={{ marginTop:"5%",  marginBottom:"10%"}}>
         <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt=""/>
-        
-      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
-        <div className='card w-75' >
-        <div className="panel-heading">
-						<div className="d-flex justify-content-around ">
-							<div className="col-xs-6 fs-3 nav-item">
-								<a href="#" className="active nav-link link-dark" id="mentee-form-link" onClick={handleMentee}>Mentee Register</a>
-							</div>
-							<div className="col-xs-6 fs-3 nav-item">
-								<a href="#" className="nav-link link-secondary" id="mentor-form-link" onClick={handleMentor}>Mentor Register</a>
-							</div>
-						</div>
-            <hr/>
-					</div>
-          <div className='container card-body'>
-            <form onSubmit={handleSubmit} id="mentee" style={{display:"block"}}  >
-              <div className='mb-3 row'>
+      <div className='container d-flex justify-content-center'  style={{ marginTop:"1%"}}>
+        <div className='card w-75 panel-login containerRegister' style={{boxShadow: "0px 2px 3px 0px rgba(0,0,0,0.2)"}} >
+           <input type="radio" name ="tab" id="menteeRegister" checked="checked" />
+            <input type="radio" name ="tab" id="mentorRegister"/>
+            <div className="tabs">
+              <label className="tab text" htmlFor="menteeRegister" style={{color: "white"}}>Mentee Register</label>
+              <label className="tab text" htmlFor="mentorRegister" style={{color: "white"}}>Mentor Register</label>
+            </div>
+          <div className='container card-body pages'>
+            <form className="page" onSubmit={handleSubmit} id="mentee" style={{display:"block"}}  >
+              <div className='mb-3 row input'>
                 <label htmlFor='firstName' className='col-sm-2 col-form-label' >First Name</label>
-                <div className='col-sm-10'>
-                  <input className='form-control' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' />
+                <div className='col-sm-10'> 
+                  <input className='form-control text' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' />
+                  <input className='form-control text' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='email' className='col-sm-2 col-form-label'>Email</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
+                  <input className='form-control text' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='password' className='col-sm-2 col-form-label'>Password</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
+                  <input className='form-control text' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='photoUrl' className='col-sm-2 col-form-label'>Upload an image </label>
                 <div className='col-sm-10'>
-                  <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='parentName' className='col-sm-2 col-form-label'>Parent Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.parentName} onChange={handleChange} type='text' id='parentName' name='parentName' />
+                  <input className='form-control text' value={form.parentName} onChange={handleChange} type='text' id='parentName' name='parentName' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='parentEmail' className='col-sm-2 col-form-label'>Parent Email</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.parentEmail} onChange={handleChange} type='email' id='parentEmail' name='parentEmail' />
+                  <input className='form-control text' value={form.parentEmail} onChange={handleChange} type='email' id='parentEmail' name='parentEmail' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
               <label htmlFor='careerField' className='col-sm-2 col-form-label'>Career Field Interest </label>
-              <div className='col-sm-10'>
-              <Multiselect id="careers"
+              <div className='col-sm-10 text'>
+              <Multiselect className= " text" id="careers"
                 ref = {menteeCareer}
                 onChange ={menteeInterests}
                 options={careers}
@@ -252,55 +259,56 @@ function Register () {
                 />
               </div>
             </div>
-              <button href='#' className='btn btn-dark'>Register</button>
+              <Button className="input" name = "Register"/>
             </form>
-            <form onSubmit={handleSubmit} id="mentor" style={{display:"none"}} >
-              <div className='mb-3 row'>
+            <form className="page" onSubmit={handleSubmit} id="mentor" style={{display:"block"}} >
+              <div className='mb-3 row input'>
                 <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' />
+                  <input className='form-control text' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' />
+                  <input className='form-control text' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input '>
                 <label htmlFor='email' className='col-sm-2 col-form-label'>Email</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
+                  <input className='form-control text' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='password' className='col-sm-2 col-form-label'>Password</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
+                  <input className='form-control text' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='company' className='col-sm-2 col-form-label'>Company</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.company} onChange={handleChange} type='text' id='company' name='company' />
+                  <input className='form-control text' value={form.company} onChange={handleChange} type='text' id='company' name='company' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='linkedin' className='col-sm-2 col-form-label'>LinkedIn</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='linkedin' />
+                  <input className='form-control text' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='linkedin' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='bio' className='col-sm-2 col-form-label'>Bio</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' />
+                  <input className='form-control text' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' />
                 </div>
               </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
               <label htmlFor='careerField' className='col-sm-2 col-form-label'>Career Field Interest </label>
-              <div className='col-sm-10'>
+              <div className='col-sm-10 text'>
                 <Multiselect id="careers"
+                className="text"
                 ref = {careerChoice}
                 onChange ={getAllVals}
                 options={careers}
@@ -309,14 +317,13 @@ function Register () {
                 />
               </div>
             </div>
-              <div className='mb-3 row'>
+              <div className='mb-3 row input'>
                 <label htmlFor='photoUrl'  className='col-sm-2 col-form-label'>Upload an image</label>
                 <div className='col-sm-10'>
-                  <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
                 </div>
               </div>
-              
-              <button href='#' className='btn btn-dark'>Register</button>
+              <Button className="input" name = "Register"/>
             </form>
           </div>
 
