@@ -11,7 +11,7 @@ function MenteeNavBar(){
             <div className=" d-flex" id="navbarNav">
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link className="nav-link " to="/homepage">HOME</Link>
+                  <Link className="nav-link" to="/homepage">HOME</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/find-mentor">FIND MENTOR</Link>
