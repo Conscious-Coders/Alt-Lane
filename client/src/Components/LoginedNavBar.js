@@ -46,32 +46,22 @@ function LoginedNavBar(){
         <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav style={{marginLeft: "auto"}}>
-              <NavItem className="nav-link">
-                <li className="nav-item">
+            <NavItem className="nav-link nav-item" style={{padding: 0}}>
                     <Link className="nav-link btn btn-dark" to="/homepage">HOME</Link>
-                </li>
               </NavItem>
               { userType === "mentee" &&
-                <NavItem  className="nav-link">
-                  <li className="nav-item">
+              <NavItem className="nav-link nav-item" style={{padding: 0}}>
                     <Link className="nav-link btn btn-dark" to="/find-mentor">FIND MENTOR</Link>
-                  </li>
                 </NavItem>
               }
-              <NavItem className="nav-link">
-                  <li className="nav-item">
+              <NavItem className="nav-link nav-item" style={{padding: 0}}>
                     <Link className="nav-link btn btn-dark" to="/profile">PROFILE</Link>
-                  </li>
               </NavItem>
-              <NavItem  className="nav-link">
-                <li className="nav-item">
+              <NavItem className="nav-link nav-item" style={{padding: 0}}>
                   <Link className="nav-link btn btn-dark" to="/settings">SETTINGS</Link>
-                </li>
               </NavItem>
-              <NavItem  className="nav-link">
-              <li className="nav-item">
+              <NavItem  className="nav-link nav-item" style={{padding: 0}}>
                   <button className="nav-link btn btn-dark" onClick={logout}>LOGOUT</button>
-                </li>
               </NavItem>
             </Nav>
           </Collapse>
