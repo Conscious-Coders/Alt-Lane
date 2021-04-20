@@ -78,7 +78,7 @@ function Login () {
   return (
     <div>
       <LandingNavBar/>
-      <div className="container" style={{ marginTop:"5%",  marginBottom:"10%"}}>
+      <div className="container" style={{ marginTop:"5%", height: "50vh", marginBottom:"10%"}}>
         <img src='/alt_lane_black.png' style={{ width: '125px', marginBlock:"1%", height: 'auto' }} alt="alt-line logo"/>
         <div className='containter d-flex justify-content-center'>
           <div className='card w-50'>

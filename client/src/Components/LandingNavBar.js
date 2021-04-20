@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 
+
 import {
   Collapse,
   Navbar,
@@ -23,15 +24,11 @@ function LandingNavBar(){
         <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav style={{marginLeft: "auto"}}>
-              <NavItem className="nav-link">
-                <li className="nav-item">
+              <NavItem className="nav-link nav-item" style={{padding: 0}}>
                     <Link className="nav-link btn btn-dark" to="/login">LOGIN</Link>
-                </li>
               </NavItem>
-              <NavItem  className="nav-link">
-                <li className="nav-item">
+              <NavItem  className="nav-link nav-item" style={{padding: 0}}>
                   <Link className="nav-link btn btn-dark" to="/register">REGISTER</Link>
-                </li>
               </NavItem>
             </Nav>
           </Collapse>

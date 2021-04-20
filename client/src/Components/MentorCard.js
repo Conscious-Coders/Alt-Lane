@@ -1,10 +1,6 @@
 import React from 'react'
 
 function MentorCard(props) {
-console.log('token', props.token)
-console.log(props.mentee_id)
-
-
   const handleClick = (event=>{
     const connectMentorship = async (currentMentor, currentMentee)=>{
       try{
@@ -21,7 +17,6 @@ console.log(props.mentee_id)
           mentor_id: currentMentor
         })
       })
-      console.log("check database for mentee 18")
       }catch(err){
         console.log(err) 
       }
