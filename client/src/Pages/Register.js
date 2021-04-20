@@ -1,5 +1,5 @@
 import React from 'react'
-import {Redirect, Link} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
@@ -39,29 +39,6 @@ function Register () {
     
   }
   
-  const handleMentee = (e)=>{
-    e.preventDefault();
-    const mentorLink = document.getElementById("mentor-form-link")
-    const menteeLink = document.getElementById("mentee-form-link")
-    let mentor= document.getElementById("mentor")
-    let mentee = document.getElementById("mentee")
-    mentorLink.style.color = "gray"
-    mentor.style.display ="none"
-    mentee.style.display ="block"
-    menteeLink.style.color = "#A0AAE7"
-  }
-  const handleMentor = (e)=>{
-    e.preventDefault();
-    const menteeLink = document.getElementById("mentee-form-link")
-    const mentorLink = document.getElementById("mentor-form-link")
-    let mentor = document.getElementById("mentor")
-    let mentee = document.getElementById("mentee")
-    menteeLink.style.color = "gray"
-    mentee.style.display ="none"
-
-    mentor.style.display ="block"
-    mentorLink.style.color = "#A0AAE7"
-  }
  const [careers, setCareers] = React.useState([])
   React.useEffect(()=>{
     async function getCareers(){
@@ -102,7 +79,6 @@ function Register () {
     values.forEach(val => form.careerFieldInterest.push(val.id))
   } 
   
-
   const handleSubmit= async (e )=>{
     e.preventDefault();
     form.userType = e.target.id
@@ -123,7 +99,7 @@ function Register () {
     catch(err){console.log(err)}
 
     try{
-      const postUser =await fetch("http://localhost:9000/users",{
+      await fetch("http://localhost:9000/users",{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -140,11 +116,8 @@ function Register () {
       })
       
       const id = await fetch("http://localhost:9000/users")
-     
       const getId = await id.json();
-      console.log(getId)
       const current = await getId.data.filter(ele => ele.email === form.email)
-      console.log(current)
       form.id = current[0].user_id
       setRegistered(true)
     
@@ -163,11 +136,10 @@ function Register () {
         },
         body: JSON.stringify(data)
       })
-      console.log(menteeMentorPost)
       await menteeMentorPost.json()
-      console.log(form)
+
       if(form.userType === "mentee"){
-        const menteeMentorPost = await fetch("http://localhost:9000/mentee_interests",{
+        await fetch("http://localhost:9000/mentee_interests",{
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -179,13 +151,12 @@ function Register () {
           })
         })
       }
-     
     }
     catch(err){
       console.log(err)
-    }
-      
+    }   
   }
+
   if(registered){
     return(<Redirect to="/login"/>)
   }
@@ -200,8 +171,8 @@ function Register () {
            <input type="radio" name ="tab" id="menteeRegister" checked="checked" />
             <input type="radio" name ="tab" id="mentorRegister"/>
             <div className="tabs">
-              <label className="tab text" htmlFor="menteeRegister" style={{color: "white"}}>Mentee Register</label>
-              <label className="tab text" htmlFor="mentorRegister" style={{color: "white"}}>Mentor Register</label>
+              <label className="tab text" htmlFor="menteeRegister" >Mentee Register</label>
+              <label className="tab text" htmlFor="mentorRegister" >Mentor Register</label>
             </div>
           <div className='container card-body pages'>
             <form className="page" onSubmit={handleSubmit} id="mentee" style={{display:"block"}}  >
