@@ -41,9 +41,8 @@ function Login () {
       errorMessage: null
     });
     try{
-      const result = await fetch('http://localhost:9000/users/login', {
+      await fetch('http://localhost:9000/users/login', {
         method: 'POST',
-        //withCredentials: 'true', 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
