@@ -71,7 +71,6 @@ function FindMentor() {
       })
       .then(response => response.json())
       .then(res => {
-       console.log(res)
         dispatch({
           type: "FETCH_SUCCESS_MENTORS",
           payload: res
