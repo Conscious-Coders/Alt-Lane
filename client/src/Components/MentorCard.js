@@ -1,8 +1,8 @@
 import React from 'react'
 
 function MentorCard(props) {
-console.log('token', props.token)
-console.log(props.mentee_id)
+// console.log('token', props.token)
+// console.log(props.mentee_id)
 
 
   const handleClick = (event=>{
@@ -10,7 +10,6 @@ console.log(props.mentee_id)
       try{
       await fetch("http://localhost:9000/mentorship",{
         method: 'POST',
-        //credentials : 'include',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -21,7 +20,6 @@ console.log(props.mentee_id)
           mentor_id: currentMentor
         })
       })
-      console.log("check database for mentee 18")
       }catch(err){
         console.log(err) 
       }
