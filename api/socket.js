@@ -16,6 +16,7 @@ const setupSocketIO = (server) => {
     //     socket.on('connect', function() {
     //     console.log('check 2', socket.connected);
     // });
+    const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
 
       io.use((socket, next) => {
         verifyToken(socket.request, socket.request.res, next)
@@ -25,40 +26,53 @@ const setupSocketIO = (server) => {
         // server-side
        
         io.on('connection', async socket => {
-          const userId = socket.request.userId
+          // const userId = socket.request.userId
 
-          if(!userId) {
-              console.log(`returning early, no user id`)
-              return;
-          }
+          // if(!userId) {
+          //     console.log(`returning early, no user id`)
+          //     return;
+          // }
 
         //   console.log(userId, 'line 31')
-          const user = await getUserById(userId)
+          // const user = await getUserById(userId)
 
-          if(!user) {
-              console.log(`no user, returning early`)
-              return;
-          }
+          // if(!user) {
+          //     console.log(`no user, returning early`)
+          //     return;
+          // }
         
-           const mentorshipIds = await getMentorship(user)
+          //  const mentorshipIds = await getMentorship(user)
 
-           console.log(mentorshipIds)
-          
+          //  console.log(mentorshipIds)
+          console.log(socket.handshake.query)
+           const { roomId } = socket.handshake.query;
+           console.log(roomId)
+           socket.join(roomId);
+
+            // Listen for new messages
+            socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+              io.in(roomId).emit(NEW_CHAT_MESSAGE_EVENT, data);
+            });
+
+            // Leave the room if the user closes the socket
+            socket.on("disconnect", () => {
+              socket.leave(roomId);
+            });
           // get all the user's mentors OR mentees
           //ie getting the mentorship relationships
-            mentorshipIds.forEach(mentorOrMentee => {
-            //     socket.on('join', async ({user}, callback) =>{
-            //         const {error, userInRoom} = await addUser({id: user.user_id, name: user.first_name, room:`${mentorOrMentee}-${user.user_id}`});
-            //         if(error) return callback(error);
-            //         console.log(userInRoom)
-            //         socket.emit('message', {user: 'admin', text: `${userInRoom.name}, welcome to the room ${userInRoom.room}`});
-            //         socket.broadcast.to(userInRoom.room).emit('message', {user: 'admin', text: `${userInRoom.name}, has joined!`});
-            //         socket.join(userInRoom.room);
+            // mentorshipIds.forEach(mentorOrMentee => {
+            // //     socket.on('join', async ({user}, callback) =>{
+            // //         const {error, userInRoom} = await addUser({id: user.user_id, name: user.first_name, room:`${mentorOrMentee}-${user.user_id}`});
+            // //         if(error) return callback(error);
+            // //         console.log(userInRoom)
+            // //         socket.emit('message', {user: 'admin', text: `${userInRoom.name}, welcome to the room ${userInRoom.room}`});
+            // //         socket.broadcast.to(userInRoom.room).emit('message', {user: 'admin', text: `${userInRoom.name}, has joined!`});
+            // //         socket.join(userInRoom.room);
                 
-            //         io.to(userInRoom.room).emit('roomData', {room: userInRoom.room})
-            //         callback();
-            //       })
-             })
+            // //         io.to(userInRoom.room).emit('roomData', {room: userInRoom.room})
+            // //         callback();
+            // //       })
+            //  })
            
         
          

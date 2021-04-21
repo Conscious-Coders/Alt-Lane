@@ -87,9 +87,14 @@ function App () {
             <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
               <VerifyEmail />
             </Route>
-            <Route path='/chat'>
-              <Chat token={state.token} />
-            </Route>
+            <Route
+            path="/:roomId"
+            render={(props) => <Chat {...props} token={state.token} userId={state.user} />}
+          />
+            {/* <Route path='/:roomId'>
+              
+              <Chat token={state.token} userId={state.user}/>
+            </Route> */}
           </Switch>
         </BrowserRouter>
       </div>
