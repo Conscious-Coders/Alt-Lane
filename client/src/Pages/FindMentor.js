@@ -107,7 +107,7 @@ function FindMentor() {
       mentors.forEach(mentor =>{
         slideImages.push(<MentorCard mentor_id={mentor.userId} name={mentor.firstName} photo={mentor.photo} company={mentor.company} bio={mentor.bio} mentee_id={authState.user} token={authState.token}/>)
       })
-
+      console.log(slideImages)
     return (
       <React.Fragment>
       <div className="contianer-fluid" >
@@ -117,8 +117,8 @@ function FindMentor() {
       ) : state.hasError ? (
         <span className="error">AN ERROR HAS OCCURED</span>
       ) : (
-        <>
-           <div className="contianer-fluid"style={{ paddingTop:"8%",  marginBottom:"10%"}}>
+        
+          <div className="contianer-fluid"style={{ paddingTop:"8%",  marginBottom:"10%"}}>
           <div style={{paddingBottom:"10px"}}>
             <h1>Find a Mentor</h1>
           </div>
@@ -140,10 +140,10 @@ function FindMentor() {
             </Slide>
           </div>
         </div>
-        <Footer/>
-        </>
-      )}
       
+        
+      )}
+       <Footer/>
       </div>
       </React.Fragment>
     );

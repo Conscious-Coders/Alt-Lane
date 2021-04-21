@@ -4,47 +4,19 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var server = require('../app');
 var debug = require('debug')('api:server');
-var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '9000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-const io = require('socket.io')(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST']
-  }
-})
-
-io.on('connection', socket => {
-  //console.log(socket.id)
-
-  socket.on('incoming-message', (data) => {
-    console.log('receiving message', data)
-    socket.broadcast.emit('new message', data)
-  })
-
-  socket.on('disconnect', () => {
-    console.log('client went offline')
-  })
-})
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
+// var server = http.createServer(app);
 server.listen(port, console.log(`http://localhost:${port}`));
 server.on('error', onError);
 server.on('listening', onListening);

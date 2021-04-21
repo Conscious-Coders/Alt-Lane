@@ -2,6 +2,8 @@
 /* eslint-disable object-curly-spacing */
 /* eslint-disable no-unused-vars */
 require('dotenv').config()
+// pull in node's http module
+const http = require('http')
 const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
@@ -19,34 +21,31 @@ const mentorshipRouter = require('./routes/mentorship')
 const jwt = require('jsonwebtoken')
 const pg = require('pg-promise')
 const db = require('./db')
+const setupSocketIO = require('./socket')
 const app = express()
-
+require('socket.io')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
-app.use(cors())
+app.use(cors({origin: 'http://localhost:3000', credentials: true, methods:['GET', 'POST']}))
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-// app.use(cors({
-  // origin: 'http://localhost:3000', 
-  // credentials: true 
-// }))
+
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/testAPI', testAPIRouter)
+//app.use('/testAPI', testAPIRouter)
 app.use('/test', testAPIRouter)
 app.use('/careers', careersRouter)
 app.use('/mentees', menteesRouter)
 app.use('/mentors', mentorsRouter)
 app.use('/mentee_interests', mentee_interestsRouter)
 app.use('/mentorship', mentorshipRouter)
-app.get('/socket.io', function (req, res) {
-  //
-})
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -64,4 +63,12 @@ app.use(function (err, req, res, next) {
   res.render('error')
 })
 
-module.exports = app
+// create out server that we'll ultimately export
+const server = http.createServer(app) 
+
+/**
+ * Configure socket.io on server
+ */
+ setupSocketIO(server)
+
+module.exports = server

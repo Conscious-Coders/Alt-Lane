@@ -54,6 +54,8 @@ From within the root directory: Look at package.json file and keep updating
   - npm install jsonwebtoken
   - npm install cookie-parser
   - npm install uuid-random
+  - npm install socket.io
+  - npm install nodemailer
 - client: 
   - npm install react react-dom
   - npm install react-responsive-carousel
@@ -65,6 +67,7 @@ From within the root directory: Look at package.json file and keep updating
   - npm install standard --save-dev
   - npm install eslint --save-dev
   - npm install uuid-random
+  - npm install socket.io-client
 ```
 
 ### Roadmap

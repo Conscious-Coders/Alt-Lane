@@ -20,39 +20,27 @@ const randomToken = require('uuid-random')
 //DO NOT RETURN status or anything else
 //Is used as a Get Method request
 router.post('/login', async function (req, res) {
-  console.log('trying to login')
-  console.log(req.body)
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
     const password = req.body.password
     const data = await db.any(`SELECT users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
-     console.log(data)
      let samePassword = verifyPass(password, data[0].password)
-     console.log(samePassword)
      //if password matches
-    
      if(samePassword)
      // jwtData = { userId: data[0] }
       jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
-       await res.status(202).
-      //  setHeader('Authorization', token, {
-      //    samesite:'lax', 
-      //   // httpOnly: true
-      //   })
-        json({
+       await res.status(202).json({
          user_id: data[0].user_id,
          user_type: data[0].user_type,
-
          token
        })
        
       })
-       console.log(req.headers)
-       //return res.sendStatus(200)
+       
        }catch(err){
          console.log(err)
-     res.status(400).send(err)
+         res.status(400).send(err)
    }
  });
   
