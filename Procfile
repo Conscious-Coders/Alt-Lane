@@ -1,0 +1,1 @@
+web: api/bin/www.js
