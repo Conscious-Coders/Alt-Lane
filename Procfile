@@ -1,1 +1,1 @@
-web: node app.js
+web: cd api/ && nodemon ./bin/www
