@@ -34,7 +34,6 @@ module.exports = {
       min: 2,
       max: 10
     },
-    ssl: true, 
     migrations: {
       tableName: 'knex_migrations'
     }
