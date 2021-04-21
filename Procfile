@@ -1,1 +1,1 @@
-web: api/bin/www.js
+web: api/app.js
