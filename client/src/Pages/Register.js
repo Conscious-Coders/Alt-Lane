@@ -76,7 +76,7 @@ function Register () {
   const formData = new FormData();
   formData.append('file', photo);
   formData.append('upload_preset', unsignedPreset);
-
+console.log(formData)
   const getAllVals =()=>{
     const values = careerChoice.current.getSelectedItems();
     form.careerField = values[0].id
@@ -84,9 +84,9 @@ function Register () {
   }
   const menteeInterests = ()=>{
     const values = menteeCareer.current.getSelectedItems();
-    console.log("MENTEE", menteeCareer.current.getSelectedItems())
+    //console.log("MENTEE", menteeCareer.current.getSelectedItems())
      values.forEach(val => form.careerFieldInterest.push(val.id))
-    console.log(form.careerFieldInterest)
+    //console.log(form.careerFieldInterest)
   } 
   
 
@@ -129,9 +129,9 @@ function Register () {
       const id = await fetch("http://localhost:9000/users")
      
       const getId = await id.json();
-      console.log(getId)
+      //console.log(getId)
       const current = await getId.data.filter(ele => ele.email === form.email)
-      console.log(current)
+      //console.log(current)
       form.id = current[0].user_id
       setRegistered(true)
     
@@ -150,9 +150,9 @@ function Register () {
         },
         body: JSON.stringify(data)
       })
-      console.log(menteeMentorPost)
+      //console.log(menteeMentorPost)
       await menteeMentorPost.json()
-      console.log(form)
+     // console.log(form)
       if(form.userType === "mentee"){
         const menteeMentorPost = await fetch("http://localhost:9000/mentee_interests",{
           method: 'POST',
@@ -174,7 +174,7 @@ function Register () {
       
   }
   if(registered){
-    console.log(registered)
+    //console.log(registered)
     return(<Redirect to="/login"/>)
   }
 
