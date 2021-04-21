@@ -157,7 +157,7 @@ function Homepage () {
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
           <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
-            <Chat />
+            
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">

@@ -10,6 +10,7 @@ import Settings from './Pages/Settings'
 import FindMentor from './Pages/FindMentor'
 import history from './history'
 import VerifyEmail from './Pages/VerifyEmail'
+import Chat from './Components/Chat/Chat';
 
 export const AuthContext = React.createContext();
 
@@ -51,11 +52,7 @@ function App () {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const [test, setTest] = React.useState({})
 
-  React.useEffect(() => {
-    fetch('http://localhost:9000/testAPI')
-      .then((res) => res.text())
-      .then((res) => setTest({ apiResponse: res }))
-  }, [])
+
 
   return (
     <AuthContext.Provider  value={{state,dispatch}}>
@@ -89,6 +86,9 @@ function App () {
             </Route>
             <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
               <VerifyEmail />
+            </Route>
+            <Route path='/chat'>
+              <Chat token={state.token} />
             </Route>
           </Switch>
         </BrowserRouter>
