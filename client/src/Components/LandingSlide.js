@@ -27,17 +27,11 @@ function LandingSlide(){
   const { length } = slides;
   
   const goToNext = () => {
-    // Check if we've reached the final slide in the array
-    // If so, go back to 0, else curr + 1
     setCurr(curr === length - 1 ? 0 : curr + 1);
   }
   
-  // useEffect will run at every re-render
   React.useEffect(() => {
-    // At every render, set a new timeout to go to the next slide
     setTimeout(goToNext, 10000);
-    // And, when unmounting <Slider />, clear the timeout
-    // See the reactjs.org docs on hooks for more info
     return function() {
       clearTimeout(goToNext);
     }

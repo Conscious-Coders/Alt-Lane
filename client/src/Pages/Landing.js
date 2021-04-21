@@ -60,7 +60,7 @@ return (
         </div>
         <div className="row featurette text-start" style={{ marginBottom: '2%', marginRight: '5%'}}>
         <div className="col-md-5">
-            <img className="img-responsive" src="https://cdn.dribbble.com/users/17473/screenshots/4341605/soqola.png?" alt="student debt" style={{maxHeight: "50vh", display: 'block'}}/>
+            <img className="img-responsive" src="https://cdn.dribbble.com/users/17473/screenshots/4341605/soqola.png" alt="student debt" style={{maxHeight: "50vh", display: 'block'}}/>
           </div>
           <div className="col-md-7 align-self-center">
             <h2 className="featurette-heading">Solution: <span style={{color: "#BA92F3"}}> Alt-Lane</span></h2>
