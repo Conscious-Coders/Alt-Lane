@@ -108,7 +108,6 @@ function Settings () {
 
   return(
     <div>
-
         <LoginNav userType={authState.userType} authToken={authToken}/>
       <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
@@ -147,12 +146,7 @@ function Settings () {
         </div>
     </div>
     </div>
-
-
-          </div>
-          </div>
-          </div>
-        </div>
+</div>
 
       <Footer/>
     </div>
