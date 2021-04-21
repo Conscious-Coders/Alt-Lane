@@ -21,7 +21,7 @@ function LoginedNavBar(){
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log(userType)
+  //console.log(userType)
  
   const logout = () => {
     console.log("this is logout")

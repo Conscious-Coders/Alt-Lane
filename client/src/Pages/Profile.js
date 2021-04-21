@@ -1,10 +1,10 @@
 import React from 'react'
 import { Multiselect } from 'multiselect-react-dropdown';
-//import Form from '../Hooks/Form'
 import Footer from "../Components/Footer"
 import LoginNav from "../Components/LoginedNavBar"
 import { AuthContext } from "../App";
-//import {Redirect, Route} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 
 function Profile (){
@@ -14,32 +14,10 @@ function Profile (){
   const [interest, setMenteeInterests] = React.useState([])
   const [form, setForm] = React.useState({})
   const [editBtn, setEditBtn] = React.useState(true);
+  const [show, setShow] = React.useState(false);//For adding and removing edit photo module from window
+  const formData = new FormData(); //Data from uploadFile function
+  const fileSelect = React.useRef(null);//File user selects from input file in edit photo module
 
-
-  // function handleChange (event) {
-  //   const name = event.target.name
-  //   const value = event.target.value
-
-  //   setForm({
-  //     ...form,
-  //     [name]: value
-  //   })
-  // }
-
-
-  const getAllVals =()=>{
-    //const values = careerChoice.current.getSelectedItems();
-    //form.careerField = values[0].id
-    // values.forEach(val => form.careerFieldInterest.push(val.id))
-    // console.log(form.careerFieldInterest)
-  }
-
-  const menteeInterests = ()=>{
-    //const values = menteeCareer.current.getSelectedItems();
-    //console.log("MENTEE", menteeCareer.current.getSelectedItems())
-     //values.forEach(val => form.careerFieldInterest.push(val.id))
-    //console.log(values)
-  } 
 
   const [careers, setCareers] = React.useState([])
   let selectedValues= []
@@ -94,32 +72,75 @@ function Profile (){
     getMenteeInterests()
   }, [authState.user, authState.userType])
 
+
+
   careers.forEach(career =>{
     if(career.id === form.careerField ){
       selectedValues.push(career)
     }
   })
+
   interest.forEach(interest =>{
     careers.filter(career => {
       if(career.key === interest.name){
-        selectedValues.push(career)
+       selectedValues.push(career)
       }
     })
   })
 
- 
+  //Gets any changed values in career fields form input
+  const getAllVals =()=>{
+    const values = careerChoice.current.getSelectedItems();
+    form.careerField = values[0].id
+    values.forEach(val => form.careerFieldInterest.push(val.id))
+  }
+
+  //Gets any changed values in career fields form input 
+  const menteeInterests = ()=>{
+    const values = menteeCareer.current.getSelectedItems();
+    form.careerFieldInterest = [];
+    values.forEach(val => form.careerFieldInterest.push(val.id))
+  } 
+
+
+  //Fetch that deletes all interests and adds fields in arr
+  const callInterestsRoute = async (arr)=>{
+    try{
+      const response = await fetch('http://localhost:9000/mentee_interests/deleteInterests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authState.token}`
+        },
+        body: JSON.stringify({
+          mentee_id : authState.user,
+          career_field_array : arr
+        }),
+      })
+      return response.json();    
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+  
+
   //Edit button that allows users to edit their profile information
   const btnClick = (event=>{
     if(editBtn===false){
       setEditBtn(true)
 
     }else{
+      //Retreving all interests in careerField
+      if(authState.userType === "mentor") getAllVals()
+      else menteeInterests() 
+       
       setEditBtn(false)
     }
   })
   
 
-  //First submit button
+  //First submit button under First and Last Name fields
   //Checks if fields first name and last name have been changed
   //If so, add the new information to the database
   const submitClick=( async event=>{
@@ -161,17 +182,100 @@ function Profile (){
   })
 
 
+  //Gets file added to input field in edit photo molude 
+  const uploadFile = (event)=>{
+    let photo = event.target.files[0];
+    const unsignedPreset = "lsaabzji";
 
-  //Second submit button
+    formData.append('file', photo);
+    formData.append('upload_preset', unsignedPreset);
+  }
+
+  //Using a PUT fetch request when user tries to update a photo using edit photo module to change photo_url in database
+  async function updatePhoto(photo){
+    try{
+      const response = await fetch('http://localhost:9000/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authState.token}`
+        },
+        body: JSON.stringify({
+          user_id : authState.user,
+          photo_url : photo,
+        }),
+      })
+      return response.json();    
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  
+  //Sending image in input from edit photo module and uploading it to cloudinary
+  //Recieves a url as a result and passes it to function above 
+  async function sendNewPhoto(){
+    setShow(false);
+    try{   
+      const response = await fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
+        method: 'POST',
+        body: formData
+    })
+    const result = await response.json()
+    updatePhoto(result.secure_url)
+    }
+    catch(err){console.log(err)}
+  }
+
+
+  //Handles edit profile picture button and module that shows in window on click
+  //Module handles picture upload to cloudinary when user clicks submit using function above
+  function PhotoChange() {
+    const handleClose = () => setShow(false); 
+    const handleShow = () => setShow(true);
+  
+    return (
+      <>
+        <Button variant="primary" onClick={handleShow}>
+          Edit Profile Picture
+        </Button>
+  
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header >
+            <Modal.Title>Please upload a photo</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
+            </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={sendNewPhoto}>
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+
+  //Second submit button on the bottom of the form
   //Checks if fields bio, company and linkedin url have been changed
   //If so, add the new information to the database
   const submitClickPart2=( async event=>{
-    
+    setEditBtn(true)
     let changedMentor = false;
     let changedMentee = false;
 
-      //If the user Logged in is a mentor
+    //If the user Logged in is a mentor
     if(authState.userType === "mentor"){
+      const mentorValue = careerChoice.current.getSelectedItems();
+      var careerField = mentorValue;
+      mentorValue.forEach(val => careerField.push(val.id))
+
       if(document.getElementById('company').value !== form.company && document.getElementById('company').value !== ''){
         var comp = document.getElementById('company').value
         changedMentor = true;
@@ -185,73 +289,88 @@ function Profile (){
      if(document.getElementById('bio').value !== form.bio && document.getElementById('bio').value !== ''){
           var mbio = document.getElementById('bio').value
           changedMentor = true;
-        }
+      }
       
+      if(form.careerFieldInterest !== careerField){
+        var field = careerField[0].id
+        changedMentor = true;
+      }   
 
       //If a mentor changes any information
-     if(changedMentor === true){
-      try{
-        const response = await fetch('http://localhost:9000/mentors', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authState.token}`
-          },
-          body: JSON.stringify({
-            mentor_id : authState.user,
-            bio : mbio,
-            company : comp,
-            linkedin_url: linked
-          }),
-        })
-        return response.json();    
+      if(changedMentor === true){
+        try{
+          const response = await fetch('http://localhost:9000/mentors', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authState.token}`
+            },
+            body: JSON.stringify({
+              mentor_id : authState.user,
+              bio : mbio,
+              career_field_id : field, 
+              company : comp,
+              linkedin_url: linked
+            }),
+          })
+          return response.json();    
+        }
+        catch(err){
+          console.log(err)
+        }
       }
-      catch(err){
-        console.log(err)
-      }
-     }
 
     //If the user Logged in is a mentee
     }else if(authState.userType === "mentee"){
-      if(document.getElementById('parentName').value !== form.parentName && document.getElementById('parentName').value !== ''){
-         var pName = document.getElementById('parentName').value
-         changedMentee = true;
-        }
-      if(document.getElementById('parentEmail').value !== form.parentEmail && document.getElementById('parentEmail').value !== ''){
-         var pEmail = document.getElementById('parentEmail').value
-         changedMentee = true;
-        }  
+      const menteeValues = menteeCareer.current.getSelectedItems();
+      var careerFields = [];
+      menteeValues.forEach(val => careerFields.push(val.id))
 
+      if(document.getElementById('parentName').value !== form.parentName && document.getElementById('parentName').value !== ''){
+        var pName = document.getElementById('parentName').value
+        changedMentee = true;
+      }
+
+      if(document.getElementById('parentEmail').value !== form.parentEmail && document.getElementById('parentEmail').value !== ''){
+        var pEmail = document.getElementById('parentEmail').value
+        changedMentee = true;
+      }
+          
+      if(form.careerFieldInterest !== careerFields){
+        callInterestsRoute(careerFields)
+      }  
+
+    
       //If a mentee changes any information
-     if(changedMentee === true){
-      try{
-        const response = await fetch('http://localhost:9000/mentees', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authState.token}`
-          },
-          body: JSON.stringify({
-            mentee_id : authState.user,
-            parent_name : pName,
-            parent_email : pEmail
-          }),
-        })
-        return response.json();    
+      if(changedMentee === true){
+        try{
+          const response = await fetch('http://localhost:9000/mentees', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authState.token}`
+            },
+            body: JSON.stringify({
+              mentee_id : authState.user,
+              parent_name : pName,
+              parent_email : pEmail
+            }),
+          })
+          return response.json();    
+        }
+        catch(err){
+          console.log(err)
+        }
       }
-      catch(err){
-        console.log(err)
-      }
-     }
+
     }else{
       alert("Wait....How did you get here???");
     }
-    setEditBtn(true)
   })
 
   return(
     <div>
-    <LoginNav/>
+    <LoginNav/>  
     {authState.userType === "mentor"? (
     <div>
        <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
@@ -259,7 +378,7 @@ function Profile (){
        <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
          <div className=" col-2" > 
            <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px' }} alt=""/>
-           <button className="btn btn-dark">edit profile picture</button>
+           <PhotoChange />
          </div>
          <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
            <div className='card-body'>
@@ -274,7 +393,7 @@ function Profile (){
                  <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
                  <div className='col-sm-10'>
                  {editBtn === true? 
-                    (<input type='text' className='form-control' value={form.firstName} name='firstName' readonly="readonly"/>)
+                    (<input type='text' className='form-control' value={form.firstName} name='firstName' readOnly="readOnly"/>)
                    :(<input type='text' className='form-control' placeholder={form.firstName} id='firstName' name='firstName'/>)}
                  </div>
                </div>
@@ -282,7 +401,7 @@ function Profile (){
                  <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
                  <div className='col-sm-10'>
                  {editBtn === true? 
-                    (<input type='text' className='form-control' value={form.lastName} name='lastName' readonly="readonly"/>)
+                    (<input type='text' className='form-control' value={form.lastName} name='lastName' readOnly="readOnly"/>)
                    :(<input type='text' className='form-control' placeholder={form.lastName} id='lastName' name='lastName'/>)}
                  </div>
                </div>
@@ -351,7 +470,7 @@ function Profile (){
     <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
       <div className=" col-2" > 
         <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px' }} alt=""/>
-        <button className="btn btn-dark">edit profile picture</button>
+        <PhotoChange />
       </div>
       <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
         <div className='card-body'>
@@ -366,7 +485,7 @@ function Profile (){
               <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
               <div className='col-sm-10'>
               {editBtn === true? 
-                (<input type='text' className='form-control' value={form.firstName} name='firstName' readonly="readonly"/>)
+                (<input type='text' className='form-control' value={form.firstName} name='firstName' readOnly="readOnly"/>)
                 :(<input type='text' className='form-control' placeholder={form.firstName} id='firstName' name='firstName'/>)}
               </div>
             </div>
@@ -374,7 +493,7 @@ function Profile (){
               <label htmlFor='lastName' className='col-sm-2 col-form-label'>Last Name</label>
               <div className='col-sm-10'>
               {editBtn === true? 
-                (<input type='text' className='form-control' value={form.lastName} name='lastName' readonly="readonly"/>)
+                (<input type='text' className='form-control' value={form.lastName} name='lastName' readOnly="readOnly"/>)
                 :(<input type='text' className='form-control' placeholder={form.lastName} id='lastName' name='lastName' />)}
               </div>
             </div>
@@ -388,7 +507,7 @@ function Profile (){
               <label htmlFor='parentName' className='col-sm-2 col-form-label'>Parent Name</label>
               <div className='col-sm-10'>
               {editBtn === true? 
-                (<input type='text' className='form-control' value={form.parentName} name='parentName' disabled/>)
+                (<input type='text' className='form-control' value={form.parentName} name='parentName' readOnly="readOnly"/>)
                 :(<input type='text' className='form-control' placeholder={form.parentName} id='parentName' name='parentName'/>)}
               </div>
             </div>
@@ -396,7 +515,7 @@ function Profile (){
               <label htmlFor='parentEmail' className='col-sm-2 col-form-label'>Parent Email</label>
               <div className='col-sm-10'>
               {editBtn === true? 
-                (<input type='text' className='form-control' value={form.parentEmail} name='parentEmail' readonly="readonly"/>)
+                (<input type='text' className='form-control' value={form.parentEmail} name='parentEmail' readOnly="readOnly"/>)
                :( <input type='text' className='form-control' placeholder={form.parentEmail} id='parentEmail' name='parentEmail' />)}
               </div>
             </div>
@@ -405,7 +524,7 @@ function Profile (){
               <div className='col-sm-10'>
                 <Multiselect
                 ref = {menteeCareer}
-                onChange ={getAllVals()}
+                onChange ={menteeInterests}
                 options={careers}
                 disablePreSelectedValues={editBtn}
                 selectedValues={selectedValues}

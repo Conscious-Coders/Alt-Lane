@@ -1,12 +1,12 @@
 import React from 'react'
 
 function MentorCard(props) {
+
   const handleClick = (event=>{
     const connectMentorship = async (currentMentor, currentMentee)=>{
       try{
       await fetch("http://localhost:9000/mentorship",{
         method: 'POST',
-        //credentials : 'include',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',

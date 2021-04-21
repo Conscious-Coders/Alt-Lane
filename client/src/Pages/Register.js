@@ -77,7 +77,7 @@ function Register () {
   //get the values for mentee interests as an array of ids
   const menteeInterests = ()=>{
     const values = menteeCareer.current.getSelectedItems();
-    values.forEach(val => form.careerFieldInterest.push(val.id))
+     values.forEach(val => form.careerFieldInterest.push(val.id))
   } 
   
   const handleSubmit= async (e )=>{
@@ -119,6 +119,7 @@ function Register () {
       const id = await fetch("http://localhost:9000/users")
       const getId = await id.json();
       const current = await getId.data.filter(ele => ele.email === form.email)
+
       form.id = current[0].user_id
       setRegistered(true)
     
