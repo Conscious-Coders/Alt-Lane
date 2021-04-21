@@ -23,7 +23,7 @@ const reducer = (state, action) => {
     case "LOGIN":
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       localStorage.setItem("token", JSON.stringify(action.payload.token));
-      console.log("this is the payload",action.payload)
+      //console.log("this is the payload",action.payload)
       return {
         ...state,
         isAuthenticated: true,
@@ -72,7 +72,7 @@ function App () {
               {!state.isAuthenticated ? <Login /> : 
                <Homepage/>
               }
-              {console.log(state.userType)}
+              {/* {console.log(state.userType)} */}
             </Route>
 
             <Route path='/homepage'>
