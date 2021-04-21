@@ -7,9 +7,7 @@ const addUser = ({ id, name, room }) => {
     room = room.trim().toLowerCase();
     // const existingUser = users.find((user) => user.room === room && user.name === name);
 
-    if(existingUser) {
-        return {error: 'Username is taken'}
-    }
+   
     const user = { id, name, room}
 
     // users.push(user);
@@ -62,4 +60,4 @@ const getMentorship = async (user) => {
 }
 
 
-module.exports = {getUserById, getMentorship}
+module.exports = {getUserById, getMentorship, addUser}
