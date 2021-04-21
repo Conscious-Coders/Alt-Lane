@@ -5,7 +5,6 @@ const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:9000";
 
 const useChat = (roomId) => {
-  console.log(roomId)
   const [messages, setMessages] = React.useState([]); // Sent and received messages
   const socketRef = React.useRef();
 

@@ -164,7 +164,6 @@ function Homepage () {
                  {homeInfo.map((mentor, index ) => (
                   
                   <div className= "row d-flex justify-content-center" key={index}>
-                    {console.log(mentor)}
                     <HomeCard name={mentor.name} photo={mentor.photoUrl} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
@@ -176,7 +175,6 @@ function Homepage () {
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentee, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
-                    {console.log(mentee)}
                     <HomeCard name={mentee.name} photo={mentee.photoUrl} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
                   </div>
                 ))}

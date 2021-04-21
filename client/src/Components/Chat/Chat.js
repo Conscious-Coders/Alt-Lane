@@ -13,9 +13,7 @@ import useChat from "../useChat";
 // let socket;
 
 const Chat = (props, {token}) => {
-     console.log(props.match.params)
     const roomId = props.match.params.roomId; //get the roomid from url
-    console.log(roomId, "room id??")
     const { messages, sendMessage } = useChat(roomId); // Creates a websocket and manages messaging
     const [newMessage, setNewMessage] = React.useState(""); 
     if(!props.token) {
