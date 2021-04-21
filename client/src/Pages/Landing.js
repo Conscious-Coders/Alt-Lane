@@ -40,80 +40,66 @@ function Landing () {
   }
     
 return (
-    // https://www.webprofits.com.au/
-  <div >
+  <div>
     <LandingNavBar />
+    <div>
+      <LandingSlide />
+    </div>
 
-    <div className="container py-4">
-        <div className="p-5 mb-4 bg-light rounded-3">
-          <div className="container-fluid py-5">
-            <h1 className="display-5 fw-bold">Alt-Lane</h1>
-
-            <p>Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
-
-            <p>Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle ßit to your liking.</p>
-
+      <div className="marketing" style={{margin: '0 5%', maxWidth: '100%'}}>
+        <div className="row featurette text-start" style={{marginTop: '5%', marginLeft: '5%'}}>
+          <div className="col-md-7 align-self-center">
+                <h2 className="featurette-heading">Problem: 
+                  <span style={{color: "#BA92F3"}}> The average debt of a college graudates in the united states is $29,900.</span>
+                </h2>
+                <p style={{paddingTop: '1%'}} className="lead">Highschool students are going into college unsure about their future and unaware of alternative careers opportunities. Due to the lack of information on posssible paths students are forced to pay for unused degrees or forced persue careers they are not passionate about.</p>
           </div>
-
-      <div>
-      <div >
-          <LandingSlide />
-        </div>
-        <div className="container marketing">
-          <div className="row featurette text-start" style={{marginTop: '5%'}}>
-            <div className="col-md-7 align-self-center">
-                  <h2 className="featurette-heading">Problem: 
-                    <span style={{color: "#BA92F3"}}> The average debt of a college graudates in the united states is $29,900.</span>
-                  </h2>
-                  <p style={{paddingTop: '1%'}} className="lead">Highschool students are going into college unsure about their future and unaware of alternative careers opportunities. Due to the lack of information on posssible paths students are forced to pay for unused degrees or forced persue careers they are not passionate about.</p>
-            </div>
-            <div className="col-md-5">
-              <img className="img-responsive" src="https://www.insidehighered.com/sites/default/server_files/media/iStock-1156003227.jpg" alt="student debt" style={{maxHeight: "50vh", margin: 'auto', display: 'block'}}/>
-            </div>
-          </div>
-          {/* <hr className="featurette-divider"/> */}
-          <div className="row featurette text-start" style={{marginTop: '5%', marginBottom: '5%'}}>
           <div className="col-md-5">
-              <img className="img-responsive" src="https://cdn.dribbble.com/users/17473/screenshots/4341605/soqola.png?" alt="student debt" style={{maxHeight: "50vh", margin: 'auto', display: 'block'}}/>
-            </div>
-            <div className="col-md-7 align-self-center">
-              <h2 className="featurette-heading">Solution: <span style={{color: "#BA92F3"}}> Alt-Lane</span></h2>
-              <p style={{paddingTop: '1%'}} className="lead">Alt-Lane brings information about career opportunities to high school students. Students will be exposed to alternative careers paths in their chosen fields by connecting with industry professionals and gain meaningful insight. Access to mentors from various fields will help guide their journey to finding their passion!</p>
-            </div>
+            <img className="img-responsive" src="https://www.insidehighered.com/sites/default/server_files/media/iStock-1156003227.jpg" alt="student debt" style={{maxHeight: "50vh", margin: 'auto', display: 'block'}}/>
           </div>
+        </div>
+        <div className="row featurette text-start" style={{ marginBottom: '2%', marginRight: '5%'}}>
+        <div className="col-md-5">
+            <img className="img-responsive" src="https://cdn.dribbble.com/users/17473/screenshots/4341605/soqola.png?" alt="student debt" style={{maxHeight: "50vh", display: 'block'}}/>
+          </div>
+          <div className="col-md-7 align-self-center">
+            <h2 className="featurette-heading">Solution: <span style={{color: "#BA92F3"}}> Alt-Lane</span></h2>
+            <p style={{paddingTop: '1%'}} className="lead">Alt-Lane brings information about career opportunities to high school students. Students will be exposed to alternative careers paths in their chosen fields by connecting with industry professionals and gain meaningful insight. Access to mentors from various fields will help guide their journey to finding their passion!</p>
+          </div>
+        </div>
+        <hr className="featurette-divider" />
+      </div>
 
-          <hr className="featurette-divider"/>
+
+      <div className="" style={{padding: "2% 0", maxWidth: '100%'}} >
+        <div>
+          <h2 className="text-start" style={{padding: "1% 5%"}}>Meet The Team</h2>
         </div>
-        <div style={{padding: "3% 0"}}  className="container">
-          <div>
-            <h2 className="text-start" style={{padding: "2% 0"}}>Meet The Team</h2>
+        <div className="row row-cols-4"  style={{padding: "0% 5%", maxWidth:'100%'}}>
+          <div className="col">
+            <div className="p-3">
+              <InfoCard info={team.shruti}/>
+            </div>
           </div>
-          <div className="row row-cols-4">
-            <div className="col">
-              <div className="p-3">
-                <InfoCard info={team.shruti}/>
-              </div>
+          <div className="col">
+            <div className="p-3">
+              <InfoCard info={team.tracey}/>
             </div>
-            <div className="col">
-              <div className="p-3">
-                <InfoCard info={team.tracey}/>
-              </div>
+          </div>
+          <div className="col">
+            <div className="p-3">
+              <InfoCard info={team.joli}/>
             </div>
-            <div className="col">
-              <div className="p-3">
-                <InfoCard info={team.joli}/>
-              </div>
-            </div>
-            <div className="col">
-              <div className="p-3">
-                <InfoCard info={team.dillen}/>
-              </div>
+          </div>
+          <div className="col">
+            <div className="p-3">
+              <InfoCard info={team.dillen}/>
             </div>
           </div>
         </div>
-        </div>
-    <Footer/>
-  </div>
+      </div>
+  <Footer/>
+</div>
 )
 
 }
