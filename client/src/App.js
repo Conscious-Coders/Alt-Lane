@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom'
+import { BrowserRouter, Switch, Route} from 'react-router-dom'
 import React from 'react'
 import './App.css'
 import Register from './Pages/Register'
@@ -50,10 +50,6 @@ const reducer = (state, action) => {
 function App () {
   // Have state here later
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [test, setTest] = React.useState({})
-
-
-
   return (
     <AuthContext.Provider  value={{state,dispatch}}>
       <div className='App'>
@@ -69,7 +65,6 @@ function App () {
               {!state.isAuthenticated ? <Login /> : 
                <Homepage/>
               }
-              {/* {console.log(state.userType)} */}
             </Route>
 
             <Route path='/homepage'>
@@ -91,10 +86,7 @@ function App () {
             path="/:roomId"
             render={(props) => <Chat {...props} token={state.token} userId={state.user} />}
           />
-            {/* <Route path='/:roomId'>
-              
-              <Chat token={state.token} userId={state.user}/>
-            </Route> */}
+          
           </Switch>
         </BrowserRouter>
       </div>
