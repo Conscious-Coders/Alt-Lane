@@ -8,7 +8,11 @@ import Messages from '../Messages/Messages';
 // import TextContainer from '../TextContainer/TextContainer'
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({ token }) => {
+    if(!token) {
+        throw new Error(`no token provided`)
+    }
+
     const [name, setName] = useState('');//{currentLoggedInUser}
     const [room, setRoom] = useState('');//`message plus ${userfromclickedcard}`
     const [message, setMessage] = useState('');
@@ -19,10 +23,15 @@ const Chat = ({ location }) => {
         //const {name, room} = queryString.parse(location.search);
         socket = io(ENDPOINT,{
             withCredentials: true,
+            extraHeaders: {
+               Authorization: `Bearer ${token}`
+            }
         });
         // setName(name);
         // setRoom(room);
-
+        socket.emit('connection', (socket)=>{
+            console.log('connected')
+        })
         console.log(socket);
         socket.emit('join', {name, room}, () => {
             
@@ -58,12 +67,12 @@ const Chat = ({ location }) => {
     console.log(message, messages);
     return (
         <div className="outerContainer">
-            <div className="container">
+            <div className="innerChatContainer">
                 <InfoBar room={room}/>
                 <Messages messages={messages} name={name}/>
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
             </div>
-            {/* <TextContainer users={users}/> */}
+            
         </div>
        
     )

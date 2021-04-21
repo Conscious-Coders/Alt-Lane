@@ -104,6 +104,8 @@ return (
         </div>
     <Footer/>
   </div>
+  </div>
+  </div>
 )
 
 }
