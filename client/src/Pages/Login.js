@@ -30,9 +30,7 @@ function Login () {
     });
   }
 
-  // send token, id and usertype 
   const [token, setToken] = useState(null);
-
   const handleSubmit = async e => {
     e.preventDefault();
     setForm({

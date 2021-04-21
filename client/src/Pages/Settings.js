@@ -40,7 +40,6 @@ function Settings () {
      
   }
     getUserInfo();   
-  
   },[userId])
 
 
@@ -71,7 +70,6 @@ function Settings () {
   }
 
   async function updateUserInfo() {
-    console.log("line 75 this is the update fetch function")
     const response = await (fetch('http://localhost:9000/users', {
       method: 'PUT',
       headers: {
