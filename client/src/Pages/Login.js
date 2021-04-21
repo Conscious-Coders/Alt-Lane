@@ -30,9 +30,7 @@ function Login () {
     });
   }
 
-  // send token, id and usertype 
   const [token, setToken] = useState(null);
-
   const handleSubmit = async e => {
     e.preventDefault();
     setForm({
@@ -41,9 +39,8 @@ function Login () {
       errorMessage: null
     });
     try{
-      const result = await fetch('http://localhost:9000/users/login', {
+      await fetch('http://localhost:9000/users/login', {
         method: 'POST',
-        //withCredentials: 'true', 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

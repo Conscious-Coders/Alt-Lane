@@ -40,7 +40,6 @@ function Settings () {
      
   }
     getUserInfo();   
-  
   },[userId])
 
 
@@ -71,7 +70,6 @@ function Settings () {
   }
 
   async function updateUserInfo() {
-    console.log("line 75 this is the update fetch function")
     const response = await (fetch('http://localhost:9000/users', {
       method: 'PUT',
       headers: {
@@ -110,10 +108,11 @@ function Settings () {
 
   return(
     <div>
+
         <LoginNav userType={authState.userType} authToken={authToken}/>
       <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
      
-    <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
+      <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
     
       <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
         <div className='card-body'>
@@ -145,11 +144,16 @@ function Settings () {
                      Submit
                 </button>
           </form>
+        </div>
+    </div>
+    </div>
+
 
           </div>
           </div>
           </div>
         </div>
+
       <Footer/>
     </div>
   )
