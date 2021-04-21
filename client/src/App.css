@@ -37,12 +37,12 @@
   }
 }
 
-.slider {
+.landingSlide {
   position: relative;
   height: 90vh;
 }
 
-.slide {
+.landingSlider {
   position: absolute;
   top: 0;
   left: 0;
@@ -55,17 +55,17 @@
   transition: .3s ease;
 }
 
-.slide h1, .slide h2 {
+.landingSlider  h1, .landingSlider h2 {
   color:rgb(255, 255, 255);
   text-shadow: 2px 2px 1px rgb(0, 0, 0);
 }
 
-.slide.active {
+.landingSlider.activeSlide {
   opacity: 1;
   transition-duration: .2s;
 }
 
-.image {
+.landingImage {
   position: absolute;
   top: 0;
   left: 0;
@@ -75,6 +75,6 @@
   z-index: -1;
 }
 
-.sliderText {
+.landingSliderText {
   padding: 10% 20%
 }

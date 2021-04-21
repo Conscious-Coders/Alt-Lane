@@ -49,19 +49,19 @@ function LandingSlide(){
 
   return (
     <div>
-      <section className="slider">
+      <section className="landingSlide">
       {slides.map((s, i) => (
         <div
-          className={i === curr ? "slide active" : "slide"}
+          className={i === curr ? "landingSlider activeSlide" : "landingSlider"}
           key={s.title}
           aria-hidden={i !== curr}
         >
-          <div className="sliderText">
+          <div className="landingSliderText">
             <h1>{s.title}</h1>
             <h2>{s.subtitle}</h2>
           </div>
           {i === curr && (
-            <img className="image" src={s.image} alt={s.alt}/>
+            <img className="landingImage" src={s.image} alt={s.alt}/>
           )}
         </div>
       ))}
