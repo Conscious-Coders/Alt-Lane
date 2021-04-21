@@ -149,7 +149,11 @@ function Settings () {
     </div>
 
 
-      </div>
+          </div>
+          </div>
+          </div>
+        </div>
+
       <Footer/>
     </div>
   )

@@ -4,8 +4,9 @@ import HomeCard from '../Components/HomeCard'
 import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
-
 import Chat from '../Components/Chat/Chat'
+
+
 
 function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
