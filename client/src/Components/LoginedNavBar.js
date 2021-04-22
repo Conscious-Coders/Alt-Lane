@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import { AuthContext } from "../App";
 
@@ -21,16 +21,12 @@ function LoginedNavBar(){
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  //console.log(userType)
- 
   const logout = () => {
-    console.log("this is logout")
     localStorage.clear();
     setLogOut(true)
   }
 
   if(isLoggedOut) {
-    console.log("inside if statement")
     dispatch({
       type: "LOGOUT"
     })

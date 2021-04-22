@@ -1,4 +1,4 @@
-import React, {useEffect, useState }from 'react'
+import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
 import {Redirect, Route, Link} from 'react-router-dom';
@@ -6,8 +6,6 @@ import history from '../history'
 import { render } from 'react-dom';
 import { AuthContext } from "../App";
 import ForgotPassword from "../Pages/ForgotPassword"
-
-// must deleted exscries in one hour - backend needs to send message delete 
 
 
 function Login () {
@@ -37,12 +35,13 @@ function Login () {
       errorMessage: null
     });
     try{
-      await fetch('http://localhost:9000/users/login', {
+      await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
+        withCredentials: true,
         body: JSON.stringify({
           email: form.email,
           password: form.password,
@@ -69,6 +68,8 @@ function Login () {
     if(token) {
       return <Redirect to='/homepage'/>
     }
+
+    console.log(FETCH_URL,"Login line 71")
 
   return (
     <div>

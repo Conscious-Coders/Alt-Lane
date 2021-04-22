@@ -26,11 +26,11 @@ function Profile (){
     async function fetchCareers(){
       const fields = await fetch("http://localhost:9000/careers")
       const allCareers = await fields.json();
-      let careers =[];
+      let careersList =[];
       allCareers.data.forEach(field =>{
-        careers.push({key: field.name, id: field.id})
+        careersList.push({key: field.name, id: field.id})
       })
-      setCareers(careers)
+      setCareers(careersList)
     } 
     fetchCareers();
 
@@ -70,7 +70,7 @@ function Profile (){
       setMenteeInterests(result.data)
     }
     getMenteeInterests()
-  }, [authState.user, authState.userType])
+  }, [authState.user, authState.userType, authState.token])
 
 
 
@@ -80,9 +80,9 @@ function Profile (){
     }
   })
 
-  interest.forEach(interest =>{
-    careers.filter(career => {
-      if(career.key === interest.name){
+  interest.forEach(interestEle =>{
+    careers.forEach(career => {
+      if(career.key === interestEle.name){
        selectedValues.push(career)
       }
     })
