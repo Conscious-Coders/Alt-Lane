@@ -15,3 +15,33 @@
   height: 60%;
   width: 35%;
 }
+
+.sendButton {
+  color: #fff !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: linear-gradient(345deg, #A0AAE7 40%, #BA92F3 90%) ;
+  padding: 20px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+}
+
+.formChat {
+  display: flex;
+  border-top: 2px solid #d3d3d3;
+}
+
+.inputChat {
+  border: none;
+  border-radius: 0;
+  padding: 5%;
+  width: 80%;
+  font-size: 1.2em;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
