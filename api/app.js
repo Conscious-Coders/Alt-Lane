@@ -28,7 +28,9 @@ require('socket.io')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
-app.use(cors({origin: 'http://localhost:3000', credentials: true, methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}))
+
+console.log("change later for development/production")
+app.use(cors({origin: 'https://awesome-hodgkin-25adb2.netlify.app/', credentials: true, methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}))
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
