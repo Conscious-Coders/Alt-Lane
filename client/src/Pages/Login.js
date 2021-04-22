@@ -31,7 +31,7 @@ function Login () {
       errorMessage: null
     });
     try{
-      await fetch('http://localhost:9000/users/login', {
+      await fetch('/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
