@@ -30,7 +30,7 @@ app.set('view engine', 'jade')
 
 
 console.log("change later for development/production")
-app.use(cors({origin: 'https://awesome-hodgkin-25adb2.netlify.app/', credentials: true, methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}))
+app.use(cors({origin: 'https://awesome-hodgkin-25adb2.netlify.app/', credentials: true, methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']}))
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
