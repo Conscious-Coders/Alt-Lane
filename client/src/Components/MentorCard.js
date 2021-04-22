@@ -27,9 +27,9 @@ function MentorCard(props) {
 
   return (
     <div className="d-flex justify-content-center">
-      <div className="card" style={{ width: '22rem', background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
+      <div className="card" style={{ width: '22rem', background:"linear-gradient(45deg, #A0AAE7 20%, #BA92F3 90%)"}}>
         <div className="text-center" style={{paddingTop:"20px"}}>
-          <img className="rounded-circle z-depth-2" style={{ width: '10rem'}} src= {props.photo} alt="profile img"/>
+          <img className="rounded-circle z-depth-2" style={{ width: '8rem', height: '8rem'}} src= {props.photo} alt="profile img"/>
          </div>
          <div className="card-bod " style={{padding:"20px"}}>
           <h2 className="card-title fw-normal" style={{ color: 'white'}}>{props.name}</h2>
