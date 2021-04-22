@@ -33,7 +33,7 @@ function Login () {
       errorMessage: null
     });
     try{
-      await fetch(`${FETCH_URL}users/login`, {
+      await fetch(`https://alt-lane.herokuapp.com/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
