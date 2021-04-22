@@ -152,10 +152,14 @@ function Homepage () {
     })
   } 
   return (
+
+    /*
+    <div className="container" style={{ marginTop:"5%", height: "50vh", marginBottom:"10%"}}>
+     */
     <div >
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
-          <div style={{paddingTop: '5%'}}>
+          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%"}}>
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
