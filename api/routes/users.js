@@ -48,6 +48,7 @@ router.post('/login', async function (req, res) {
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users')
+    console.log('line 51');
     return response.json({
       data: data
     })
