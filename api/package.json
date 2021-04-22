@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
+    "prestart": "knex migrate:latest", 
     "start": "node ./bin/www"
   },
   "dependencies": {

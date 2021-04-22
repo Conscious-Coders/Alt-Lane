@@ -5,13 +5,20 @@ const knexfile = require('./knexfile')
 const pg = require('pg-promise')()
 require('dotenv').config()
 
+// const connection = process.env.DATABASE_URL || knexfile.developement.connection
 
-const db = pg({
-  "host": process.env.DB_HOST,
-  "port": 5432,
-  "database": "alt_lane",
-  "user": process.env.DB_USER,
-  "password": process.env.DB_PASS,
-})
+const environment = process.env.NODE_ENV || 'development';
+const config = require('../../../knexfile')[environment];
+console.log('config: ', config);
+
+// const db = pg({
+//   "host": process.env.DB_HOST,
+//   "port": 5432,
+//   "database": "alt_lane",
+//   "user": process.env.DB_USER,
+//   "password": process.env.DB_PASS,
+// })
+
+const db = rrequire('knex')(config)
 
 module.exports = db;
