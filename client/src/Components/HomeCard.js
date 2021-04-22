@@ -22,9 +22,6 @@ function HomeCard(props) {
       mentor_id: props.mentorshipId
     }
   }
-  React.useEffect(()=>{
-   
-  }, [props.mentorshipId, props.userId, props.userType])
 
   const removeMentorship = async ()=>{
     await fetch('http://localhost:9000/mentorship', {
