@@ -8,7 +8,7 @@ require('dotenv').config()
 // const connection = process.env.DATABASE_URL || knexfile.developement.connection
 
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
+const config = require('./knexfile.js')[environment];
 console.log('config: ', config);
 
 // const db = pg({
@@ -19,6 +19,6 @@ console.log('config: ', config);
 //   "password": process.env.DB_PASS,
 // })
 
-const db = rrequire('knex')(config)
+const db = require('knex')(config)
 
 module.exports = db;
