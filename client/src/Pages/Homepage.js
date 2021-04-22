@@ -27,18 +27,18 @@ function Homepage () {
       result.data.forEach(user => {
         if(authState.userType === "mentor"){
             if(user.mentor_id === authState.user){
-              relationship.push({user: user.mentee_id})
+              relationship.push({user: user.mentee_id,status:user.status})
             }
         }else {
           if(user.mentee_id === authState.user){
-            relationship.push({user: user.mentor_id})
+            relationship.push({user: user.mentor_id, status:user.status})
           }
         }
       })
       setData(relationship)
     }
     getMentorship()
-
+    
     async function getMenteeInterests(){
       const res = await fetch('http://localhost:9000/mentee_interests',{ 
         headers:{
@@ -64,7 +64,7 @@ function Homepage () {
     getCareers()
 
   },[authState.token, authState.user, authState.userType])
-
+ 
   // for each mentor a mentee has get their first and last name , bio, position 
   // or for each mentee get a mentor gets their first and last name and all of their interests 
   React.useEffect(()=>{
@@ -96,6 +96,7 @@ function Homepage () {
           if(user.user_id === id.user){
             info.push({
               id: user.user_id,
+              status: id.status,
               name: user.first_name + " " + user.last_name,
               firsName: user.first_name,
               lastName: user.last_name,
@@ -150,12 +151,11 @@ function Homepage () {
       })
     })
   } 
-  
   return (
     <div >
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
-          <div style={{paddingTop: '5%', width: "100vw",height: "100vh"}}>
+          <div style={{paddingTop: '5%'}}>
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
@@ -164,7 +164,7 @@ function Homepage () {
                  {homeInfo.map((mentor, index ) => (
                   
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard name={mentor.name} photo={mentor.photoUrl} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
+                    <HomeCard token={authState.token} name={mentor.name} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
                 </div>
@@ -175,7 +175,7 @@ function Homepage () {
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentee, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard name={mentee.name} photo={mentee.photoUrl} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
+                    <HomeCard token={authState.token} name={mentee.name} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
                   </div>
                 ))}
                 </div>
