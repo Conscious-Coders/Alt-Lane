@@ -22,7 +22,7 @@ function HomeCard(props) {
       mentor_id: props.mentorshipId
     }
   }
-
+  
   const removeMentorship = async ()=>{
     await fetch('http://localhost:9000/mentorship', {
       method: 'DELETE',
