@@ -19,7 +19,6 @@ function sendEmail(email) {
             console.log('error in sending mail', err)
             throw err;
         }
-            
         console.log('Email successfully sent!',info)
     })
 }

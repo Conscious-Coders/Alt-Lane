@@ -101,9 +101,9 @@ router.post('/', verifyToken, async function (request, response) {
     const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'http://whateveryourfrontndurlis.com' : 'http://localhost:3000'
 
     const emailData = {
-      to: parentEmail.parent_email, // mentee parent email,
+      to: parentEmail.parent_email, 
       from: process.env.EMAIL,
-      subject: "Please verify your child's account", // cahnge to whatever
+      subject: "Please verify your child's account", 
       text: `Your child chose the following mentor: 
          Name:  ${firstName} ${lastName}
          Photo: ${photo}
@@ -111,9 +111,11 @@ router.post('/', verifyToken, async function (request, response) {
          Current Company: ${company}
          Linkedin: ${linkedInProfile}
          Specialization: ${careerField}
-      Please copy and paste this url into your browser to verify you child's account ${emailLinkUrl}/verify-emailToken/${mentee}/${mentor}/${emailToken}`
+      Please copy and paste this url into your browser to verify you child's account:
+      ${emailLinkUrl}/verify-emailToken/${mentee}/${mentor}/${emailToken}`
     }
     sendEmail(emailData)
+
     return response.sendStatus(200)
   } catch (err) {
     console.log(err)
@@ -121,24 +123,7 @@ router.post('/', verifyToken, async function (request, response) {
       message: err.message
     })
   }
-    // jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //   if(err){
-    //     console.log(err)
-    //     response.sendStatus(403)
-    //   } 
-    //   else if(authData.data[0].user_id !== mentee){
-    //     response.sendStatus(500)
-    //     console.log('not working')
-    //   }else {
-    //     try {
-    //     await db.none(`INSERT INTO mentorship (mentor_id, mentee_id, status, temp_token) VALUES (${mentor}, ${mentee}, 'pending', '${emailToken}')`)
-    //     return response.sendStatus(200)
-    //   } catch (err) {
-    //     console.log(err)
-    //     response.status(404).send(err)
-    //   }
-    // }
-  //})
+
 })
 
 
@@ -159,15 +144,6 @@ router.put('/', verifyToken, async function (request, response) {
 router.patch('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-
-    jwt.verify(request.token, 'secretKey', async (err, authData) => {
-      if(err){
-        response.sendStatus(403)
-      } 
-      else if(authData.data[0].user_id !== mentee){
-        response.sendStatus(500)
-        console.log('not working')
-      }else {
         try {
 
         await db.none(`UPDATE mentorship SET status='active', temp_token=null WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
@@ -176,24 +152,14 @@ router.patch('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
+
 
 
 
 router.delete('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-
-    jwt.verify(request.token, 'secretKey', async (err, authData) => {
-      if(err){
-        response.sendStatus(403)
-      } 
-      else if(authData.data[0].user_id !== mentee){
-        response.sendStatus(500)
-        console.log('not working')
-      }else {
         try {
 
         await db.none(`DELETE FROM mentorship WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
@@ -202,8 +168,6 @@ router.delete('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
-})
+    })
 
 module.exports = router

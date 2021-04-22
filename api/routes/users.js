@@ -13,7 +13,16 @@ const randomToken = require('uuid-random')
 //   res.send('respond with a resource')
 // })
 
-
+router.post('/forgotPasswordEmail', async function (req, res){
+  const tempPassword = randomToken()
+  try{
+    const email = req.body.email;
+    const data = await db.any(`UPDATE users SET password * from users where `)
+  }catch(err){
+    console.log(err)
+    res.status(404)
+  }
+})
 
 
 
@@ -29,7 +38,7 @@ router.post('/login', async function (req, res) {
      //if password matches
      if(samePassword)
      // jwtData = { userId: data[0] }
-      jwt.sign({data}, 'secretKey', {expiresIn: '3600s'}, async (err, token)=>{
+      jwt.sign({data}, process.env.RANDOM_TOKEN, {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).json({
          user_id: data[0].user_id,
          user_type: data[0].user_type,

@@ -1,17 +1,15 @@
 import React, {useEffect, useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect, Route} from 'react-router-dom';
+import {Redirect, Route, Link} from 'react-router-dom';
 import history from '../history'
 import { render } from 'react-dom';
 import { AuthContext } from "../App";
-import axios from 'axios';
-
+import ForgotPassword from "../Pages/ForgotPassword"
 
 // must deleted exscries in one hour - backend needs to send message delete 
 
 
-axios.defaults.withCredentials = 'true'
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
 
@@ -113,6 +111,8 @@ function Login () {
                     "Login"
                   )}
                 </button>
+                <br></br>
+                <Link to="/forgotPassword">Forgot Password?</Link>
               </form>
             </div>
           </div>

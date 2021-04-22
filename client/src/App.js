@@ -11,7 +11,7 @@ import FindMentor from './Pages/FindMentor'
 import history from './history'
 import VerifyEmail from './Pages/VerifyEmail'
 import Chat from './Components/Chat/Chat';
-
+import ForgotPassword from './Pages/ForgotPassword'
 export const AuthContext = React.createContext();
 
 const initialState = {
@@ -86,7 +86,9 @@ function App () {
             path="/:roomId"
             render={(props) => <Chat {...props} token={state.token} userId={state.user} />}
           />
-          
+          <Route path='/forgotPassword'>
+              <ForgotPassword />
+          </Route>
           </Switch>
         </BrowserRouter>
       </div>
