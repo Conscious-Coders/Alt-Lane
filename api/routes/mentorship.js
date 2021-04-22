@@ -185,15 +185,6 @@ router.patch('/', verifyToken, async function (request, response) {
 router.delete('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-
-    jwt.verify(request.token, 'secretKey', async (err, authData) => {
-      if(err){
-        response.sendStatus(403)
-      } 
-      else if(authData.data[0].user_id !== mentee){
-        response.sendStatus(500)
-        console.log('not working')
-      }else {
         try {
 
         await db.none(`DELETE FROM mentorship WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
@@ -202,8 +193,7 @@ router.delete('/', verifyToken, async function (request, response) {
         console.log(err)
         response.status(404).send(err)
       }
-    }
-  })
+
 })
 
 module.exports = router
