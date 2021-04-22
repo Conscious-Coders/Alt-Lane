@@ -37,6 +37,7 @@ function Login () {
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
