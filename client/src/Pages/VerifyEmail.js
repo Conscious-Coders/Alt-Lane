@@ -30,7 +30,7 @@ function VerifyEmail() {
         }
 
         verifyEmailToken()
-    }, [token])
+    }, [mentee_id, mentor_id, token])
 
     return (
         <div>

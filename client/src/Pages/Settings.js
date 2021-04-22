@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import Form from '../Hooks/Form'
 import Footer from "../Components/Footer"
 import LoginNav from "../Components/LoginedNavBar"
 
@@ -31,16 +30,14 @@ function Settings () {
         })
       }))
       const result = await response.json()
-      const data = await result.data[0]; 
-      console.log(data); 
-
+      await result.data[0]; 
       setUserData({
         email: result.data[0].email
       })
      
   }
     getUserInfo();   
-  },[userId])
+  },[authState.token, userId])
 
 
   function handleChange (event) {
@@ -99,10 +96,7 @@ function Settings () {
     e.preventDefault();
     let isValidRequest = await checkPassword(); 
     if(isValidRequest.isVerified) {
-      console.log("line 110 inside the if statemnt")
       updateUserInfo()
-    } else {
-      console.log("error! can't make changes")
     }
   }
 

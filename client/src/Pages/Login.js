@@ -1,17 +1,9 @@
-import React, {useEffect, useState }from 'react'
+import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect, Route} from 'react-router-dom';
-import history from '../history'
-import { render } from 'react-dom';
+import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
-import axios from 'axios';
 
-
-// must deleted exscries in one hour - backend needs to send message delete 
-
-
-axios.defaults.withCredentials = 'true'
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
 

@@ -91,8 +91,6 @@ function FindMentor() {
               typeOfUser: mentor.user_type,
           }))
           setMentors(allMentors)
-          return mentors
-
       }).catch(err => {
         console.log(err)
         dispatch({
@@ -107,7 +105,6 @@ function FindMentor() {
       mentors.forEach(mentor =>{
         slideImages.push(<MentorCard mentor_id={mentor.userId} name={mentor.firstName} photo={mentor.photo} company={mentor.company} bio={mentor.bio} mentee_id={authState.user} token={authState.token}/>)
       })
-      console.log(slideImages)
     return (
       <React.Fragment>
       <div className="contianer-fluid" >
