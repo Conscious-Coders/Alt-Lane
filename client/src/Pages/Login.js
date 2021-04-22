@@ -4,7 +4,7 @@ import LandingNavBar from '../Components/LandingNavBar'
 import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
 
-const FETCH_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : 'http://localhost:9000'
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
@@ -33,7 +33,7 @@ function Login () {
       errorMessage: null
     });
     try{
-      await fetch(`${FETCH_URL}/users/login`, {
+      await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
