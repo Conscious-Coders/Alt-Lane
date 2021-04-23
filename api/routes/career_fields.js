@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 
-
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM career_fields')

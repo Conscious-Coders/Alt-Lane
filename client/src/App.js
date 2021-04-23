@@ -11,8 +11,7 @@ import FindMentor from './Pages/FindMentor'
 import history from './history'
 import VerifyEmail from './Pages/VerifyEmail'
 import Chat from './Components/Chat/Chat';
-import ForgotPassword from './Pages/ForgotPassword'
-import ChangePassword from './Pages/ChangePassword'
+
 export const AuthContext = React.createContext();
 
 const initialState = {
@@ -84,12 +83,6 @@ function App () {
             <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
               <VerifyEmail />
             </Route>
-          <Route exact path='/forgotPassword'>
-              <ForgotPassword />
-          </Route>
-          <Route exact path='/:user_id/changePassword'>
-            <ChangePassword />
-          </Route>
             <Route
             path="/:roomId/:name"
             render={(props) => <Chat {...props} token={state.token} userId={state.user} user ={state.name} />}

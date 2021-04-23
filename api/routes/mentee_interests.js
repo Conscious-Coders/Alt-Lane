@@ -3,10 +3,6 @@ const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
 
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
-
-
 router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM mentee_interests')
@@ -14,16 +10,26 @@ router.get('/', async function (request, response) {
       data: data
     })
   } catch (err) {
-    console.log(err)
-    response.status(404).send(err)
+    response.status(500).json(err)
+  }
+})
+
+router.post('/', async function (request, response) {
+  try {
+    const data = await db.any('SELECT * FROM mentee_interests')
+    return response.json({
+      data: data
+    })
+  } catch (err) {
+    response.status(500).json(err)
   }
 })
 
 //for register
-router.post('/interestsArray', async function (request, response) {
+router.post('/getMenteeInterests', async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const career_ids = request.body.career_field_array
-  console.log(career_ids)
+ 
       try {
         let values = ""
         for(let i =0; i < career_ids.length; i++) {
@@ -33,14 +39,12 @@ router.post('/interestsArray', async function (request, response) {
             values += `(${mentee}, ${career_ids[i]}),`
           }
         }
-        console.log(values) 
-        //await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee} AND career_field_id = ${career_id}`)
         await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES ${values}`)
   
         return response.sendStatus(200)
     } catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      response.status(500).json(err)
     }
 
 })
@@ -48,7 +52,6 @@ router.post('/interestsArray', async function (request, response) {
 router.post('/deleteInterests', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const career_ids = request.body.career_field_array
-  console.log(career_ids)
       try {
         let values = ""
         for(let i =0; i < career_ids.length; i++) {
@@ -58,15 +61,13 @@ router.post('/deleteInterests', verifyToken, async function (request, response) 
             values += `(${mentee}, ${career_ids[i]}),`
           }
         }
-        
-        console.log(values) 
         await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee}`)
         await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES ${values}`)
   
         return response.sendStatus(200)
     } catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      response.status(500).json(err)
     }
 
 })
@@ -82,7 +83,7 @@ router.post('/interests_for_one_mentee', verifyToken, async function (request, r
       })
     } catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      response.status(500).json(err)
     }
 })
 
@@ -92,11 +93,10 @@ router.post('/add_mentee_and_interest', verifyToken, async function (request, re
     const career_id = parseInt(request.body.career_id)
         try {
           await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES (${mentee}, ${career_id})`)
-    
           return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        response.status(500).json(err)
       }
     })
 
@@ -106,13 +106,12 @@ router.delete('/', verifyToken, async function (request, response) {
       try {
         const mentee = parseInt(request.body.mentee_id)
         const career_id = parseInt(request.body.career_id)
-      
         await db.none(`DELETE FROM mentee_interests WHERE mentee_id=${mentee} AND career_field_id = ${career_id}`)
         return response.sendStatus(200)
     
       }catch(err){
         console.log(err)
-        response.status(404).send(err)
+        response.status(500).json(err)
       }
     })
 

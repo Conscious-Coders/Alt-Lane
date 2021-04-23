@@ -1,8 +1,9 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect, Link} from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import { AuthContext } from "../App";
+
 
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
