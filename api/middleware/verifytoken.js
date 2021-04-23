@@ -7,8 +7,12 @@ const verifyToken = async  (req, res, next) =>{
     }
     const bearer = authHeader.split(' ')
     const bearerToken = bearer[1]
+    if(bearerToken === undefined){
+        return next(new Error(`Sorry token is undefined so you do not have access to this page!`))
+    }
     try {
-        const decodedToken = await jwt.verify(bearerToken, process.env.RANDOM_TOKEN);
+        const decodedToken = await jwt.verify(bearerToken, 
+        process.env.RANDOM_TOKEN);
         req.userId = decodedToken.data[0].user_id
         next()
     } catch (err) {
