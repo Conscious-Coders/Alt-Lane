@@ -7,6 +7,8 @@ import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import { AuthContext } from "../App";
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 const initialState = {
   props: [],
   isFetching: false,
@@ -63,9 +65,9 @@ function FindMentor() {
       dispatch({
         type: "FETCH_ALL_MENTORS"
       });
-      fetch("http://localhost:9000/mentors", {
-       // credentials: 'include'
+      fetch(`${FETCH_URL}mentors`, {
        headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }
       })

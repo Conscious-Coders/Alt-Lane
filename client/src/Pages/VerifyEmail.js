@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom'
 
+
 function VerifyEmail() {
     const { token } = useParams();
     const {mentee_id} = useParams();

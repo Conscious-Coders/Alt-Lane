@@ -1,13 +1,16 @@
 import React from 'react'
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function MentorCard(props) {
 
   const handleClick = (event=>{
     const connectMentorship = async (currentMentor, currentMentee)=>{
       try{
-      await fetch("http://localhost:9000/mentorship",{
+      await fetch(`${FETCH_URL}mentorship`,{
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${props.token}`

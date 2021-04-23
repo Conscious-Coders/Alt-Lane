@@ -42,7 +42,7 @@ router.post('/login', async function (req, res) {
   try {
     const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
     const password = req.body.password
-    const data = await db.any(`SELECT users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
+    const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
      let samePassword = verifyPass(password, data[0].password)
      //if password matches
@@ -52,6 +52,7 @@ router.post('/login', async function (req, res) {
        await res.status(202).json({
          user_id: data[0].user_id,
          user_type: data[0].user_type,
+         name: data[0].first_name,
          token
        })
        

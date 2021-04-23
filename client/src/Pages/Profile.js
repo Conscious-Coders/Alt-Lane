@@ -7,6 +7,8 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function Profile (){
   const { state: authState } = React.useContext(AuthContext);
   const careerChoice = React.useRef(null);
@@ -24,7 +26,7 @@ function Profile (){
 
   React.useEffect(()=>{
     async function fetchCareers(){
-      const fields = await fetch("http://localhost:9000/careers")
+      const fields = await fetch(`${FETCH_URL}careers`)
       const allCareers = await fields.json();
       let careersList =[];
       allCareers.data.forEach(field =>{
@@ -36,7 +38,8 @@ function Profile (){
 
     async function fetchMentor(){
 
-      const response = await fetch(`http://localhost:9000/${authState.userType}s/${authState.user}`,{ headers:{
+      const response = await fetch(`${FETCH_URL}${authState.userType}s/${authState.user}`,{ headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }})
       const result = await response.json()
@@ -59,8 +62,9 @@ function Profile (){
     }
     fetchMentor() 
     async function getMenteeInterests(){
-      const response = await fetch(`http://localhost:9000/mentee_interests/interests_for_one_mentee`,{method: 'POST',
+      const response = await fetch(`${FETCH_URL}mentee_interests/interests_for_one_mentee`,{method: 'POST',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authState.token}`
       },
@@ -106,9 +110,10 @@ function Profile (){
   //Fetch that deletes all interests and adds fields in arr
   const callInterestsRoute = async (arr)=>{
     try{
-      const response = await fetch('http://localhost:9000/mentee_interests/deleteInterests', {
+      const response = await fetch(`${FETCH_URL}mentee_interests/deleteInterests`, {
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authState.token}`
         },
@@ -161,7 +166,7 @@ function Profile (){
     //If any user changes their first and/or last name
     if(changed === true){
       try{
-        const response = await fetch('http://localhost:9000/users', {
+        const response = await fetch(`${FETCH_URL}users`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -194,9 +199,10 @@ function Profile (){
   //Using a PUT fetch request when user tries to update a photo using edit photo module to change photo_url in database
   async function updatePhoto(photo){
     try{
-      const response = await fetch('http://localhost:9000/users', {
+      const response = await fetch(`${FETCH_URL}/users`, {
         method: 'PUT',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authState.token}`
         },
@@ -299,7 +305,7 @@ function Profile (){
       //If a mentor changes any information
       if(changedMentor === true){
         try{
-          const response = await fetch('http://localhost:9000/mentors', {
+          const response = await fetch(`${FETCH_URL}mentors`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -344,7 +350,7 @@ function Profile (){
       //If a mentee changes any information
       if(changedMentee === true){
         try{
-          const response = await fetch('http://localhost:9000/mentees', {
+          const response = await fetch(`${FETCH_URL}mentees`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

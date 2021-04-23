@@ -5,6 +5,9 @@ import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
 
+
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
   const [data, setData] = React.useState([])
@@ -17,9 +20,10 @@ function Homepage () {
   React.useEffect(()=>{
     const relationship = []
     async function getMentorship(){
-      const res = await fetch('http://localhost:9000/mentorship',{ 
+      const res = await fetch(`${FETCH_URL}mentorship`,{ 
         headers:{
-        'Authorization': `Bearer ${authState.token}`
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${authState.token}`
        }})
       const result = await res.json()
       result.data.forEach(user => {
@@ -38,8 +42,9 @@ function Homepage () {
     getMentorship()
     
     async function getMenteeInterests(){
-      const res = await fetch('http://localhost:9000/mentee_interests',{ 
+      const res = await fetch(`${FETCH_URL}mentee_interests`,{ 
         headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }})
       const result = await res.json()
@@ -48,16 +53,17 @@ function Homepage () {
     getMenteeInterests()
 
     async function getCareers(){
-      const fields = await fetch("http://localhost:9000/careers",{ 
+      const fields = await fetch(`${FETCH_URL}careers`,{ 
         headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
         }})
       const allCareers = await fields.json();
-      let careers =[];
+      let careersList =[];
       allCareers.data.forEach(field =>{
-        careers.push({key: field.name, id: field.id})
+        careersList.push({key: field.name, id: field.id})
       })
-      setCareers(careers)
+      setCareers(careersList)
     }
     getCareers()
 
@@ -73,8 +79,9 @@ function Homepage () {
       fetchType = "mentee"
     }
     async function getStuff() {
-      await fetch(`http://localhost:9000/${fetchType}s`, {
+      await fetch(`${FETCH_URL}${fetchType}s`, {
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Authorization': `Bearer ${authState.token}`
         }
       }).then(res => res.json())
@@ -96,7 +103,7 @@ function Homepage () {
               id: user.user_id,
               status: id.status,
               name: user.first_name + " " + user.last_name,
-              firsName: user.first_name,
+              firstName: user.first_name,
               lastName: user.last_name,
               bio: user.bio,
               career: user.career_field_id,
@@ -149,24 +156,21 @@ function Homepage () {
       })
     })
   } 
+  console.log(homeInfo)
   return (
-
-    /*
-    <div className="container" style={{ marginTop:"5%", height: "50vh", marginBottom:"10%"}}>
-     */
     <div >
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
-          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%"}}>
+          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%", position: "relative", minHeight: "50vh"}}>
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
                 {homeInfo && authState.userType === "mentee" &&(
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentor, index ) => (
-                  
+                 
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentor.name} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
+                    <HomeCard token={authState.token} name={mentor.firstName} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
                 </div>
@@ -177,7 +181,7 @@ function Homepage () {
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentee, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentee.name} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
+                    <HomeCard token={authState.token} name={mentee.firstName} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
                   </div>
                 ))}
                 </div>

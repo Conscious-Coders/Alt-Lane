@@ -2,6 +2,8 @@ import React from 'react';
 import Button from '../Components/Button';
 import { Link } from 'react-router-dom';
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function HomeCard(props) {
   //const [chat, setChat] = React.useState(null)
   const [roomName, setRoomName] = React.useState(""); 
@@ -24,9 +26,10 @@ function HomeCard(props) {
   }
   
   const removeMentorship = async ()=>{
-    await fetch('http://localhost:9000/mentorship', {
+    await fetch(`${FETCH_URL}mentorship`, {
       method: 'DELETE',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${props.token}`
       },
@@ -37,7 +40,7 @@ function HomeCard(props) {
     event.preventDefault()
     removeMentorship()
   }
-
+ console.log(props)
   
   return (
     <div className="card mb-3" style={{width: "700px", height: "auto" ,background: "linear-gradient(to left,  #A0AAE7, #BA92F3)"}}>
@@ -74,7 +77,7 @@ function HomeCard(props) {
           <div className="d-flex justify-content-end" style={{paddingBottom: "1rem", paddingRight: "1rem"}}>
             {props.status === "pending"? 
               <Button name='Pending' disabled/> :
-              <Link to={`${roomName}`}> <Button name='Chat With Me'/></Link>
+              <Link to={`${roomName}/${props.name}`}> <Button name='Chat With Me'/></Link>
             }
           </div>
         </div>     

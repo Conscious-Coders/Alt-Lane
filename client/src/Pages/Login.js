@@ -7,7 +7,6 @@ import { render } from 'react-dom';
 import { AuthContext } from "../App";
 import ForgotPassword from "../Pages/ForgotPassword"
 
-
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
 
@@ -38,6 +37,7 @@ function Login () {
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
@@ -68,8 +68,6 @@ function Login () {
     if(token) {
       return <Redirect to='/homepage'/>
     }
-
-    console.log(FETCH_URL,"Login line 71")
 
   return (
     <div>
