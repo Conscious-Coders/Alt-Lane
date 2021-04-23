@@ -98,7 +98,7 @@ router.post('/', verifyToken, async function (request, response) {
     const linkedInProfile = mentor_info[0].linkedin_url
     const careerField = mentor_info[0].name
      
-    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'http://whateveryourfrontndurlis.com' : 'http://localhost:3000'
+    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.netlify.app' : 'http://localhost:3000'
 
     const emailData = {
       to: parentEmail.parent_email, // mentee parent email,
@@ -121,24 +121,6 @@ router.post('/', verifyToken, async function (request, response) {
       message: err.message
     })
   }
-    // jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    //   if(err){
-    //     console.log(err)
-    //     response.sendStatus(403)
-    //   } 
-    //   else if(authData.data[0].user_id !== mentee){
-    //     response.sendStatus(500)
-    //     console.log('not working')
-    //   }else {
-    //     try {
-    //     await db.none(`INSERT INTO mentorship (mentor_id, mentee_id, status, temp_token) VALUES (${mentor}, ${mentee}, 'pending', '${emailToken}')`)
-    //     return response.sendStatus(200)
-    //   } catch (err) {
-    //     console.log(err)
-    //     response.status(404).send(err)
-    //   }
-    // }
-  //})
 })
 
 

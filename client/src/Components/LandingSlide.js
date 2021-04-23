@@ -31,7 +31,7 @@ function LandingSlide(){
   }
   
   React.useEffect(() => {
-    setTimeout(goToNext, 10000);
+    setTimeout(goToNext, 6000);
     return function() {
       clearTimeout(goToNext);
     }
@@ -48,8 +48,7 @@ function LandingSlide(){
         <div
           className={i === curr ? "landingSlider activeSlide" : "landingSlider"}
           key={s.title}
-          aria-hidden={i !== curr}
-        >
+          aria-hidden={i !== curr}>
           <div className="landingSliderText">
             <h1>{s.title}</h1>
             <h2>{s.subtitle}</h2>
