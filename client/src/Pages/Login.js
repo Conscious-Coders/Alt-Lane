@@ -33,6 +33,8 @@ function Login () {
       isSubmitting: true,
       errorMessage: null
     });
+
+    
     try{
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
