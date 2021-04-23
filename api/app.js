@@ -24,6 +24,7 @@ const db = require('./db')
 const setupSocketIO = require('./socket')
 const app = express()
 require('socket.io')
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
@@ -37,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-//app.use('/testAPI', testAPIRouter)
 app.use('/test', testAPIRouter)
 app.use('/careers', careersRouter)
 app.use('/mentees', menteesRouter)
