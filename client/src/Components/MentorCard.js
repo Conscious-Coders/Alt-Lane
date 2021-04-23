@@ -10,6 +10,7 @@ function MentorCard(props) {
       await fetch(`${FETCH_URL}mentorship`,{
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${props.token}`

@@ -146,6 +146,7 @@ function Register () {
         await fetch(`${FETCH_URL}mentee_interests`,{
           method: 'POST',
           headers: {
+            'Access-Control-Allow-Origin': '*',
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
