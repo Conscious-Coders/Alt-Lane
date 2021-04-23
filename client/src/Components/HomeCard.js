@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function HomeCard(props) {
-  //const [chat, setChat] = React.useState(null)
   const [roomName, setRoomName] = React.useState(""); 
   // set the room we want the user to join
   React.useEffect(()=>{
@@ -40,8 +39,7 @@ function HomeCard(props) {
     event.preventDefault()
     removeMentorship()
   }
- console.log(props)
-  
+   
   return (
     <div className="card mb-3" style={{width: "700px", height: "auto" ,background: "linear-gradient(to left,  #A0AAE7, #BA92F3)"}}>
     <div className="d-flex flex-wrap align-items-center row g-0">

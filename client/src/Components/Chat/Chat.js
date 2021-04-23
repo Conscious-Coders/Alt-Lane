@@ -6,8 +6,7 @@ import  InfoBar from '../InfoBar/InfoBar';
 import Messages from '../Messages/Messages';
 import useChat from "../useChat";
 
-const Chat = (props, {token}) => {
-    console.log(props)
+const Chat = (props) => {
     const name = props.match.params.name;
     const roomId = props.match.params.roomId; //get the roomid from url
     const { messages, sendMessage } = useChat(roomId); // Creates a websocket and manages messaging
@@ -26,7 +25,7 @@ const Chat = (props, {token}) => {
         sendMessage(newMessage);
         setNewMessage("");
     };
-    console.log(props.user)
+    
     return (
        <div>
           <LoginNav/>
@@ -34,7 +33,6 @@ const Chat = (props, {token}) => {
           
               <div className="innerChatContainer">
                   <InfoBar room = {roomId}/>
-              
                   <Messages messages={messages} name={name} user={props.user}  />
               <div className="formChat">
                   <input

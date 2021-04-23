@@ -156,7 +156,7 @@ function Homepage () {
       })
     })
   } 
-  console.log(homeInfo)
+
   return (
     <div >
       <LoginNav /> 
