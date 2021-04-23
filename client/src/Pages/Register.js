@@ -8,6 +8,8 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import Button from '../Components/Button'
 import './Register.scss'
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 
 function Register () {
   const [registered, setRegistered ] = React.useState(null)
@@ -43,13 +45,13 @@ function Register () {
  const [careers, setCareers] = React.useState([])
   React.useEffect(()=>{
     async function getCareers(){
-      const fields = await fetch("http://localhost:9000/careers")
+      const fields = await fetch(`${FETCH_URL}careers`)
       const allCareers = await fields.json();
-      let careers =[];
+      let careersList =[];
       allCareers.data.forEach(field =>{
-        careers.push({key: field.name, id: field.id})
+        careersList.push({key: field.name, id: field.id})
       })
-      setCareers(careers)
+      setCareers(careersList)
     }
     getCareers()
    
@@ -100,7 +102,7 @@ function Register () {
     catch(err){console.log(err)}
 
     try{
-      await fetch("http://localhost:9000/users",{
+      await fetch(`{FETCH_URL}users`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -116,14 +118,14 @@ function Register () {
         })
       })
       
-      const id = await fetch("http://localhost:9000/users")
+      const id = await fetch(`${FETCH_URL}users`)
       const getId = await id.json();
       const current = await getId.data.filter(ele => ele.email === form.email)
 
       form.id = current[0].user_id
       setRegistered(true)
     
-      const url = `http://localhost:9000/${form.userType}s`
+      const url = `${FETCH_URL}${form.userType}s`
       let data = {};
       if(form.userType === "mentee"){
         data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
@@ -141,7 +143,7 @@ function Register () {
       await menteeMentorPost.json()
 
       if(form.userType === "mentee"){
-        await fetch("http://localhost:9000/mentee_interests",{
+        await fetch(`${FETCH_URL}mentee_interests`,{
           method: 'POST',
           headers: {
             'Accept': 'application/json',

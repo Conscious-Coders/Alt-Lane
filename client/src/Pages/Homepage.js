@@ -5,6 +5,9 @@ import Footer from '../Components/Footer'
 import { AuthContext } from "../App";
 import DefaultHome from "../Pages/DefaultHome"
 
+
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function Homepage () {
   const { state: authState } = React.useContext(AuthContext);
   const [data, setData] = React.useState([])
@@ -17,7 +20,7 @@ function Homepage () {
   React.useEffect(()=>{
     const relationship = []
     async function getMentorship(){
-      const res = await fetch('http://localhost:9000/mentorship',{ 
+      const res = await fetch(`${FETCH_URL}mentorship`,{ 
         headers:{
         'Authorization': `Bearer ${authState.token}`
        }})
@@ -38,7 +41,7 @@ function Homepage () {
     getMentorship()
     
     async function getMenteeInterests(){
-      const res = await fetch('http://localhost:9000/mentee_interests',{ 
+      const res = await fetch(`${FETCH_URL}mentee_interests`,{ 
         headers:{
         'Authorization': `Bearer ${authState.token}`
        }})
@@ -48,16 +51,16 @@ function Homepage () {
     getMenteeInterests()
 
     async function getCareers(){
-      const fields = await fetch("http://localhost:9000/careers",{ 
+      const fields = await fetch(`${FETCH_URL}careers`,{ 
         headers:{
         'Authorization': `Bearer ${authState.token}`
         }})
       const allCareers = await fields.json();
-      let careers =[];
+      let careersList =[];
       allCareers.data.forEach(field =>{
-        careers.push({key: field.name, id: field.id})
+        careersList.push({key: field.name, id: field.id})
       })
-      setCareers(careers)
+      setCareers(careersList)
     }
     getCareers()
 
@@ -73,7 +76,7 @@ function Homepage () {
       fetchType = "mentee"
     }
     async function getStuff() {
-      await fetch(`http://localhost:9000/${fetchType}s`, {
+      await fetch(`${FETCH_URL}${fetchType}s`, {
         headers: {
           'Authorization': `Bearer ${authState.token}`
         }

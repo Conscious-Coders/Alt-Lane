@@ -6,7 +6,6 @@ import { AuthContext } from "../App";
 
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
-
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
 
@@ -68,8 +67,6 @@ function Login () {
     if(token) {
       return <Redirect to='/homepage'/>
     }
-
-    console.log(FETCH_URL,"Login line 71")
 
   return (
     <div>
