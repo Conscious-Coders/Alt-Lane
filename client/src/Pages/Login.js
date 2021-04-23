@@ -33,6 +33,8 @@ function Login () {
       isSubmitting: true,
       errorMessage: null
     });
+
+    
     try{
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
@@ -64,10 +66,14 @@ function Login () {
     }
     
 }
-
+    if(token === undefined){
+      console.log(token, "line 70 undefined"); 
+      return <Redirect to='/login'/>
+    }
     if(token) {
       return <Redirect to='/homepage'/>
-    }
+    } 
+  
 
   return (
     <div>

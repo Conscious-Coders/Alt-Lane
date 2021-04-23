@@ -157,6 +157,7 @@ function Homepage () {
     })
   } 
 
+  console.log(authState); 
   return (
     <div >
       <LoginNav /> 
