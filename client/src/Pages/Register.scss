@@ -111,7 +111,7 @@ input[type=radio]{ display:none; }
                transition:all 0.5s;
                @for $i from 1 through 10{
                   &:nth-child(#{$i}) { 
-                     transition-delay:0.2s*$i
+                     transition-delay:0.1s*$i
                   }
                }
             }

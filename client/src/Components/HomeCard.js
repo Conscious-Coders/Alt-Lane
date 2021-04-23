@@ -37,7 +37,7 @@ function HomeCard(props) {
     event.preventDefault()
     removeMentorship()
   }
-
+ console.log(props)
   
   return (
     <div className="card mb-3" style={{width: "700px", height: "auto" ,background: "linear-gradient(to left,  #A0AAE7, #BA92F3)"}}>
@@ -74,7 +74,7 @@ function HomeCard(props) {
           <div className="d-flex justify-content-end" style={{paddingBottom: "1rem", paddingRight: "1rem"}}>
             {props.status === "pending"? 
               <Button name='Pending' disabled/> :
-              <Link to={`${roomName}`}> <Button name='Chat With Me'/></Link>
+              <Link to={`${roomName}/${props.name}`}> <Button name='Chat With Me'/></Link>
             }
           </div>
         </div>     

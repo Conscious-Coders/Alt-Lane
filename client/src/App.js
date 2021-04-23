@@ -30,6 +30,7 @@ const reducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload.user_id,
         userType: action.payload.user_type,
+        name: action.payload.name,
         token: action.payload.token,
       };
     case "LOGOUT":
@@ -83,8 +84,8 @@ function App () {
               <VerifyEmail />
             </Route>
             <Route
-            path="/:roomId"
-            render={(props) => <Chat {...props} token={state.token} userId={state.user} />}
+            path="/:roomId/:name"
+            render={(props) => <Chat {...props} token={state.token} userId={state.user} user ={state.name} />}
           />
           
           </Switch>

@@ -96,7 +96,7 @@ function Homepage () {
               id: user.user_id,
               status: id.status,
               name: user.first_name + " " + user.last_name,
-              firsName: user.first_name,
+              firstName: user.first_name,
               lastName: user.last_name,
               bio: user.bio,
               career: user.career_field_id,
@@ -149,24 +149,21 @@ function Homepage () {
       })
     })
   } 
+  console.log(homeInfo)
   return (
-
-    /*
-    <div className="container" style={{ marginTop:"5%", height: "50vh", marginBottom:"10%"}}>
-     */
     <div >
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
-          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%"}}>
+          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%", position: "relative", minHeight: "50vh"}}>
             <div className="homepage">
                 {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
               <div className="container">
                 {homeInfo && authState.userType === "mentee" &&(
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentor, index ) => (
-                  
+                 
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentor.name} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
+                    <HomeCard token={authState.token} name={mentor.firstName} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
                 </div>
@@ -177,7 +174,7 @@ function Homepage () {
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentee, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentee.name} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
+                    <HomeCard token={authState.token} name={mentee.firstName} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
                   </div>
                 ))}
                 </div>

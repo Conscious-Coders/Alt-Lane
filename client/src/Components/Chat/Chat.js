@@ -6,14 +6,13 @@ import  InfoBar from '../InfoBar/InfoBar';
 import Messages from '../Messages/Messages';
 import useChat from "../useChat";
 
-// import TextContainer from '../TextContainer/TextContainer'
-// let socket;
-
 const Chat = (props, {token}) => {
+    console.log(props)
+    const name = props.match.params.name;
     const roomId = props.match.params.roomId; //get the roomid from url
     const { messages, sendMessage } = useChat(roomId); // Creates a websocket and manages messaging
     const [newMessage, setNewMessage] = React.useState(""); 
-    console.log(props)
+   
     if(!props.token) {
         throw new Error(`no token provided`)
     }
@@ -27,7 +26,7 @@ const Chat = (props, {token}) => {
         sendMessage(newMessage);
         setNewMessage("");
     };
-
+    console.log(props.user)
     return (
        <div>
           <LoginNav/>
@@ -36,7 +35,7 @@ const Chat = (props, {token}) => {
               <div className="innerChatContainer">
                   <InfoBar room = {roomId}/>
               
-                  <Messages messages={messages} name={props.user} />
+                  <Messages messages={messages} name={name} user={props.user}  />
               <div className="formChat">
                   <input
                   className='inputChat text'
