@@ -2,6 +2,8 @@ import React from 'react';
 import Button from '../Components/Button';
 import { Link } from 'react-router-dom';
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function HomeCard(props) {
   //const [chat, setChat] = React.useState(null)
   const [roomName, setRoomName] = React.useState(""); 
@@ -24,7 +26,7 @@ function HomeCard(props) {
   }
   
   const removeMentorship = async ()=>{
-    await fetch('http://localhost:9000/mentorship', {
+    await fetch(`${FETCH_URL}mentorship`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

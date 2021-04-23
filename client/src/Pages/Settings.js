@@ -4,6 +4,8 @@ import LoginNav from "../Components/LoginedNavBar"
 
 import { AuthContext } from "../App";
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
+
 function Settings () {
 
   const { state: authState } = React.useContext(AuthContext);
@@ -19,7 +21,7 @@ function Settings () {
 
   useEffect(() => { 
     async function getUserInfo() {
-      const response = await (fetch('http://localhost:9000/users/get', {
+      const response = await (fetch(`${FETCH_URL}users/get`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +53,7 @@ function Settings () {
   }
 
   async function checkPassword() {
-    const response = await (fetch('http://localhost:9000/users/pass', {
+    const response = await (fetch(`${FETCH_URL}users/pass`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +69,7 @@ function Settings () {
   }
 
   async function updateUserInfo() {
-    const response = await (fetch('http://localhost:9000/users', {
+    const response = await (fetch(`${FETCH_URL}users`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
