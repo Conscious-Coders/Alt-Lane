@@ -170,9 +170,9 @@ function Register () {
     <div>
       <LandingNavBar/>
       <div className="container"  style={{ marginTop:"5%",  marginBottom:"10%"}}>
-        <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt=""/>
+        {/* <img src='/alt_lane_black.png' style={{ width: '125px', height: 'auto' }} alt=""/> */}
       <div className='container d-flex justify-content-center'  style={{ marginTop:"1%"}}>
-        <div className='card w-75 panel-login containerRegister' style={{boxShadow: "0px 2px 3px 0px rgba(0,0,0,0.2)"}} >
+        <div className='card w-75 panel-login containerRegister' style={{boxShadow: "2px 2px 3px 2px rgba(0,0,0,0.2)"}} >
            <input type="radio" name ="tab" id="menteeRegister" checked="checked" />
             <input type="radio" name ="tab" id="mentorRegister"/>
             <div className="tabs">

@@ -105,7 +105,7 @@ function Settings () {
   return(
     <div>
         <LoginNav userType={authState.userType} authToken={authToken}/>
-      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+      <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%",  position: "relative", minHeight: "50vh"}}>
      
       <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
     
