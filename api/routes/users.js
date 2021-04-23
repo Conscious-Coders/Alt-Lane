@@ -13,7 +13,7 @@ router.post('/login', async function (req, res) {
     const password = req.body.password
     const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
-     let samePassword = verifyPass(password, data[0].password)
+     let samePassword = bcrypt.compareSync(password, data[0].password)
      //if password matches
      if(samePassword)
       jwt.sign({data}, process.env.RANDOM_TOKEN, {expiresIn: '3600s'}, async (err, token)=>{
