@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
-const verifyPass = require('../middleware/verifypassword')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
