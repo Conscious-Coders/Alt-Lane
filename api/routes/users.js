@@ -6,29 +6,6 @@ const verifyPass = require('../middleware/verifypassword')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
-router.post('/forgotPasswordEmail', async function (req, res){
-  try{
-    const email = req.body.email;
-    const userId = await db.any(`SELECT user_id FROM users WHERE email=${email}`)
-
-    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com' : 'http://localhost:3000'
-
-    const emailData = {
-      to: email, 
-      from: process.env.EMAIL,
-      subject: "Reset your password for Alt Lane", 
-      text: `Please click this link to change your password:
-      ${emailLinkUrl}/${userId}/changePassword`
-    }
-    sendEmail(emailData)
-  }catch(err){
-    console.log(err)
-    res.status(500).json(err)
-  }
-})
-
-
-
 //DO NOT RETURN status or anything else
 //Is used as a Get Method request
 router.post('/login', async function (req, res) {
