@@ -34,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/test', testAPIRouter)
 app.use('/careers', careersRouter)
 app.use('/mentees', menteesRouter)
 app.use('/mentors', mentorsRouter)
