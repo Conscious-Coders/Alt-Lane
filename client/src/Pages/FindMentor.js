@@ -66,8 +66,8 @@ function FindMentor() {
         type: "FETCH_ALL_MENTORS"
       });
       fetch(`${FETCH_URL}mentors`, {
-       // credentials: 'include'
        headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }
       })

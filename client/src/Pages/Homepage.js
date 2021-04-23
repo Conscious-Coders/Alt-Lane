@@ -22,7 +22,8 @@ function Homepage () {
     async function getMentorship(){
       const res = await fetch(`${FETCH_URL}mentorship`,{ 
         headers:{
-        'Authorization': `Bearer ${authState.token}`
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${authState.token}`
        }})
       const result = await res.json()
       result.data.forEach(user => {
@@ -43,6 +44,7 @@ function Homepage () {
     async function getMenteeInterests(){
       const res = await fetch(`${FETCH_URL}mentee_interests`,{ 
         headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }})
       const result = await res.json()
@@ -53,6 +55,7 @@ function Homepage () {
     async function getCareers(){
       const fields = await fetch(`${FETCH_URL}careers`,{ 
         headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
         }})
       const allCareers = await fields.json();
@@ -78,6 +81,7 @@ function Homepage () {
     async function getStuff() {
       await fetch(`${FETCH_URL}${fetchType}s`, {
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Authorization': `Bearer ${authState.token}`
         }
       }).then(res => res.json())

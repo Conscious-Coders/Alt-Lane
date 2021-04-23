@@ -29,6 +29,7 @@ function HomeCard(props) {
     await fetch(`${FETCH_URL}mentorship`, {
       method: 'DELETE',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${props.token}`
       },

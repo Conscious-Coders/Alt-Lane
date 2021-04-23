@@ -39,6 +39,7 @@ function Profile (){
     async function fetchMentor(){
 
       const response = await fetch(`${FETCH_URL}${authState.userType}s/${authState.user}`,{ headers:{
+        'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }})
       const result = await response.json()
@@ -63,6 +64,7 @@ function Profile (){
     async function getMenteeInterests(){
       const response = await fetch(`${FETCH_URL}mentee_interests/interests_for_one_mentee`,{method: 'POST',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authState.token}`
       },
@@ -111,6 +113,7 @@ function Profile (){
       const response = await fetch(`${FETCH_URL}mentee_interests/deleteInterests`, {
         method: 'POST',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authState.token}`
         },
@@ -199,6 +202,7 @@ function Profile (){
       const response = await fetch(`${FETCH_URL}/users`, {
         method: 'PUT',
         headers: {
+          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authState.token}`
         },
