@@ -98,7 +98,7 @@ router.post('/', verifyToken, async function (request, response) {
     const linkedInProfile = mentor_info[0].linkedin_url
     const careerField = mentor_info[0].name
      
-    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com' : 'http://localhost:3000'
+    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.netlify.app' : 'http://localhost:3000'
 
     const emailData = {
       to: parentEmail.parent_email, 
@@ -123,7 +123,6 @@ router.post('/', verifyToken, async function (request, response) {
       message: err.message
     })
   }
-
 })
 
 
