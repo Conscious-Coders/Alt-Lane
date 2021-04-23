@@ -1,11 +1,10 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect, Route, Link} from 'react-router-dom';
-import history from '../history'
-import { render } from 'react-dom';
+import {Redirect, Link} from 'react-router-dom';
 import { AuthContext } from "../App";
-import ForgotPassword from "../Pages/ForgotPassword"
+
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function Login () {
   const { dispatch } = React.useContext(AuthContext);
@@ -111,7 +110,6 @@ function Login () {
                   )}
                 </button>
                 <br></br>
-                <Link to="/forgotPassword">Forgot Password?</Link>
               </form>
             </div>
           </div>

@@ -2,12 +2,9 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
-const verifyPass = require('../middleware/verifypassword')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-var cookieParser = require('cookie-parser');
-const cors = require('cors')
-const randomToken = require('uuid-random')
+
 /* GET users listing. */
 // router.get('/', function (req, res, next) {
 //   res.send('respond with a resource')
@@ -44,7 +41,7 @@ router.post('/login', async function (req, res) {
     const password = req.body.password
     const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
-     let samePassword = verifyPass(password, data[0].password)
+     let samePassword = bcrypt.compareSync(password, data[0].password)
      //if password matches
      if(samePassword)
      // jwtData = { userId: data[0] }

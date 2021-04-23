@@ -2,12 +2,10 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
-const verifyPass = require('../middleware/verifypassword')
+
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-var cookieParser = require('cookie-parser');
-const cors = require('cors')
-cors({origin: 'http://localhost:3000', credentials: true })
+
 
 router.get('/', async function (request, response) {
   try {
@@ -90,7 +88,7 @@ router.post('/interests_for_one_mentee', verifyToken, async function (request, r
 
 
 router.post('/add_mentee_and_interest', verifyToken, async function (request, response) {
-    const mentee = parseInt(request.body.m3entee_id)
+    const mentee = parseInt(request.body.mentee_id)
     const career_id = parseInt(request.body.career_id)
         try {
           await db.none(`INSERT INTO mentee_interests (mentee_id, career_field_id) VALUES (${mentee}, ${career_id})`)
@@ -105,7 +103,6 @@ router.post('/add_mentee_and_interest', verifyToken, async function (request, re
 
 
 router.delete('/', verifyToken, async function (request, response) {
-      console.log(authData.data[0].user_id)
       try {
         const mentee = parseInt(request.body.mentee_id)
         const career_id = parseInt(request.body.career_id)
