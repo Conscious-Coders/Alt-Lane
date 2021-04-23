@@ -12,7 +12,7 @@ function Landing () {
     dillen:  {
       title: 'Dillen L', 
       subTitle: 'Backend Developer', 
-      bio : 'Meet Dillen, an aspiring full stack engineer who enjoys building his knowledge and skill set about computer programming.', 
+      bio : 'Meet Dillen, an aspiring full stack engineer who enjoys building his knowledge and skill set about computer programming', 
       github: 'https://github.com/Code-33', 
       linkedIn: 'https://www.linkedin.com/in/dillenlewis/'
     },
@@ -26,14 +26,14 @@ function Landing () {
     joli:  {
       title: 'Jolizbeth B', 
       subTitle: 'Backend Developer', 
-      bio : 'Meet Jolizbeth, fullstack developer. She enjoys frontend development with React and building data driven products.', 
+      bio : 'Meet Jolizbeth, a full stack developer who enjoys frontend development with React and building data driven products', 
       github: 'https://github.com/jolizbeth', 
       linkedIn: 'https://www.linkedin.com/in/jolizbeth/'
     }, 
     shruti:  {
       title: 'Shruti T', 
       subTitle: 'Backend Developer', 
-      bio : 'Meet Shruti, software developer who is passionate about finding solutions to diffcult bussiness problems by leveraging technology.', 
+      bio : 'Meet Shruti, a software developer who is passionate about finding solutions to difficult business problems by leveraging technology', 
       github: 'https://github.com/ShrutiTamrakarTuladhar', 
       linkedIn: 'https://www.linkedin.com/in/shrutitamrakartuladhar/'
     }
@@ -50,9 +50,9 @@ return (
         <div className="row featurette text-start" style={{marginTop: '5%', marginLeft: '5%'}}>
           <div className="col-md-7 align-self-center">
                 <h2 className="featurette-heading">Problem: 
-                  <span style={{color: "#BA92F3"}}> The average debt of a college graudates in the united states is $29,900.</span>
+                  <span style={{color: "#BA92F3"}}> The average debt of a college graduate in the united states is $29,900.</span>
                 </h2>
-                <p style={{paddingTop: '1%'}} className="lead">Highschool students are going into college unsure about their future and unaware of alternative careers opportunities. Due to the lack of information on posssible paths students are forced to pay for unused degrees or forced persue careers they are not passionate about.</p>
+                <p style={{paddingTop: '1%'}} className="lead">Highschool students are going into college unsure about their future and unaware of alternative career opportunities. Due to the lack of information on other possible paths, students are forced to pay for unused degrees or pursue careers they are not passionate about.</p>
           </div>
           <div className="col-md-5">
             <img className="img-responsive" src="https://www.insidehighered.com/sites/default/server_files/media/iStock-1156003227.jpg" alt="student debt" style={{maxHeight: "50vh", margin: 'auto', display: 'block'}}/>
@@ -64,7 +64,7 @@ return (
           </div>
           <div className="col-md-7 align-self-center">
             <h2 className="featurette-heading">Solution: <span style={{color: "#BA92F3"}}> Alt-Lane</span></h2>
-            <p style={{paddingTop: '1%'}} className="lead">Alt-Lane brings information about career opportunities to high school students. Students will be exposed to alternative careers paths in their chosen fields by connecting with industry professionals and gain meaningful insight. Access to mentors from various fields will help guide their journey to finding their passion!</p>
+            <p style={{paddingTop: '1%'}} className="lead">Alt-Lane brings information about non-traditional career opportunities to high school students. Each student will get the chance to explore alternative career options by connecting with industry professionals in various fields. Access to mentors from various fields will help guide their journey to finding their passion!</p>
           </div>
         </div>
         <hr className="featurette-divider" />
