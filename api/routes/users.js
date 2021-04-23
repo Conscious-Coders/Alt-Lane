@@ -14,10 +14,20 @@ const randomToken = require('uuid-random')
 // })
 
 router.post('/forgotPasswordEmail', async function (req, res){
-  const tempPassword = randomToken()
   try{
     const email = req.body.email;
-    const data = await db.any(`UPDATE users SET password * from users where `)
+    const userId = await db.any(`SELECT user_id FROM users WHERE email=${email}`)
+
+    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com' : 'http://localhost:3000'
+
+    const emailData = {
+      to: email, 
+      from: process.env.EMAIL,
+      subject: "Reset your password for Alt Lane", 
+      text: `Please click this link to change your password:
+      ${emailLinkUrl}/${userId}/changePassword`
+    }
+    sendEmail(emailData)
   }catch(err){
     console.log(err)
     res.status(404)

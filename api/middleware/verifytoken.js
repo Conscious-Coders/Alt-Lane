@@ -9,7 +9,6 @@ const verifyToken = async  (req, res, next) =>{
     const bearerToken = bearer[1]
     try {
         const decodedToken = await jwt.verify(bearerToken, process.env.RANDOM_TOKEN);
-        console.log(decodedToken, 'verify token line 23')
         req.userId = decodedToken.data[0].user_id
         next()
     } catch (err) {
