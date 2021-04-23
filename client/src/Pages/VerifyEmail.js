@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom'
 
+const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function VerifyEmail() {
     const { token } = useParams();
@@ -12,7 +13,7 @@ function VerifyEmail() {
         async function verifyEmailToken() {
             setMessage('Checking a few things...')
             try {
-                await fetch('/mentorship/verify-emailToken', {
+                await fetch(`${FETCH_URL}mentorship/verify-emailToken`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -5,49 +5,18 @@ const verifyToken = require('../middleware/verifytoken')
 const verifyPass = require('../middleware/verifypassword')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-var cookieParser = require('cookie-parser');
-const cors = require('cors')
-const randomToken = require('uuid-random')
-/* GET users listing. */
-// router.get('/', function (req, res, next) {
-//   res.send('respond with a resource')
-// })
-
-router.post('/forgotPasswordEmail', async function (req, res){
-  try{
-    const email = req.body.email;
-    const userId = await db.any(`SELECT user_id FROM users WHERE email=${email}`)
-
-    const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com' : 'http://localhost:3000'
-
-    const emailData = {
-      to: email, 
-      from: process.env.EMAIL,
-      subject: "Reset your password for Alt Lane", 
-      text: `Please click this link to change your password:
-      ${emailLinkUrl}/${userId}/changePassword`
-    }
-    sendEmail(emailData)
-  }catch(err){
-    console.log(err)
-    res.status(404)
-  }
-})
-
-
 
 //DO NOT RETURN status or anything else
 //Is used as a Get Method request
 router.post('/login', async function (req, res) {
   try {
-    const email = req.body.email  //JOIN mentorship ON users.id=mentorship.mentor_id
+    const email = req.body.email  
     const password = req.body.password
     const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
      //test password equality
      let samePassword = verifyPass(password, data[0].password)
      //if password matches
      if(samePassword)
-     // jwtData = { userId: data[0] }
       jwt.sign({data}, process.env.RANDOM_TOKEN, {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).json({
          user_id: data[0].user_id,
@@ -55,15 +24,14 @@ router.post('/login', async function (req, res) {
          name: data[0].first_name,
          token
        })
-       
       })
-       
-       }catch(err){
+     } catch(err){
          console.log(err)
-         res.status(400).send(err)
-   }
- });
-  
+         res.status(500).json(err)
+      }
+    })
+ 
+
 
 router.get('/', async function (request, response) {
   try {
@@ -88,7 +56,7 @@ router.post('/get', async function (request, response) {
       data: data
     })
   } catch (err) {
-    response.status(404).send(err)
+    response.status(500).json(err)
   }
 })
 
@@ -99,18 +67,15 @@ router.post('/pass', verifyToken, async function (request, response) {
     const user_id = parseInt(request.body.user_id)
     const password = request.body.password
     const data = await db.any(`SELECT password FROM users WHERE users.user_id=${user_id}`)
-
-    let samePassword = verifyPass(password, data[0].password)
-
-    console.log(samePassword); 
-    
+    let samePassword = bcrypt.compareSync(password, data[0].password)
     if(samePassword) {
       return response.json({
         isVerified: samePassword
       })
     }
   } catch (err) {
-    response.status(404).send(err)
+    console.log(err)
+    response.status(500).json(err)
   }
 })
 
@@ -126,7 +91,7 @@ router.post('/', async function (request, response) {
     return response.sendStatus(200)
   } catch (err) {
     console.log(err)
-    response.status(404).send(err)
+    response.status(500).json(err)
   }
 })
 
@@ -152,7 +117,7 @@ router.patch('/', verifyToken, async function (request, response) {
         return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        response.status(500).json(err)
       }
   })
 
@@ -180,31 +145,21 @@ router.put('/', verifyToken, async function (request, response) {
        return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        response.status(500).json(err)
       }
   })
 
 router.delete('/', verifyToken, async function (request, response) {
-  jwt.verify(request.token, 'secretKey', async (err, authData) => {
-    console.log(authData)
-    if(err){
-      response.sendStatus(403)
-    } 
-    else if(authData.data[0].user_id !== parseInt(request.body.user_id)){
-      response.sendStatus(500)
-      console.log('not working')
-    }else {
-      console.log(authData.data[0].user_id)
   try {
     const deleteUser = parseInt(request.body.user_id)
     await db.none('DELETE FROM users WHERE user_id=$1', deleteUser)
     return response.sendStatus(200)
     
-  } catch (e) {
-    response.status(404).send(e)
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
   }
-  }
-})
+
 })
 
 module.exports = router
