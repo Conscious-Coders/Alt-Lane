@@ -47,13 +47,14 @@ router.post('/login', async function (req, res) {
          name: data[0].first_name,
          token
        })
-      }
-       }catch(err){
+      })
+     } catch(err){
          console.log(err)
          res.status(500).json(err)
-   }
- });
-  
+      }
+    })
+ 
+
 
 router.get('/', async function (request, response) {
   try {
