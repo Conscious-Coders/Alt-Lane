@@ -10,7 +10,7 @@ router.get('/', async function (request, response) {
     })
   } catch (err) {
     console.log(err)
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
@@ -23,7 +23,7 @@ router.post('/get_id_data', async function (request, response) {
       data: data
     })
   } catch (err) {
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
@@ -36,7 +36,7 @@ router.post('/', async function (request, response) {
       `The following career_field has been added: ${request.body.name}`
     )
   } catch (err) {
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
@@ -51,7 +51,7 @@ router.patch('/', async function (request, response) {
     )
   } catch (err) {
     console.log(err)
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
@@ -66,7 +66,7 @@ router.put('/', async function (request, response) {
     )
   } catch (err) {
     console.log(err)
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
@@ -80,7 +80,7 @@ router.delete('/', async function (request, response) {
       `The following career_field id has been deleted: ${deleteUser}`
     )
   } catch (err) {
-    res.status(500).json(err)
+    response.status(500).json(err)
   }
 })
 
