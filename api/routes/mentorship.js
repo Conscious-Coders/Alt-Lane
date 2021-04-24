@@ -14,7 +14,7 @@ router.get('/', async function (request, response){
     })
   }catch(err){
     console.log(err)
-    response.status(404).send(err)
+    res.status(500).json(err)
   }
 })
 
@@ -33,7 +33,7 @@ router.post('/get_mentees_for_mentor', async function (request, response) {
       })
     } catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      res.status(500).json(err)
     }
 })
 
@@ -53,7 +53,7 @@ router.post('/get_mentors_for_mentee', async function (request, response) {
       })
     } catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      res.status(500).json(err)
     }
 })
 
@@ -70,7 +70,7 @@ router.post('/verify-emailToken', async function(req, res){
     }
     
   }catch(err){
-    res.sendStatus(500)
+    res.status(500).json(err)
   }
 })
 
@@ -129,7 +129,7 @@ router.put('/', verifyToken, async function (request, response) {
         return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        res.status(500).json(err)
       }
     })
  
@@ -144,7 +144,7 @@ router.patch('/', verifyToken, async function (request, response) {
         return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        res.status(500).json(err)
       }
     })
 
@@ -160,7 +160,7 @@ router.delete('/', verifyToken, async function (request, response) {
         return response.sendStatus(200)
       } catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        res.status(500).json(err)
       }
     })
 
