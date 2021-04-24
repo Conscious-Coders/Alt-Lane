@@ -15,20 +15,20 @@ import Chat from './Components/Chat/Chat';
 export const AuthContext = React.createContext();
 
 const initialState = {
-  isAuthenticated: false,
-  user: null,
+  isAuthorized: false,
+  user_id: null,
   token: null,
 };
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("user", JSON.stringify(action.payload.user_id));
       localStorage.setItem("token", JSON.stringify(action.payload.token));
-      //console.log("this is the payload",action.payload)
+      console.log("this is the payload",action.payload)
       return {
         ...state,
-        isAuthenticated: true,
-        user: action.payload.user_id,
+        isAuthorized: action.payload.isAuthorized,
+        user_id: action.payload.user_id,
         userType: action.payload.user_type,
         name: action.payload.name,
         token: action.payload.token,
@@ -37,9 +37,10 @@ const reducer = (state, action) => {
       localStorage.clear();
       return {
         ...state,
-        isAuthenticated: false,
-        user: null,
+        isAuthorized: false,
+        user_id: null,
         userType: null,
+        name: null,
         token: null,
 
       };
@@ -63,22 +64,22 @@ function App () {
                 <Register />
             </Route>
             <Route path='/login'>
-              {!state.isAuthenticated ? <Login /> : 
+              {!state.isAuthorized ? <Login /> : 
                <Homepage/>
               }
             </Route>
 
             <Route path='/homepage'>
-               {!state.isAuthenticated ? <Login /> : <Homepage />}
+               {!state.isAuthorized ? <Login /> : <Homepage />}
             </Route>
             <Route path='/profile'>
-              {!state.isAuthenticated ? <Login /> : <Profile />}
+              {!state.isAuthorized ? <Login /> : <Profile />}
             </Route>
             <Route path='/settings'>
-            {!state.isAuthenticated ? <Login /> : <Settings isMentor={false}/>}    
+            {!state.isAuthorized ? <Login /> : <Settings isMentor={false}/>}    
             </Route>
             <Route path='/find-mentor'>
-              {!state.isAuthenticated ? <Login /> : <FindMentor />}
+              {!state.isAuthorized ? <Login /> : <FindMentor />}
             </Route>
             <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
               <VerifyEmail />

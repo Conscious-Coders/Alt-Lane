@@ -15,15 +15,21 @@ router.post('/login', async function (req, res) {
      //test password equality
      let samePassword = bcrypt.compareSync(password, data[0].password)
      //if password matches
-     if(samePassword)
+     if(samePassword){
       jwt.sign({data}, process.env.RANDOM_TOKEN, {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).json({
          user_id: data[0].user_id,
          user_type: data[0].user_type,
+         isAuthorized: true, 
          name: data[0].first_name,
          token
        })
-      })
+      })} 
+      else {
+        res.status(403).json({
+          isAuthorized: false, 
+        })
+      }
      } catch(err){
          console.log(err)
          res.status(500).json(err)

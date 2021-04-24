@@ -1,6 +1,7 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
+import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
 
 
@@ -33,7 +34,6 @@ function Login () {
       errorMessage: null
     });
 
-    
     try{
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
@@ -52,9 +52,9 @@ function Login () {
           type: "LOGIN",
           payload: data
         })
+          console.log(data); 
           setToken(data.token);  
       })
-      
     }
     catch(error){
       setForm({
@@ -66,9 +66,13 @@ function Login () {
     
 }
 
-   
-
-
+  if(token) {
+    return <Redirect to='/homepage'/>
+  } 
+  if(token === false) {
+    return <Redirect to='/login'/>
+  }
+  
   return (
     <div>
       <LandingNavBar/>
