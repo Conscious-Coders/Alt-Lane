@@ -1,6 +1,8 @@
 import React,{useState, useEffect} from 'react'
+import './Settings.scss'
 import Footer from "../Components/Footer"
 import LoginNav from "../Components/LoginedNavBar"
+import Button from '../Components/Button';
 
 import { AuthContext } from "../App";
 
@@ -109,13 +111,13 @@ function Settings () {
      
       <div className='containter d-flex justify-content-center'  style={{ marginTop:"1%"}}>
     
-      <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
+      <div className='card w-75 col-8' style={{background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)" }}>
         <div className='card-body'>
           <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
-            <button className="btn btn-dark" onClick={enableEdit}>{editBtn}</button>
+            <Button className="btn btn-dark" onClick={enableEdit} name ={editBtn}/>
           </div>
        
-          <form onSubmit={handleSubmit}>
+          <form className="settings" onSubmit={handleSubmit}>
             <div className='mb-3 row'>
               <label htmlFor='firstName' className='col-sm-2 col-form-label'>Email</label>
               <div className='col-sm-10'>
@@ -135,9 +137,7 @@ function Settings () {
                 <input className='form-control' disabled={isDisable} value={userData.newPassword} onChange={handleChange} type='password' id='newPassword' name='newPassword' />
               </div>
             </div>
-                <button href='#' className='btn btn-dark' >
-                     Submit
-                </button>
+                <Button href='#' className='btn btn-dark' name="Submit" />
           </form>
         </div>
     </div>

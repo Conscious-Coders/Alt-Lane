@@ -378,7 +378,7 @@ function Profile (){
            <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px', marginBottom: "10px"}} alt=""/>
            <PhotoChange />
          </div>
-         <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
+         <div className='card w-75 col-8' style={{background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)" }}>
            <div className='card-body'>
              <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
              {editBtn === true? (
