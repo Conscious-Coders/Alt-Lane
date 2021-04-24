@@ -3,7 +3,7 @@ import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
 import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
-
+import Button from '../Components/Button'
 
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
@@ -67,56 +67,59 @@ function Login () {
     
 }
 
-    if(typeof token === undefined){
-      console.log(token, "line 70 undefined"); 
-      return <Redirect to='/login'/>
-    }
-    else if(token) {
-      return <Redirect to='/homepage'/>
-    } 
-  
+  if(typeof token === undefined){
+    return <Redirect to='/login'/>
+  }
+  else if(token) {
+    return <Redirect to='/homepage'/>
+  } 
 
   return (
     <div>
       <LandingNavBar/>
-      <div className="container" style={{ marginTop:"5%", height: "50vh", marginBottom:"10%"}}>
-        <img src='/alt_lane_black.png' style={{ width: '125px', marginBlock:"1%", height: 'auto' }} alt="alt-line logo"/>
+      <div className="container" style={{ marginTop:"2%", height: "60vh", marginBottom:"10%"}}>
+        <img src='/alt_lane_black.png' style={{ width: '125px', margin:"3%", height: 'auto', }} alt="alt-line logo"/>
         <div className='containter d-flex justify-content-center'>
-          <div className='card w-50'>
-            <div className='container card-body' >
+          <div className='card w-50' style={{marginTop: "50px auto",padding: "10px", boxShadow: "2px 2px 3px 2px rgba(0,0,0,0.2)"}}>
+            <div className='container card-body' style={{padding: "20px 15px"}} >
               <form onSubmit={handleSubmit} style={{marginTop: '5%'}}>
                 <div className='mb-3 row'>
-                  <label htmlFor='email' className='col-sm-3 col-form-label text-start'>Email</label>
+                  <label htmlFor='email' className='col-sm-3 col-form-label' style={{fontFamily: "'Chivo', sans-serif", color: "#764288", paddingLeft: "20px"}}>Email</label>
                   <div className='col-sm-8'>
                     <input className='form-control'            
-                    value={form.email}
-                    onChange={handleChange}
-                    type='email'
-                    id='email'
-                    name='email' />
+                      value={form.email}
+                      onChange={handleChange}
+                      type='email'
+                      id='email'
+                      name='email' />
                   </div>
                 </div>
                 <div className='mb-3 row'>
-                  <label htmlFor='password' className='col-sm-3 col-form-label text-start'>Password</label>
+                  <label htmlFor='password' className='col-sm-3 col-form-label' style={{fontFamily: "'Chivo', sans-serif", color: "#764288", paddingLeft: "20px"}}>Password</label>
                   <div className='col-sm-8'>
                     <input className='form-control' 
-                    value={form.password}
-                    onChange={handleChange} 
-                    type='password' 
-                    id='password'
-                    name='password' />
+                      value={form.password}
+                      onChange={handleChange} 
+                      type='password' 
+                      id='password'
+                      name='password' />
                   </div>
                 </div>
                 {form.errorMessage && (
                 <span className="form-error">{form.errorMessage}</span>
                 )}
-                <button href='#' className='btn btn-dark' disabled={form.isSubmitting}>
-                  {form.isSubmitting ? (
+                <Button 
+                  href='#' 
+                  className='btn btn-dark' 
+                  style={{margin: "10px"}} 
+                  disabled={form.isSubmitting} 
+                  name={form.isSubmitting ? (
                     "Loading..."
                   ) : (
                     "Login"
-                  )}
-                </button>
+                  )}>
+                  
+                </Button>
                 <br></br>
               </form>
             </div>

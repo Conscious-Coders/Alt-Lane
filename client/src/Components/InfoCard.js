@@ -9,7 +9,7 @@ function InfoCard(props) {
 
   return (
     <div>
-    <Card className="shadow p-3 mb-5 bg-body rounded" style={{ color: "black", width: '18rem', height:'28rem', background:"linear-gradient(345deg, #B2C3EE 40%, #D6C5F9 90%)"}}>
+    <Card className="shadow p-3 mb-5 bg-body rounded" style={{ color: "black", width: '18rem', height:'28rem', background:"linear-gradient(345deg, #B2C3EE 20%, #D6C5F9 90%"}}>
       <CardImg className="rounded-circle z-depth-2" top width="100%" style={{ paddingTop: '1rem', width: '10rem' , alignSelf: 'center'}}  src={info.img} alt="Card image cap" />
       <CardBody>
         <CardTitle tag="h3" style={{fontFamily: "'Chivo', sans-serif"}}>{info.title}</CardTitle>
