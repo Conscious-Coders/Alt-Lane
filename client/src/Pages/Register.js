@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom'
 import LandingNavBar from '../Components/LandingNavBar'
 import Footer from "../Components/Footer"
 import Form from '../Hooks/Form'
+import MenteeForm from '../Hooks/MenteeForm'
 import { Multiselect } from 'multiselect-react-dropdown';
 
 import Button from '../Components/Button'
@@ -33,14 +34,17 @@ function Register () {
     company: "",
     linkedin: "",
   })
-  //switch between mentee/mentor register
-  window.onload = function(){
-    var menteeRegister = document.querySelector("#menteeRegister");
-    var mentorRegister = document.querySelector("#mentorRegister");
-    setTimeout(function(){ mentorRegister.checked = true})
-    setTimeout(function(){ menteeRegister.checked = true})
-    
-  }
+  const { menteeForm, handleMentee } = MenteeForm({
+    firstName: "", 
+    lastName: "", 
+    email: "", 
+    password: "", 
+    photoUrl: "", 
+    userType: "",
+    parentName: "",
+    parentEmail: "",
+    careerFieldInterest: []
+  })
   
  const [careers, setCareers] = React.useState([])
   React.useEffect(()=>{
@@ -79,18 +83,14 @@ function Register () {
   //get the values for mentee interests as an array of ids
   const menteeInterests = ()=>{
     const values = menteeCareer.current.getSelectedItems();
-     values.forEach(val => form.careerFieldInterest.push(val.id))
+     values.forEach(val => menteeForm.careerFieldInterest.push(val.id))
   } 
   
   const handleSubmit= async (e )=>{
     e.preventDefault();
     form.userType = e.target.id
-    if(form.userType === "mentee"){
-      menteeInterests()
-    }else{
-      getAllVals()
-    }
-
+    
+    
     try{   //sending user images to cloudinary to then store a image url in the db
       const response = await fetch("https://api.cloudinary.com/v1_1/alt-lane/image/upload", {
         method: 'POST',
@@ -98,8 +98,40 @@ function Register () {
      })
      const result = await response.json()
      form.photoUrl = result.secure_url
+     menteeForm.photoUrl =  result.secure_url
     }
     catch(err){console.log(err)}
+   
+    let data = {}
+    if(form.userType === "mentee"){
+      data ={
+        first_name: menteeForm.firstName, 
+        last_name: menteeForm.lastName, 
+        email: menteeForm.email, 
+        password: menteeForm.password, 
+        photo_url: menteeForm.photoUrl, 
+        user_type: form.userType,
+        parent_name: menteeForm.parentName,
+        parent_email: menteeForm.parentEmail,
+        career_field_array: menteeForm.careerFieldInterest
+      }
+      menteeInterests()
+    }else{
+      data = {
+        first_name: form.firstName, 
+        last_name: form.lastName, 
+        email: form.email, 
+        password: form.password, 
+        photo_url: form.photoUrl, 
+        user_type: form.userType,
+        bio: form.bio,
+        career_field_id: form.careerField,
+        company: form.company,
+        linkedin_url: form.linkedin,
+      }
+
+      getAllVals()
+    }
 
     try{
       await fetch(`${FETCH_URL}users/register`,{
@@ -108,61 +140,9 @@ function Register () {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          first_name: form.firstName, 
-          last_name: form.lastName, 
-          email: form.email, 
-          password: form.password, 
-          photo_url: form.photoUrl, 
-          user_type: form.userType,
-          parent_name: form.parentName,
-          parent_email: form.parentEmail,
-          bio: form.bio,
-          career_field_id: form.careerField,
-          company: form.company,
-          linkedin_url: form.linkedin,
-          career_field_array: form.careerFieldInterest
-        })
+        body: JSON.stringify(data)
       })
-      
-      // const id = await fetch(`${FETCH_URL}users`)
-      // const getId = await id.json();
-      // const current = await getId.data.filter(ele => ele.email === form.email)
-
-      // form.id = current[0].user_id
       setRegistered(true)
-    
-      // const url = `${FETCH_URL}${form.userType}s`
-      // let data = {};
-      // if(form.userType === "mentee"){
-      //   data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
-      // }else{
-      //   data = {mentor_id: form.id, bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
-      // }
-      // const menteeMentorPost = await fetch(url,{
-      //   method: 'POST',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(data)
-      // })
-      // await menteeMentorPost.json()
-
-      // if(form.userType === "mentee"){
-      //   await fetch(`${FETCH_URL}mentee_interests`,{
-      //     method: 'POST',
-      //     headers: {
-      //       'Access-Control-Allow-Origin': '*',
-      //       'Accept': 'application/json',
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //       mentee_id: form.id,
-      //       career_field_array: form.careerFieldInterest
-      //     })
-      //   })
-      // }
     }
     catch(err){
       console.log(err)
@@ -179,7 +159,7 @@ function Register () {
       <div className="container"  style={{ marginTop:"5%",  marginBottom:"10%"}}>
       <div className='container  justify-content-center'  style={{ marginTop:"1%"}}>
         <div className='card w-50 panel-login containerRegister' style={{boxShadow: "2px 2px 3px 2px rgba(0,0,0,0.2)"}} >
-           <input type="radio" name ="tab" id="menteeRegister" checked="checked" />
+           <input type="radio" name ="tab" id="menteeRegister" defaultChecked />
             <input type="radio" name ="tab" id="mentorRegister"/>
             <div className="tabs">
               <label className="tab text" htmlFor="menteeRegister" >Mentee Register</label>
@@ -190,55 +170,55 @@ function Register () {
               <div className='mb-3 row input'>
                 <label htmlFor='firstName' style={{color: "#764288"}} className='col-sm-3 col-form-label' >First Name</label>
                 <div className='col-sm-8'> 
-                  <input className='form-control text' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' />
+                  <input className='form-control text' value={menteeForm.firstName} onChange={handleMentee} type='firstName' name='firstName' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='lastName' className='col-sm-3 col-form-label'>Last Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.lastName} onChange={handleChange} type='lastName' id='lastName' name='lastName' />
+                  <input className='form-control text' value={menteeForm.lastName} onChange={handleMentee} type='lastName'  name='lastName' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='email' className='col-sm-3 col-form-label'>Email</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
+                  <input className='form-control text' value={menteeForm.email} onChange={handleMentee} type='email'  name='email' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='password' className='col-sm-3 col-form-label'>Password</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
+                  <input className='form-control text' value={menteeForm.password} onChange={handleMentee} type='password' name='password' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='photoUrl' className='col-sm-3 col-form-label'>Upload an image </label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file' name='photoUrl' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='parentName' className='col-sm-3 col-form-label'>Parent Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.parentName} onChange={handleChange} type='text' id='parentName' name='parentName' />
+                  <input className='form-control text' value={menteeForm.parentName} onChange={handleMentee} type='text' name='parentName' />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='parentEmail' className='col-sm-3 col-form-label'>Parent Email</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.parentEmail} onChange={handleChange} type='email' id='parentEmail' name='parentEmail' />
+                  <input className='form-control text' value={menteeForm.parentEmail} onChange={handleMentee} type='email'  name='parentEmail' />
                 </div>
               </div>
               <div className='mb-3 row input'>
               <label htmlFor='careerField' className='col-sm-3 col-form-label'>Career Field Interest </label>
               <div className='col-sm-8 text'>
-              <Multiselect className= "form-control text" id="careers"
+              <Multiselect className= "form-control text"
                 ref = {menteeCareer}
                 onChange ={menteeInterests}
                 options={careers}
                 displayValue="key"
                 selectionLimit="3"
-                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "border-radius": "5px" } }}
+                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "borderRadius": "5px" } }}
                 />
               </div>
             </div>
@@ -303,7 +283,7 @@ function Register () {
                 options={careers}
                 displayValue="key"
                 selectionLimit="1"
-                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "border-radius": "5px" } }}
+                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "bordeRadius": "5px" } }}
                 />
               </div>
             </div>

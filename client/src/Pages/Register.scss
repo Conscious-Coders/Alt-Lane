@@ -94,9 +94,6 @@
   }  
 }
 
-input[type=radio] {
-  display: none;
-}
 input[type=radio]{ display:none; }
 
 @for $i from 0 through 1{
@@ -109,14 +106,14 @@ input[type=radio]{ display:none; }
       }
       
       ~ .pages{
-         transform:translateX(-100% * $i+1);
+         transform:translateX(-100% * $i);
          
          .page:nth-of-type(#{$i + 1}){
             .input { 
                opacity:1; 
                transform:translateX(0%); 
                transition:all 0.5s;
-               @for $i from 1 through 10{
+               @for $i from 0 through 10{
                   &:nth-child(#{$i}) { 
                      transition-delay:0.1s*$i
                   }
