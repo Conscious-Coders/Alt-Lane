@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route} from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
 import React from 'react'
 import './App.css'
 import Register from './Pages/Register'
@@ -64,22 +64,22 @@ function App () {
                 <Register />
             </Route>
             <Route path='/login'>
-              {!state.isAuthorized ? <Login /> : 
-               <Homepage/>
+              {!state.isAuthorized ?  <Login /> : <Redirect to="/hompage"/>
+               
               }
             </Route>
 
             <Route path='/homepage'>
-               {!state.isAuthorized ? <Login /> : <Homepage />}
+               {!state.isAuthorized ? <Redirect to="/login" /> : <Homepage />}
             </Route>
             <Route path='/profile'>
-              {!state.isAuthorized ? <Login /> : <Profile />}
+              {!state.isAuthorized ? <Redirect to="/login" /> : <Profile />}
             </Route>
             <Route path='/settings'>
-            {!state.isAuthorized ? <Login /> : <Settings isMentor={false}/>}    
+            {!state.isAuthorized ? <Redirect to="/login" /> : <Settings isMentor={false}/>}    
             </Route>
             <Route path='/find-mentor'>
-              {!state.isAuthorized ? <Login /> : <FindMentor />}
+              {!state.isAuthorized ? <Redirect to="/login" /> : <FindMentor />}
             </Route>
             <Route path="/verify-emailToken/:mentee_id/:mentor_id/:token">
               <VerifyEmail />
