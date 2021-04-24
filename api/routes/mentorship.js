@@ -98,10 +98,10 @@ router.post('/', verifyToken, async function (request, response) {
     const emailData = {
       to: parentEmail.parent_email, 
       from: process.env.EMAIL,
-      subject: "Please verify your child's account", 
-      text: `Your child chose the following mentor: 
+      subject: "Please verify your child's Mentor", 
+      html: `Your child chose the following mentor: 
          Name:  ${firstName} ${lastName}
-         Photo: ${photo}
+         Photo: <img src='${photo}' alt='Mentor pic'/>
          Bio:   ${bio}
          Current Company: ${company}
          Linkedin: ${linkedInProfile}
