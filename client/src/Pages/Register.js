@@ -102,7 +102,7 @@ function Register () {
     catch(err){console.log(err)}
 
     try{
-      await fetch(`${FETCH_URL}users`,{
+      await fetch(`${FETCH_URL}users/register`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -114,48 +114,55 @@ function Register () {
           email: form.email, 
           password: form.password, 
           photo_url: form.photoUrl, 
-          user_type: form.userType
+          user_type: form.userType,
+          parent_name: form.parentName,
+          parent_email: form.parentEmail,
+          bio: form.bio,
+          career_field_id: form.careerField,
+          company: form.company,
+          linkedin_url: form.linkedin,
+          career_field_array: form.careerFieldInterest
         })
       })
       
-      const id = await fetch(`${FETCH_URL}users`)
-      const getId = await id.json();
-      const current = await getId.data.filter(ele => ele.email === form.email)
+      // const id = await fetch(`${FETCH_URL}users`)
+      // const getId = await id.json();
+      // const current = await getId.data.filter(ele => ele.email === form.email)
 
-      form.id = current[0].user_id
+      // form.id = current[0].user_id
       setRegistered(true)
     
-      const url = `${FETCH_URL}${form.userType}s`
-      let data = {};
-      if(form.userType === "mentee"){
-        data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
-      }else{
-        data = {mentor_id: form.id, bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
-      }
-      const menteeMentorPost = await fetch(url,{
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      await menteeMentorPost.json()
+      // const url = `${FETCH_URL}${form.userType}s`
+      // let data = {};
+      // if(form.userType === "mentee"){
+      //   data ={mentee_id: form.id, parent_name: form.parentName, parent_email: form.parentEmail}
+      // }else{
+      //   data = {mentor_id: form.id, bio: form.bio, career_field_id: form.careerField, company: form.company, linkedin_url: form.linkedin}
+      // }
+      // const menteeMentorPost = await fetch(url,{
+      //   method: 'POST',
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(data)
+      // })
+      // await menteeMentorPost.json()
 
-      if(form.userType === "mentee"){
-        await fetch(`${FETCH_URL}mentee_interests`,{
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            mentee_id: form.id,
-            career_field_array: form.careerFieldInterest
-          })
-        })
-      }
+      // if(form.userType === "mentee"){
+      //   await fetch(`${FETCH_URL}mentee_interests`,{
+      //     method: 'POST',
+      //     headers: {
+      //       'Access-Control-Allow-Origin': '*',
+      //       'Accept': 'application/json',
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //       mentee_id: form.id,
+      //       career_field_array: form.careerFieldInterest
+      //     })
+      //   })
+      // }
     }
     catch(err){
       console.log(err)
