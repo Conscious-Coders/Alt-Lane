@@ -65,7 +65,6 @@ function App () {
             </Route>
             <Route path='/login'>
               {!state.isAuthorized ?  <Login /> : <Redirect to="/homepage"/>
-               
               }
             </Route>
 
