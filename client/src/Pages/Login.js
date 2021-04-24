@@ -1,7 +1,6 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
 
 
