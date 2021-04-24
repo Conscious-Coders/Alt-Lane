@@ -72,7 +72,7 @@ From within the root directory: Look at package.json file and keep updating
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECTS_TAB).
+View the project roadmap [Projects](https://github.com/Conscious-Coders/Alt-Lane/projects).
 
 
 ## Contributing
