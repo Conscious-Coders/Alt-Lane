@@ -33,6 +33,9 @@ function LoginedNavBar(){
       return <Redirect to='/'/>
   }
 
+
+  
+
   return(
     <div>
       <Navbar className="ml-auto" sticky="top" color="dark" dark expand="md" >
