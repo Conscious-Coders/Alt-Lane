@@ -66,14 +66,8 @@ function Login () {
     }
     
 }
-    if(typeof token === undefined){
-      console.log(token, "line 70 undefined"); 
-      return <Redirect to='/login'/>
-    }
-    else if(token) {
-      return <Redirect to='/homepage'/>
-    } 
-  
+   
+ 
 
   return (
     <div>
