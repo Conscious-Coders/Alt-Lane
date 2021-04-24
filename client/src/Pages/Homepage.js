@@ -163,7 +163,7 @@ function Homepage () {
         {!data ? <DefaultHome/> : 
           <div style={{marginTop:"5%", minHeight: "50vh", marginBottom:"10%", position: "relative"}}>
             <div className="homepage">
-                {authState.userType === "mentor" ? <h2 style={{fontSize: "20px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentee</h2> : <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentor</h2>}
+                {authState.userType === "mentor" ? <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentee</h2> : <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentor</h2>}
               <div className="container">
                 {homeInfo && authState.userType === "mentee" &&(
                 <div className="row d-flex justify-content-center">

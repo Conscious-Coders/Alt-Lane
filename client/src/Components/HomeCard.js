@@ -51,7 +51,10 @@ function HomeCard(props) {
           <div className="d-flex justify-content-between">
             <div className="d-flex text-start justify-content-start">
               <h3 className="card-title" style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}  >{props.name}</h3> 
-                <h3 style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288" }}>|</h3>
+                {props.userType === "mentee"?  <h3 style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288" }}>|</h3> :
+                <div></div>
+                } 
+               
                 <h3 className="card-title" style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}>{props.career}</h3>
             </div> 
           </div>
