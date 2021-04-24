@@ -9,15 +9,15 @@ function InfoCard(props) {
 
   return (
     <div>
-    <Card style={{ color: "#ffffff", width: '15rem', background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
-      <CardImg className="rounded-circle z-depth-2" top width="100%" style={{ paddingTop: '1em', width: '10rem' , alignSelf: 'center'}}  src="https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg" alt="Card image cap" />
+    <Card className="shadow p-3 mb-5 bg-body rounded" style={{ color: "black", width: '18rem', height:'28rem', background:"linear-gradient(345deg, #B2C3EE 40%, #D6C5F9 90%)"}}>
+      <CardImg className="rounded-circle z-depth-2" top width="100%" style={{ paddingTop: '1rem', width: '10rem' , alignSelf: 'center'}}  src={info.img} alt="Card image cap" />
       <CardBody>
-        <CardTitle tag="h5">{info.title}</CardTitle>
-        <CardSubtitle tag="h6" className="mb-2">{info.subTitle}</CardSubtitle>
-        <CardText style={{color: "#000000"}}>{info.bio}</CardText>
-        <CardText>
+        <CardTitle tag="h3" style={{fontFamily: "'Chivo', sans-serif"}}>{info.title}</CardTitle>
+        <CardSubtitle tag="h6" style={{fontFamily: "'Chivo', sans-serif"}}>{info.subTitle}</CardSubtitle>
+        <CardText style={{fontFamily: "'Sarala', sans-serif",marginTop:"1rem", color:"#3c3b3d"}}>{info.bio}</CardText>
+        <CardText className="infoCardBody" style={{fontFamily: "'Sarala', sans-serif"}}>
           <span>
-              <a style={{color: "#ffffff", textDecoration: "none"}} href={info.github}>GitHub</a> | <a style={{color: "#ffffff", textDecoration: "none"}} href={info.linkedIn}>LinkedIn</a>
+              <a style={{color: "black", textDecoration: "none"}} href={info.github}>GitHub</a> | <a style={{color: "black", textDecoration: "none"}} href={info.linkedIn}>LinkedIn</a>
           </span>
         </CardText>
       </CardBody>
