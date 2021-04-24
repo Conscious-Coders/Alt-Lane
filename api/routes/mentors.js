@@ -11,7 +11,7 @@ router.get('/', async function (request, response) {
     })
   } catch (err) {
     console.log(err)
-    response.status(404).send(err)
+    response.status(500).json(err)
   }
 })
 
@@ -32,7 +32,7 @@ router.get('/:singleMentor', async function (request, response) {
       data: data
     })
   } catch (err) {
-    response.status(404).send(err)
+    response.status(500).json(err)
   }
 })
 
@@ -50,7 +50,7 @@ router.post('/', async function (request, response) {
     return response.sendStatus(200)
   } catch (err) {
     console.log(err)
-    response.status(404).send(err)
+    response.status(500).json(err)
   }
 })
 
@@ -73,7 +73,7 @@ router.put('/', verifyToken, async function (request, response) {
         return response.sendStatus(200)
       }catch (err) {
         console.log(err)
-        response.status(404).send(err)
+        response.status(500).json(err)
       }
 })
 
@@ -96,7 +96,7 @@ router.patch('/', verifyToken, async function (request, response) {
       return response.sendStatus(200)
     }catch (err) {
       console.log(err)
-      response.status(404).send(err)
+      response.status(500).json(err)
     }
 })
 

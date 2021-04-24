@@ -34,7 +34,6 @@ function Login () {
       errorMessage: null
     });
 
-    
     try{
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
@@ -53,9 +52,9 @@ function Login () {
           type: "LOGIN",
           payload: data
         })
+          console.log(data); 
           setToken(data.token);  
       })
-      
     }
     catch(error){
       setForm({
@@ -67,13 +66,13 @@ function Login () {
     
 }
 
-  if(typeof token === undefined){
-    return <Redirect to='/login'/>
-  }
-  else if(token) {
+  if(token) {
     return <Redirect to='/homepage'/>
   } 
-
+  if(token === false) {
+    return <Redirect to='/login'/>
+  }
+  
   return (
     <div>
       <LandingNavBar/>
