@@ -170,43 +170,43 @@ function Register () {
               <div className='mb-3 row input'>
                 <label htmlFor='firstName' style={{color: "#764288"}} className='col-sm-3 col-form-label' >First Name</label>
                 <div className='col-sm-8'> 
-                  <input className='form-control text' value={menteeForm.firstName} onChange={handleMentee} type='firstName' name='firstName' />
+                  <input className='form-control text' value={menteeForm.firstName} onChange={handleMentee} type='firstName' name='firstName' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='lastName' className='col-sm-3 col-form-label'>Last Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={menteeForm.lastName} onChange={handleMentee} type='lastName'  name='lastName' />
+                  <input className='form-control text' value={menteeForm.lastName} onChange={handleMentee} type='lastName'  name='lastName' required />
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='email' className='col-sm-3 col-form-label'>Email</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={menteeForm.email} onChange={handleMentee} type='email'  name='email' />
+                  <input className='form-control text' value={menteeForm.email} onChange={handleMentee} type='email'  name='email' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='password' className='col-sm-3 col-form-label'>Password</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={menteeForm.password} onChange={handleMentee} type='password' name='password' />
+                  <input className='form-control text' value={menteeForm.password} onChange={handleMentee} type='password' name='password' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='photoUrl' className='col-sm-3 col-form-label'>Upload an image </label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file' name='photoUrl' />
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file' name='photoUrl' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='parentName' className='col-sm-3 col-form-label'>Parent Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={menteeForm.parentName} onChange={handleMentee} type='text' name='parentName' />
+                  <input className='form-control text' value={menteeForm.parentName} onChange={handleMentee} type='text' name='parentName' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='parentEmail' className='col-sm-3 col-form-label'>Parent Email</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={menteeForm.parentEmail} onChange={handleMentee} type='email'  name='parentEmail' />
+                  <input className='form-control text' value={menteeForm.parentEmail} onChange={handleMentee} type='email'  name='parentEmail' required />
                 </div>
               </div>
               <div className='mb-3 row input'>
@@ -219,6 +219,7 @@ function Register () {
                 displayValue="key"
                 selectionLimit="3"
                 style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "borderRadius": "5px" } }}
+                required
                 />
               </div>
             </div>
@@ -228,49 +229,49 @@ function Register () {
               <div className='mb-3 row input'>
                 <label htmlFor='firstName' className='col-sm-3 col-form-label'>First Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' />
+                  <input className='form-control text' value={form.firstName} onChange={handleChange} type='text' id='firstName' name='firstName' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='lastName' className='col-sm-3 col-form-label'>Last Name</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' />
+                  <input className='form-control text' value={form.lastName} onChange={handleChange} type='text' id='lastName' name='lastName' required/>
                 </div>
               </div>
               <div className='mb-3 row input '>
                 <label htmlFor='email' className='col-sm-3 col-form-label'>Email</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.email} onChange={handleChange} type='email' id='email' name='email' />
+                  <input className='form-control text' value={form.email} onChange={handleChange} type='email' id='email' name='email' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='password' className='col-sm-3 col-form-label'>Password</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.password} onChange={handleChange} type='password' id='password' name='password' />
+                  <input className='form-control text' value={form.password} onChange={handleChange} type='password' id='password' name='password' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='company' className='col-sm-3 col-form-label'>Company</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.company} onChange={handleChange} type='text' id='company' name='company' />
+                  <input className='form-control text' value={form.company} onChange={handleChange} type='text' id='company' name='company' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='linkedin' className='col-sm-3 col-form-label'>LinkedIn</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='linkedin' />
+                  <input className='form-control text' value={form.linkedin} onChange={handleChange} type='url' id='linkedin' name='linkedin' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='bio' className='col-sm-3 col-form-label'>Bio</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' />
+                  <input className='form-control text' value={form.bio} onChange={handleChange} type='text' id='bio' name='bio' required/>
                 </div>
               </div>
               <div className='mb-3 row input'>
                 <label htmlFor='photoUrl'  className='col-sm-3 col-form-label'>Upload an image</label>
                 <div className='col-sm-8'>
-                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' required />
                 </div>
               </div>
               <div className='mb-3 row input'>
@@ -284,6 +285,7 @@ function Register () {
                 displayValue="key"
                 selectionLimit="1"
                 style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "bordeRadius": "5px" } }}
+                required
                 />
               </div>
             </div>

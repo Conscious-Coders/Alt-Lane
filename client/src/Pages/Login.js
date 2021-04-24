@@ -31,8 +31,8 @@ function Login () {
       ...form,
       isSubmitting: true,
       errorMessage: null
-    });
-
+    })  
+    
     try{
       await fetch(`${FETCH_URL}users/login`, {
         method: 'POST',
@@ -51,7 +51,6 @@ function Login () {
           payload: data
         })
 
-        console.log(data)
          if(data.isAuthorized === false){
           setForm({
             ...form,
@@ -59,7 +58,6 @@ function Login () {
             errorMessage: "Login Failed - Invalid Email or Password"
           });
          }
-        
       })
     }
     catch(error){
@@ -91,7 +89,9 @@ function Login () {
                       onChange={handleChange}
                       type='email'
                       id='email'
-                      name='email' />
+                      name='email' 
+                      required
+                      />
                   </div>
                 </div>
                 <div className='mb-3 row'>
@@ -102,7 +102,9 @@ function Login () {
                       onChange={handleChange} 
                       type='password' 
                       id='password'
-                      name='password' />
+                      name='password' 
+                      required
+                      />
                   </div>
                 </div>
                 <Button 
