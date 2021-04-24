@@ -65,7 +65,9 @@ function Login () {
       });
     }
     
-}
+  }
+  config-Tracey-add-netlify-redirects-file
+  
     if(typeof token === undefined){
       console.log(token, "line 70 undefined"); 
       return <Redirect to='/login'/>
