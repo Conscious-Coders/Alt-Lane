@@ -1,9 +1,11 @@
 const verifyToken = require('./middleware/verifytoken')
 
+const URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.netlify.app' : 'http://localhost:3000'
+
 const setupSocketIO = (server) => {
     
     const io = require('socket.io')(server, {
-        cors: {origin: 'http://localhost:3000',
+        cors: {origin: URL,
       
           credentials: true,
       
