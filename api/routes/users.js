@@ -78,6 +78,41 @@ router.post('/pass', verifyToken, async function (request, response) {
   }
 })
 
+
+router.post('/register', async function (request, response) {
+  let hashed = bcrypt.hashSync(request.body.password, 10)
+  let first_name = request.body.first_name
+  let last_name = request.body.last_name
+  let email = request.body.email
+  let photo_url = request.body.photo_url
+  let user_type = request.body.user_type
+  let parent_name = request.body.parent_name
+  let parent_email = request.body.parent_email
+  let bio = request.body.bio
+  let career_field_id = parseInt(request.body.career_field_id)
+  let company = request.body.company
+  let linkedin_url = request.body.linkedin_url 
+  try {
+    await db.none(`INSERT INTO users (first_name, last_name, email, password, photo_url, user_type) VALUES ('${first_name}', '${last_name}', '${email}', '${hashed}', '${photo_url}', '${user_type}')`)
+
+    const data = await db.any(`SELECT user_id FROM users WHERE email= '${email}'`)
+
+    if(user_type === 'mentee'){
+      await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${parseInt(data[0].user_id)}, '${parent_name}', '${parent_email}')`)
+    }else{
+      await db.none(`INSERT INTO mentors (mentor_id, bio, career_field_id, company, linkedin_url) VALUES (${parseInt(data[0].user_id)}, '${bio}', ${career_field_id}, '${company}', '${linkedin_url}')`)
+    }
+    return response.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
+})
+
+
+
+
+
 router.post('/', async function (request, response) {
   let hashed = bcrypt.hashSync(request.body.password, 10)
   let first_name = request.body.first_name
