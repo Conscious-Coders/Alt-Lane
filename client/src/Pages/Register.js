@@ -181,7 +181,7 @@ function Register () {
           <div className='container card-body pages'>
             <form className="page" onSubmit={handleSubmit} id="mentee" style={{display:"block"}}  >
               <div className='mb-3 row input'>
-                <label htmlFor='firstName' className='col-sm-3 col-form-label' >First Name</label>
+                <label htmlFor='firstName' style={{color: "#764288"}} className='col-sm-3 col-form-label' >First Name</label>
                 <div className='col-sm-8'> 
                   <input className='form-control text' value={form.firstName} onChange={handleChange} type='firstName' id='firstName' name='firstName' />
                 </div>
