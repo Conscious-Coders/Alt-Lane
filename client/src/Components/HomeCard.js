@@ -41,7 +41,7 @@ function HomeCard(props) {
   }
    
   return (
-    <div className="card mb-3" style={{width: "50rem", height: "20rem", padding: "5px", height: "auto" ,background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)"}}>
+    <div className="card mb-3" style={{width: "50rem", padding: "5px", height: "auto", background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)"}}>
     <div className="d-flex flex-wrap align-items-center row g-0">
       <div className="col-md-3">
         <img className="rounded-circle z-depth-2" style={{ width: '8rem', height: '8rem'}} src= {props.photo} alt="profile img"/>
@@ -58,7 +58,7 @@ function HomeCard(props) {
             {props.userType === "mentor"? <div style={{fontSize: "18px",marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}>Interests: {props.interests}</div> :
             <div></div>
             } 
-            <p className="text-start card-text" style={{fontFamily: "'Chivo', sans-serif", color: "#3c3b3d", fontSize: "16px"}}>{props.bio}</p>
+            <p className="text-start card-text" style={{fontFamily: "'Sarala', sans-serif", color: "#3c3b3d", fontSize: "16px"}}>{props.bio}</p>
             <div className="d-flex justify-content-between">
               <div className="d-flex justify-content-start">
                 <Button name='Remove' disabled onClick={handleRemove}/> 
