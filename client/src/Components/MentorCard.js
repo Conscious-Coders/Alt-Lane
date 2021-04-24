@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Button from '../Components/Button';
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function MentorCard(props) {
@@ -30,20 +30,22 @@ function MentorCard(props) {
 
   return (
     <div className="d-flex justify-content-center">
-      <div className="card" style={{ width: '22rem', background:"linear-gradient(45deg, #A0AAE7 20%, #BA92F3 90%)"}}>
+      <div className="card" style={{ width: '25rem', height: "auto",  background: "linear-gradient(360deg, #B2C3EE 20%, #D6C5F9 90%)"}}>
         <div className="text-center" style={{paddingTop:"20px"}}>
-          <img className="rounded-circle z-depth-2" style={{ width: '8rem', height: '8rem'}} src= {props.photo} alt="profile img"/>
+          <img className="rounded-circle z-depth-2" style={{ width: '10rem', height: '10rem'}} src= {props.photo} alt="profile img"/>
          </div>
-         <div className="card-bod " style={{padding:"20px"}}>
-          <h2 className="card-title fw-normal" style={{ color: 'white'}}>{props.name}</h2>
-          <h5 className="card-subtitle  fw-light" style={{ color: 'white'}}>{props.company}</h5>
+         <div className="card-body" style={{padding:"20px"}}>
+          <h2 className="card-title fw-normal" style={{ color: '#764288'}}>{props.name}</h2>
+          <h3 className="card-subtitle  fw-light" style={{fontFamily: "'Chivo', sans-serif", color: '#764288'}}>{props.company}</h3>
           <div className="d-flex justify-content-center">
-          <hr style={{align:"center", width:"50%", background:"white", height:"2px", border:"none"}}/>
+            <hr style={{align:"center", width:"60%", height:"2px" }}/>
           </div>
-            <p className="card-text text-dark fw-light">{props.bio}</p>
-            <div className="d-flex justify-content-end">
-              <button className="btn btn-light" onClick={handleClick}> Connect </button>
+          <div className="d-flex flex-column">
+            <p className="" style={{fontFamily: "'Sarala', sans-serif", color: "#3c3b3d", fontSize: "16px"}}>{props.bio}</p>
+            <div className="d-flex justify-content-end" style={{padding: "10px"}}>
+              <Button className="btn btn-dark" onClick={handleClick} name="Connect"/>
             </div>
+          </div>
         </div>
       </div>
     </div>
