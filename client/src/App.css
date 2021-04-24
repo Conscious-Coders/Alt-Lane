@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+h1{
+  font-family: 'Playball', cursive;
+  font-size: 80px;
+}
+h2{
+  font-family: 'Chivo', sans-serif;
+  font-size: 35px;
+}
+p{
+  font-family: 'Sarala', sans-serif;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -56,8 +68,7 @@
 }
 
 .landingSlider  h1, .landingSlider h2 {
-  color:rgb(255, 255, 255);
-  text-shadow: 2px 2px 1px rgb(0, 0, 0);
+  color: #4e2c5a;
 }
 
 .landingSlider.activeSlide {

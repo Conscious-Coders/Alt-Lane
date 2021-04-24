@@ -102,7 +102,7 @@ function Register () {
     catch(err){console.log(err)}
 
     try{
-      await fetch(`{FETCH_URL}users`,{
+      await fetch(`${FETCH_URL}users`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
