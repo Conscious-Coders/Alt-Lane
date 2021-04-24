@@ -64,8 +64,7 @@ function App () {
                 <Register />
             </Route>
             <Route path='/login'>
-              {!state.isAuthorized ?  <Login /> : <Redirect to="/hompage"/>
-               
+              {!state.isAuthorized ?  <Login /> : <Redirect to="/homepage"/>
               }
             </Route>
 
