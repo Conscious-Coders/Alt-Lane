@@ -157,19 +157,17 @@ function Homepage () {
     })
   } 
 
-  console.log(authState); 
   return (
     <div >
       <LoginNav /> 
         {!data ? <DefaultHome/> : 
-          <div style={{marginTop:"5%", height: "100vh", marginBottom:"10%", position: "relative", minHeight: "50vh"}}>
+          <div style={{marginTop:"5%", minHeight: "50vh", marginBottom:"10%", position: "relative"}}>
             <div className="homepage">
-                {authState.userType === "mentor" ? <h1 className="text-left">Meet Your Mentee</h1> : <h1>Meet Your Mentor</h1>}
+                {authState.userType === "mentor" ? <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentee</h2> : <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Meet Your Mentor</h2>}
               <div className="container">
                 {homeInfo && authState.userType === "mentee" &&(
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentor, index ) => (
-                 
                   <div className= "row d-flex justify-content-center" key={index}>
                     <HomeCard token={authState.token} name={mentor.firstName} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user_id} userType={authState.userType} bio={mentor.bio}  />
                   </div>

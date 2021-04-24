@@ -3,15 +3,19 @@
   display:flex;
   flex-direction:column;
   overflow: hidden;
-  
   animation: hi 0.5s;
-  background: linear-gradient(to left, #BA92F3, #A0AAE7);
   -webkit-transform: translateZ(0px);
   * {
      box-sizing: border-box;
   }
 }
-
+#mentor{
+   margin-left: 20px;
+}
+.page label{
+  font-family: 'Chivo', sans-serif;
+  color: #764288;
+}
 .pages{
   flex:1;
   position:relative;
@@ -46,7 +50,7 @@
      }
      input.text{
         background:#F6F7F9;
-        border:none;
+        //border:none;
         border-radius:4px;
         width:100%;
         height:40px;
@@ -70,6 +74,8 @@
 }
 
 .tabs{
+  font-family: 'Chivo', sans-serif;
+  font-size: 18px;
   max-height:50px;
   height:50px;
   background:#FFF;
@@ -97,7 +103,8 @@ input[type=radio]{ display:none; }
    input[type=radio]:nth-of-type(#{$i + 1}):checked {
       ~ .tabs .tab:nth-of-type(#{$i + 1}){
          box-shadow:inset (6 * $i) + -3px 2px 5px rgba(0, 0, 0, 0.25);
-         color:#3F4C7F;
+         color:#764288;
+         background:linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%);
          .text{ transform:scale(0.9); }
       }
       

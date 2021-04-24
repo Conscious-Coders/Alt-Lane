@@ -41,44 +41,40 @@ function HomeCard(props) {
   }
    
   return (
-    <div className="card mb-3" style={{width: "700px", height: "auto" ,background: "linear-gradient(to left,  #A0AAE7, #BA92F3)"}}>
+    <div className="card mb-3" style={{width: "50rem", padding: "5px", height: "auto", background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)"}}>
     <div className="d-flex flex-wrap align-items-center row g-0">
       <div className="col-md-3">
         <img className="rounded-circle z-depth-2" style={{ width: '8rem', height: '8rem'}} src= {props.photo} alt="profile img"/>
       </div>
       <div className="col">
-        <div className="card-body">
-          <div className="container">
-            <div className="row">
-              <div className="text-start col">
-                <div className="d-flex justify-content-between">
-                  <div className="d-flex text-start justify-content-start">
-                    <h5 className="card-title" style={{marginRight: "10px"}} >{props.name}</h5>
-                    <h5 className="card-title text-muted">{props.career}</h5>
-                  </div> 
-                  <div className="d-flex justify-content-end"  >
-                    
-                  </div>
-                </div>
-                 {props.userType === "mentor"? <div>Interests: {props.interests}</div> :
-                  <div></div>
-                 } 
-                </div> 
+        <div className=" card-body text-start col">
+          <div className="d-flex justify-content-between">
+            <div className="d-flex text-start justify-content-start">
+              <h3 className="card-title" style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}  >{props.name}</h3> 
+                {props.userType === "mentee"?  <h3 style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288" }}>|</h3> :
+                <div></div>
+                } 
+               
+                <h3 className="card-title" style={{marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}>{props.career}</h3>
+            </div> 
+          </div>
+            {props.userType === "mentor"? <div style={{fontSize: "18px",marginRight: "10px", fontFamily: "'Chivo', sans-serif", color: "#764288"}}>Interests: {props.interests}</div> :
+            <div></div>
+            } 
+            <p className="text-start card-text" style={{fontFamily: "'Sarala', sans-serif", color: "#3c3b3d", fontSize: "16px"}}>{props.bio}</p>
+            <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-start">
+                <Button name='Remove' disabled onClick={handleRemove}/> 
               </div>
-          </div>  
-          <p className="text-start card-text">{props.bio}</p>
-        </div>
-        <div className="d-flex justify-content-between">
-          <div className="d-flex justify-content-start">
-          <Button name='Remove' disabled onClick={handleRemove}/> 
-          </div>
-          <div className="d-flex justify-content-end" style={{paddingBottom: "1rem", paddingRight: "1rem"}}>
-            {props.status === "pending"? 
-              <Button name='Pending' disabled/> :
-              <Link to={`${roomName}/${props.name}`}> <Button name='Chat With Me'/></Link>
-            }
-          </div>
-        </div>     
+              <div className="d-flex justify-content-end" style={{paddingBottom: "1rem", paddingRight: "1rem"}}>
+                {props.status === "pending"? 
+                  <Button name='Pending' disabled/> :
+                  <Link to={`${roomName}/${props.name}`}> <Button name='Chat With Me'/></Link>
+                }
+              </div>
+            </div>  
+        </div> 
+
       </div>
     </div>
   </div>

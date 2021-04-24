@@ -54,7 +54,7 @@ function FindMentor() {
     const properties = {
       duration: 5000,
       autoplay: false,
-      transitionDuration: 500,
+      transitionDuration: 700,
       arrows: false,
       infinite: true,
       easing: "ease",
@@ -119,7 +119,7 @@ function FindMentor() {
         
           <div className="contianer-fluid"style={{ paddingTop:"8%",  marginBottom:"10%"}}>
           <div style={{paddingBottom:"10px"}}>
-            <h1>Find a Mentor</h1>
+            <h2 style={{fontSize: "40px", color: "#764288", marginBottom: "20px"}}>Find a Mentor</h2>
           </div>
           <div className="slide-container">
             <Slide ref={slideRef} {...properties}>
