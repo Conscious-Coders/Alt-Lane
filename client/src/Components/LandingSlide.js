@@ -5,7 +5,7 @@ function LandingSlide(){
 
   const slides = [
     {
-      title: 'Choices, Choices, Choices..',
+      title: 'Choices, Choices...',
       subtitle: 'Confused? No worries',
       image: '/Images/ladyArrows.jpeg',
       alt: 'women in forked road'
