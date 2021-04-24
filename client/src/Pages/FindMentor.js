@@ -54,7 +54,7 @@ function FindMentor() {
     const properties = {
       duration: 5000,
       autoplay: false,
-      transitionDuration: 500,
+      transitionDuration: 700,
       arrows: false,
       infinite: true,
       easing: "ease",

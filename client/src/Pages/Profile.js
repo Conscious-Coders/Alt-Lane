@@ -1,10 +1,11 @@
 import React from 'react'
 import { Multiselect } from 'multiselect-react-dropdown';
+import './Profile.scss'
 import Footer from "../Components/Footer"
 import LoginNav from "../Components/LoginedNavBar"
 import { AuthContext } from "../App";
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Button from '../Components/Button';
 
 
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
@@ -139,7 +140,6 @@ function Profile (){
       //Retreving all interests in careerField
       if(authState.userType === "mentor") getAllVals()
       else menteeInterests() 
-       
       setEditBtn(false)
     }
   })
@@ -243,10 +243,7 @@ function Profile (){
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Edit Profile Picture
-        </Button>
-  
+        <Button onClick={handleShow} name= "Edit Profile Picture"/>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header >
             <Modal.Title>Please upload a photo</Modal.Title>
@@ -255,12 +252,8 @@ function Profile (){
             <input className='form-control' ref={fileSelect} onChange={uploadFile} type='file' id='photoUrl' name='photoUrl' />
             </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={sendNewPhoto}>
-              Submit
-            </Button>
+            <Button onClick={handleClose} name="Close"/>
+            <Button variant="dark" onClick={sendNewPhoto} name="Submit"/>
           </Modal.Footer>
         </Modal>
       </>
@@ -346,7 +339,6 @@ function Profile (){
         callInterestsRoute(careerFields)
       }  
 
-    
       //If a mentee changes any information
       if(changedMentee === true){
         try{
@@ -383,7 +375,7 @@ function Profile (){
         
        <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
          <div className=" col-2" > 
-           <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px' }} alt=""/>
+           <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px', marginBottom: "10px"}} alt=""/>
            <PhotoChange />
          </div>
          <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
@@ -471,22 +463,22 @@ function Profile (){
       
     )
     : (<div>
-    <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%"}}>
+    <div className="container"  style={{ marginTop:"10%",  marginBottom:"10%", minHeight: "50vh"}}>
      
     <div className='containter d-flex justify-content-between'  style={{ marginTop:"1%"}}>
       <div className=" col-2" > 
-        <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px' }} alt=""/>
+        <img src={form.photoUrl} className="rounded-circle" style={{ width: '200px', height: '200px', marginBottom: "1rem" }} alt=""/>
         <PhotoChange />
       </div>
-      <div className='card w-75 col-8' style={{ background:"linear-gradient(45deg, #A0AAE7 40%, #BA92F3 90%)"}}>
-        <div className='card-body'>
+      <div className='card w-75 col-8 ' style={{ background: "linear-gradient(-90deg, #B2C3EE 20%, #D6C5F9 90%)"}}>
+        <div className='card-body profile'>
           <div className="d-flex justify-content-end" style={{ marginBottom:"1%"}}>
           {editBtn === true? (<button className="btn btn-dark " onClick={btnClick}>Edit</button>) 
           : (<button className="btn btn-dark " onClick={btnClick}>Cancel</button>)}
             
           </div>
        
-          <form>
+          <form className="profile">
             <div className='mb-3 row'>
               <label htmlFor='firstName' className='col-sm-2 col-form-label'>First Name</label>
               <div className='col-sm-10'>
@@ -528,7 +520,7 @@ function Profile (){
             <div className='mb-3 row'>
               <label htmlFor='careerFieldInterest' className='col-sm-2 col-form-label'>Career Field Interest</label>
               <div className='col-sm-10'>
-                <Multiselect
+                <Multiselect className="multiselect"
                 ref = {menteeCareer}
                 onChange ={menteeInterests}
                 options={careers}
@@ -537,6 +529,7 @@ function Profile (){
                 displayValue="key"
                 selectionLimit="3"
                 disable = {editBtn}
+                style={{ chips: { "background": "black" }, searchBox: {background: "white","border": "none", "border-radius": "5px" } }}
                 />
                 
               </div>

@@ -231,6 +231,7 @@ function Register () {
                 options={careers}
                 displayValue="key"
                 selectionLimit="3"
+                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "border-radius": "5px" } }}
                 />
               </div>
             </div>
@@ -280,6 +281,12 @@ function Register () {
                 </div>
               </div>
               <div className='mb-3 row input'>
+                <label htmlFor='photoUrl'  className='col-sm-3 col-form-label'>Upload an image</label>
+                <div className='col-sm-8'>
+                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
+                </div>
+              </div>
+              <div className='mb-3 row input'>
               <label htmlFor='careerField' className='col-sm-3 col-form-label'>Career Field Interest </label>
               <div className='col-sm-8 text'>
                 <Multiselect id="careers"
@@ -289,15 +296,11 @@ function Register () {
                 options={careers}
                 displayValue="key"
                 selectionLimit="1"
+                style={{ chips: { "background": "black" }, searchBox: {background: "#F6F7F9","border": "1px solid #ced4da", "border-radius": "5px" } }}
                 />
               </div>
             </div>
-              <div className='mb-3 row input'>
-                <label htmlFor='photoUrl'  className='col-sm-3 col-form-label'>Upload an image</label>
-                <div className='col-sm-8'>
-                  <input className='form-control text' ref={fileSelect} onChange={uploadFile} type='file'  id='photoUrl' name='photoUrl' />
-                </div>
-              </div>
+              
               <Button className="input" name = "Register"/>
             </form>
           </div>
