@@ -38,7 +38,7 @@ function Profile (){
 
     async function fetchMentor(){
 
-      const response = await fetch(`${FETCH_URL}${authState.userType}s/${authState.user}`,{ headers:{
+      const response = await fetch(`${FETCH_URL}${authState.userType}s/${authState.user_id}`,{ headers:{
         'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${authState.token}`
        }})
@@ -68,13 +68,13 @@ function Profile (){
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authState.token}`
       },
-      body: JSON.stringify({mentee_id: authState.user})
+      body: JSON.stringify({mentee_id: authState.user_id})
    })
       const result = await response.json();
       setMenteeInterests(result.data)
     }
     getMenteeInterests()
-  }, [authState.user, authState.userType, authState.token])
+  }, [authState.user_id, authState.userType, authState.token])
 
 
 
@@ -118,7 +118,7 @@ function Profile (){
           'Authorization': `Bearer ${authState.token}`
         },
         body: JSON.stringify({
-          mentee_id : authState.user,
+          mentee_id : authState.user_id,
           career_field_array : arr
         }),
       })
@@ -173,7 +173,7 @@ function Profile (){
             'Authorization': `Bearer ${authState.token}`
           },
           body: JSON.stringify({
-            user_id : authState.user,
+            user_id : authState.user_id,
             first_name : fName,
             last_name : lName,
           }),
@@ -207,7 +207,7 @@ function Profile (){
           'Authorization': `Bearer ${authState.token}`
         },
         body: JSON.stringify({
-          user_id : authState.user,
+          user_id : authState.user_id,
           photo_url : photo,
         }),
       })

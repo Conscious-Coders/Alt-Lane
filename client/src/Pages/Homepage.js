@@ -28,11 +28,11 @@ function Homepage () {
       const result = await res.json()
       result.data.forEach(user => {
         if(authState.userType === "mentor"){
-            if(user.mentor_id === authState.user){
+            if(user.mentor_id === authState.user_id){
               relationship.push({user: user.mentee_id,status:user.status})
             }
         }else {
-          if(user.mentee_id === authState.user){
+          if(user.mentee_id === authState.user_id){
             relationship.push({user: user.mentor_id, status:user.status})
           }
         }
@@ -67,7 +67,7 @@ function Homepage () {
     }
     getCareers()
 
-  },[authState.token, authState.user, authState.userType])
+  },[authState.token, authState.user_id, authState.userType])
  
   // for each mentor a mentee has get their first and last name , bio, position 
   // or for each mentee get a mentor gets their first and last name and all of their interests 
@@ -171,7 +171,7 @@ function Homepage () {
                  {homeInfo.map((mentor, index ) => (
                  
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentor.firstName} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user} userType={authState.userType} bio={mentor.bio}  />
+                    <HomeCard token={authState.token} name={mentor.firstName} photo={mentor.photoUrl} status={mentor.status} mentorshipId= {mentor.id} career={mentor.career} userId={authState.user_id} userType={authState.userType} bio={mentor.bio}  />
                   </div>
                 ))}
                 </div>
@@ -182,7 +182,7 @@ function Homepage () {
                 <div className="row d-flex justify-content-center">
                  {homeInfo.map((mentee, index ) => (
                   <div className= "row d-flex justify-content-center" key={index}>
-                    <HomeCard token={authState.token} name={mentee.firstName} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
+                    <HomeCard token={authState.token} name={mentee.firstName} photo={mentee.photoUrl} status={mentee.status} interests={mentee.interestNames} userId={authState.user_id} mentorshipId= {mentee.id} userType={authState.userType} bio={mentee.bio}  />
                   </div>
                 ))}
                 </div>

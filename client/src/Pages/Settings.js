@@ -9,7 +9,7 @@ const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.hero
 function Settings () {
 
   const { state: authState } = React.useContext(AuthContext);
-  const userId = authState.user; 
+  const userId = authState.user_id; 
   const authToken = authState.token; 
   const [isDisable, setDisable] = useState(true)
   const [editBtn, setEditBtn]  = useState("Edit")
