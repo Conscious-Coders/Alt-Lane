@@ -1,7 +1,6 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
 
 
@@ -67,14 +66,8 @@ function Login () {
     
 }
 
-    if(typeof token === undefined){
-      console.log(token, "line 70 undefined"); 
-      return <Redirect to='/login'/>
-    }
-    else if(token) {
-      return <Redirect to='/homepage'/>
-    } 
-  
+   
+
 
   return (
     <div>
