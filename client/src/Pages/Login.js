@@ -1,14 +1,14 @@
 import React, {useState }from 'react'
 import Footer from '../Components/Footer'
 import LandingNavBar from '../Components/LandingNavBar'
-import {Redirect} from 'react-router-dom';
+// import {Redirect} from 'react-router-dom';
 import { AuthContext } from "../App";
 import Button from '../Components/Button'
 
 const FETCH_URL = process.env.NODE_ENV === 'production' ? 'https://alt-lane.herokuapp.com/' : 'http://localhost:9000/'
 
 function Login () {
-  const { dispatch } = React.useContext(AuthContext);
+  const { dispatch } = React.useContext(AuthContext)
 
   const initialState = {
     email: "",
@@ -16,7 +16,7 @@ function Login () {
     isSubmitting: false,
     errorMessage: null
   };
-  const [form, setForm] = React.useState(initialState);
+  const [form, setForm] = useState(initialState);
 
   const handleChange  =  event =>{
     setForm({
@@ -25,7 +25,6 @@ function Login () {
     });
   }
 
-  const [token, setToken] = useState(null);
   const handleSubmit = async e => {
     e.preventDefault();
     setForm({
@@ -40,7 +39,6 @@ function Login () {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         withCredentials: true,
         body: JSON.stringify({
@@ -52,8 +50,16 @@ function Login () {
           type: "LOGIN",
           payload: data
         })
-          console.log(data); 
-          setToken(data.token);  
+
+        console.log(data)
+         if(data.isAuthorized === false){
+          setForm({
+            ...form,
+            isSubmitting: false,
+            errorMessage: "Login Failed - Invalid Email or Password"
+          });
+         }
+        
       })
     }
     catch(error){
@@ -62,17 +68,9 @@ function Login () {
         isSubmitting: false,
         errorMessage: error.message || error.statusText
       });
-    }
-    
-}
+    } 
+ }
 
-  if(token) {
-    return <Redirect to='/homepage'/>
-  } 
-  if(token === false) {
-    return <Redirect to='/login'/>
-  }
-  
   return (
     <div>
       <LandingNavBar/>
@@ -81,6 +79,9 @@ function Login () {
         <div className='containter d-flex justify-content-center'>
           <div className='card w-50' style={{marginTop: "50px auto",padding: "10px", boxShadow: "2px 2px 3px 2px rgba(0,0,0,0.2)"}}>
             <div className='container card-body' style={{padding: "20px 15px"}} >
+            {form.errorMessage && (
+                <p className="form-error" style={{background: "#D6C5F9", padding: "1%"}}>{form.errorMessage}</p>
+                )}
               <form onSubmit={handleSubmit} style={{marginTop: '5%'}}>
                 <div className='mb-3 row'>
                   <label htmlFor='email' className='col-sm-3 col-form-label' style={{fontFamily: "'Chivo', sans-serif", color: "#764288", paddingLeft: "20px"}}>Email</label>
@@ -104,9 +105,6 @@ function Login () {
                       name='password' />
                   </div>
                 </div>
-                {form.errorMessage && (
-                <span className="form-error">{form.errorMessage}</span>
-                )}
                 <Button 
                   href='#' 
                   className='btn btn-dark' 

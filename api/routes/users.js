@@ -12,9 +12,9 @@ router.post('/login', async function (req, res) {
     const email = req.body.email  
     const password = req.body.password
     const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
-     //test password equality
-     let samePassword = bcrypt.compareSync(password, data[0].password)
-     //if password matches
+
+    let samePassword = bcrypt.compareSync(password, data[0].password)
+  
      if(samePassword){
       jwt.sign({data}, process.env.RANDOM_TOKEN, {expiresIn: '3600s'}, async (err, token)=>{
        await res.status(202).json({
@@ -31,8 +31,10 @@ router.post('/login', async function (req, res) {
         })
       }
      } catch(err){
-         console.log(err)
-         res.status(500).json(err)
+         res.status(500).json({
+           error: err, 
+           isAuthorized: false
+         })
       }
     })
  

@@ -24,7 +24,6 @@ const reducer = (state, action) => {
     case "LOGIN":
       localStorage.setItem("user", JSON.stringify(action.payload.user_id));
       localStorage.setItem("token", JSON.stringify(action.payload.token));
-      console.log("this is the payload",action.payload)
       return {
         ...state,
         isAuthorized: action.payload.isAuthorized,

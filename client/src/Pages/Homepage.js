@@ -156,7 +156,6 @@ function Homepage () {
       })
     })
   } 
-
   return (
     <div >
       <LoginNav /> 
