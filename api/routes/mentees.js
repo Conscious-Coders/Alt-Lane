@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
 
-router.get('/', async function (request, response) {
+router.get('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users RIGHT OUTER JOIN mentees ON (users.user_id = mentees.mentee_id)')
     return response.json({
@@ -18,7 +18,7 @@ router.get('/', async function (request, response) {
 // Using id from users table
 //Is used as a Get Method request
 // for register
-router.get('/:singleMentee', async function (request, response) {
+router.get('/:singleMentee', verifyToken, async function (request, response) {
   try {
     const getUser = parseInt(request.params.singleMentee)
     const data = await db.any(`SELECT mentees.mentee_id, users.first_name, users.last_name, users.email, mentees.parent_name, mentees.parent_email, users.photo_url, users.user_type FROM users, mentees WHERE users.user_id=${getUser} AND mentees.mentee_id=${getUser}`)
@@ -32,7 +32,7 @@ router.get('/:singleMentee', async function (request, response) {
 })
 
 //for register
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
   let parent_email = request.body.parent_email  

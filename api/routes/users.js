@@ -38,7 +38,7 @@ router.post('/login', async function (req, res) {
  
 
 
-router.get('/', async function (request, response) {
+router.get('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users')
     
@@ -53,7 +53,7 @@ router.get('/', async function (request, response) {
 
 
 //Is used as a Get Method request
-router.post('/get', async function (request, response) {
+router.post('/get', verifyToken, async function (request, response) {
   try {
     const getUser = parseInt(request.body.user_id)
     const data = await db.any(`SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users WHERE user_id=${getUser}`)
@@ -119,7 +119,7 @@ router.post('/register', async function (request, response) {
 
 
 
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   let hashed = bcrypt.hashSync(request.body.password, 10)
   let first_name = request.body.first_name
   let last_name = request.body.last_name

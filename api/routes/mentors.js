@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
 
-router.get('/', async function (request, response) {
+router.get('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users RIGHT OUTER JOIN mentors ON (users.user_id = mentors.mentor_id)')
     return response.json({
@@ -17,7 +17,7 @@ router.get('/', async function (request, response) {
 
 // Using id from users table
 
-router.get('/:singleMentor', async function (request, response) {
+router.get('/:singleMentor', verifyToken, async function (request, response) {
   try {
     const getUser = parseInt(request.params.singleMentor)
     const data = await db.any(`SELECT mentors.mentor_id, users.first_name, users.last_name, users.email, mentors.bio, mentors.career_field_id, mentors.company, users.photo_url, mentors.linkedin_url, users.user_type FROM users, mentors WHERE users.user_id=${getUser} AND mentors.mentor_id=${getUser}`)
@@ -37,7 +37,7 @@ router.get('/:singleMentor', async function (request, response) {
 })
 
 //for register
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   let mentor = parseInt(request.body.mentor_id)
   let bio = request.body.bio
   let career_field_id = parseInt(request.body.career_field_id)
