@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
 
-router.get('/', verifyToken, async function (request, response) {
+router.get('/', async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM career_fields')
     return response.json({
