@@ -11,8 +11,8 @@
   flex-direction: column;
   justify-content: space-between;
   background: #ffffff;
-  border: 1px solid #A0AAE7;
-  box-shadow: 3px 2px 3px 2px rgba(0,0,0,0.2);
+  border: 1px solid #a0aae7;
+  box-shadow: 3px 2px 3px 2px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   height: 60%;
   width: 45%;
@@ -23,7 +23,7 @@
   font-size: 20px;
   text-transform: uppercase;
   text-decoration: none;
-  background: linear-gradient(345deg, #A0AAE7 40%, #BA92F3 90%) ;
+  background: linear-gradient(345deg, #a0aae7 40%, #ba92f3 90%);
   padding: 20px;
   display: inline-block;
   border: none;
@@ -49,15 +49,15 @@ select:focus {
   outline: none;
 }
 
-.chatAnim img{
+.chatAnim img {
   width: 300px;
   height: 300px;
   align-items: center;
 }
-.chatAnimPlane img{
+.chatAnimPlane img {
   width: 200px;
   height: 200px;
 }
-.chatAnimPlane h2{
+.chatAnimPlane h2 {
   font-size: 40px;
 }

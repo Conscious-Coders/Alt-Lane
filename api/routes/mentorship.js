@@ -5,71 +5,68 @@ const verifyToken = require('../middleware/verifytoken')
 const randomToken = require('uuid-random')
 const { sendEmail } = require('../mailer')
 
-router.get('/', async function (request, response){
-  try{
+router.get('/', async function (request, response) {
+  try {
     const data = await db.any('SELECT * FROM mentorship')
 
     return response.json({
       data: data
     })
-  }catch(err){
+  } catch (err) {
     console.log(err)
     response.status(500).json(err)
   }
 })
 
-//Returns all mentors associated with a single mentee
-//Is used as a Get Method request
+// Returns all mentors associated with a single mentee
+// Is used as a Get Method request
 router.post('/get_mentees_for_mentor', async function (request, response) {
-    try {
-      const mentor = parseInt(request.body.mentor_id)
-      const data = await db.any(`SELECT users.first_name, users.last_name, users.photo_url, career_fields.name FROM mentorship 
+  try {
+    const mentor = parseInt(request.body.mentor_id)
+    const data = await db.any(`SELECT users.first_name, users.last_name, users.photo_url, career_fields.name FROM mentorship 
                                         JOIN users ON mentee_id = users.user_id
                                         JOIN mentee_interests ON mentee_interests.mentee_id = mentorship.mentee_id
                                         JOIN career_fields ON mentee_interests.career_field_id = career_fields.id                    
                                             WHERE mentorship.mentor_id = ${mentor}`)
-      return response.json({
-        data: data
-      })
-    } catch (err) {
-      console.log(err)
-      response.status(500).json(err)
-    }
+    return response.json({
+      data: data
+    })
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
 })
 
-
-//Returns all mentors associated with a single mentee
-//Is used as a Get Method request
+// Returns all mentors associated with a single mentee
+// Is used as a Get Method request
 router.post('/get_mentors_for_mentee', async function (request, response) {
-    try {
-      const mentee = parseInt(request.body.mentee_id)
-      const data = await db.any(`SELECT users.first_name, users.last_name, users.photo_url, mentors.bio, career_fields.name, mentorship.status FROM mentorship
+  try {
+    const mentee = parseInt(request.body.mentee_id)
+    const data = await db.any(`SELECT users.first_name, users.last_name, users.photo_url, mentors.bio, career_fields.name, mentorship.status FROM mentorship
                                                                JOIN users ON mentorship.mentor_id = users.user_id
                                                                JOIN mentors ON mentorship.mentor_id = mentors.mentor_id
                                                                JOIN career_fields ON mentors.career_field_id = career_fields.id 
                                                                       WHERE mentorship.mentee_id = ${mentee}`)
-      return response.json({
-        data: data
-      })
-    } catch (err) {
-      console.log(err)
-      response.status(500).json(err)
-    }
+    return response.json({
+      data: data
+    })
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
 })
 
-router.post('/verify-emailToken', async function(req, res){
+router.post('/verify-emailToken', async function (req, res) {
   const mentee_id = req.body.mentee_id
   const mentor_id = req.body.mentor_id
   const emailToken = req.body.token
-  try{
-
+  try {
     const dbToken = await db.one(`SELECT temp_token from mentorship where mentee_id = ${mentee_id} and mentor_id=${mentor_id}`)
-     if(emailToken === dbToken.temp_token){
+    if (emailToken === dbToken.temp_token) {
       await db.none(`UPDATE mentorship SET status = 'active', temp_token= null WHERE mentee_id=${mentee_id} AND mentor_id = ${mentor_id}`)
       return res.send('Success')
     }
-    
-  }catch(err){
+  } catch (err) {
     res.status(500).json(err)
   }
 })
@@ -92,13 +89,13 @@ router.post('/', verifyToken, async function (request, response) {
     const company = mentor_info[0].company
     const linkedInProfile = mentor_info[0].linkedin_url
     const careerField = mentor_info[0].name
-     
+
     const emailLinkUrl = process.env.NODE_ENV === 'production' ? 'https://alt-lane.netlify.app' : 'http://localhost:3000'
 
     const emailData = {
-      to: parentEmail.parent_email, 
+      to: parentEmail.parent_email,
       from: process.env.EMAIL,
-      subject: "Please verify your child's Mentor", 
+      subject: "Please verify your child's Mentor",
       html: `Your child chose the following mentor: 
          Name:  ${firstName} ${lastName}
          Photo: <img src='${photo}' alt='Mentor pic'/>
@@ -120,48 +117,40 @@ router.post('/', verifyToken, async function (request, response) {
   }
 })
 
-
 router.put('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-        try {
-        await db.none(`UPDATE mentorship SET status = 'active', temp_token= null WHERE mentee_id=${mentee} AND mentor_id = ${mentor}`)
-        return response.sendStatus(200)
-      } catch (err) {
-        console.log(err)
-        response.status(500).json(err)
-      }
-    })
- 
-
+  try {
+    await db.none(`UPDATE mentorship SET status = 'active', temp_token= null WHERE mentee_id=${mentee} AND mentor_id = ${mentor}`)
+    return response.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
+})
 
 router.patch('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-        try {
-
-        await db.none(`UPDATE mentorship SET status='active', temp_token=null WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
-        return response.sendStatus(200)
-      } catch (err) {
-        console.log(err)
-        response.status(500).json(err)
-      }
-    })
-
-
-
+  try {
+    await db.none(`UPDATE mentorship SET status='active', temp_token=null WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
+    return response.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
+})
 
 router.delete('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const mentor = parseInt(request.body.mentor_id)
-        try {
-
-        await db.none(`DELETE FROM mentorship WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
-        return response.sendStatus(200)
-      } catch (err) {
-        console.log(err)
-        response.status(500).json(err)
-      }
-    })
+  try {
+    await db.none(`DELETE FROM mentorship WHERE mentee_id=${mentee} AND mentor_id=${mentor}`)
+    return response.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    response.status(500).json(err)
+  }
+})
 
 module.exports = router
