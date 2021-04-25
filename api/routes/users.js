@@ -11,7 +11,8 @@ const jwt = require('jsonwebtoken')
 // Is used as a Get Method request
 router.post('/login', async function (req, res) {
   try {
-    const email = req.body.email
+    let email = req.body.email
+    // email = email.toLowerCase()
     const password = req.body.password
     const data = await db.any(`SELECT first_name, users.user_id, users.user_type, users.password FROM users where users.email = '${email}'`)
 
@@ -90,11 +91,13 @@ router.post('/register', async function (request, response) {
   const hashed = bcrypt.hashSync(request.body.password, 10)
   const first_name = request.body.first_name
   const last_name = request.body.last_name
-  const email = request.body.email
+  let email = request.body.email
+  email = email.toLowerCase()
   const photo_url = request.body.photo_url
   const user_type = request.body.user_type
   const parent_name = request.body.parent_name
-  const parent_email = request.body.parent_email
+  let parent_email = request.body.parent_email
+  parent_email = parent_email.toLowerCase()
   const bio = request.body.bio
   const career_field_id = parseInt(request.body.career_field_id)
   const company = request.body.company
@@ -133,6 +136,9 @@ router.post('/', verifyToken, async function (request, response) {
   let first_name = request.body.first_name
   let last_name = request.body.last_name
   let email = request.body.email
+  if (email) {
+    email = email.toLowerCase()
+  }
   let photo_url = request.body.photo_url
   let user_type = request.body.user_type
   try {
@@ -149,14 +155,17 @@ router.patch('/', verifyToken, async function (request, response) {
     const updateUsers = parseInt(request.body.user_id)
     const first_name = request.body.first_name
     const last_name = request.body.last_name
-    const email = request.body.email
+    let email = request.body.email
     const password = request.body.password
     const photo_url = request.body.photo_url
     if (first_name) await db.any(`UPDATE users SET first_name='${first_name}' WHERE user_id=${updateUsers}`)
 
     if (last_name) await db.any(`UPDATE users SET last_name='${last_name}' WHERE user_id=${updateUsers}`)
 
-    if (email) await db.any(`UPDATE users SET email='${email}' WHERE user_id=${updateUsers}`)
+    if (email) {
+      email = email.toLowerCase()
+      await db.any(`UPDATE users SET email='${email}' WHERE user_id=${updateUsers}`)
+    }
 
     if (password) {
       const hashed = bcrypt.hashSync(request.body.password, 10)
@@ -175,14 +184,17 @@ router.put('/', verifyToken, async function (request, response) {
     const updateUsers = parseInt(request.body.user_id)
     const first_name = request.body.first_name
     const last_name = request.body.last_name
-    const email = request.body.email
+    let email = request.body.email
     const password = request.body.password
     const photo_url = request.body.photo_url
     if (first_name) await db.any(`UPDATE users SET first_name='${first_name}' WHERE user_id=${updateUsers}`)
 
     if (last_name) await db.any(`UPDATE users SET last_name='${last_name}' WHERE user_id=${updateUsers}`)
 
-    if (email) await db.any(`UPDATE users SET email='${email}' WHERE user_id=${updateUsers}`)
+    if (email) {
+      email = email.toLowerCase()
+      await db.any(`UPDATE users SET email='${email}' WHERE user_id=${updateUsers}`)
+    } 
 
     if (password) {
       const hashed = bcrypt.hashSync(request.body.password, 10)

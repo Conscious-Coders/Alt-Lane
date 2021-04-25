@@ -18,28 +18,34 @@ function Settings() {
   const [isDisable, setDisable] = useState(true);
   const [editBtn, setEditBtn] = useState("Edit");
   const [userData, setUserData] = useState({
-    email: "",
+    oldEmail: "",
+    newEmail: "",
     oldPassword: "",
     newPassword: "",
   });
+  let onlyEmail = false;
 
   useEffect(() => {
     async function getUserInfo() {
-      const response = await fetch(`${FETCH_URL}users/get`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authState.token}`,
-        },
-        body: JSON.stringify({
-          user_id: userId,
-        }),
-      });
-      const result = await response.json();
-      await result.data[0];
-      setUserData({
-        email: result.data[0].email,
-      });
+      try {
+        const response = await fetch(`${FETCH_URL}users/get`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authState.token}`,
+          },
+          body: JSON.stringify({
+            user_id: userId,
+          }),
+        });
+        const result = await response.json();
+        await result.data[0];
+        setUserData({
+          oldEmail: result.data[0].email,
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
     getUserInfo();
   }, [authState.token, userId]);
@@ -55,34 +61,60 @@ function Settings() {
   }
 
   async function checkPassword() {
-    const response = await fetch(`${FETCH_URL}users/pass`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authState.token}`,
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        password: userData.oldPassword,
-      }),
-    });
-
-    return response.json();
+    try {
+      const response = await fetch(`${FETCH_URL}users/pass`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authState.token}`,
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          password: userData.oldPassword,
+        }),
+      });
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function updateUserInfo() {
-    const response = await fetch(`${FETCH_URL}users`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authState.token}`,
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        password: userData.newPassword,
-      }),
-    });
-    return response;
+    if (onlyEmail === true && userData.oldEmail !== userData.newEmail) {
+      try {
+        await fetch(`${FETCH_URL}users`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authState.token}`,
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            email: userData.newEmail,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        await fetch(`${FETCH_URL}users`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authState.token}`,
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            password: userData.newPassword,
+            email: userData.newEmail,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    onlyEmail = false;
   }
 
   function enableEdit() {
@@ -97,9 +129,14 @@ function Settings() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isValidRequest = await checkPassword();
-    if (isValidRequest.isVerified) {
+    if (!userData.newPassword) {
+      onlyEmail = true;
       updateUserInfo();
+    } else {
+      let isValidRequest = await checkPassword();
+      if (isValidRequest.isVerified) {
+        updateUserInfo();
+      }
     }
   };
 
@@ -139,21 +176,18 @@ function Settings() {
 
               <form className="settings" onSubmit={handleSubmit}>
                 <div className="mb-3 row">
-                  <label
-                    htmlFor="firstName"
-                    className="col-sm-2 col-form-label"
-                  >
+                  <label htmlFor="email" className="col-sm-2 col-form-label">
                     Email
                   </label>
                   <div className="col-sm-10">
                     <input
                       className="form-control"
                       disabled={isDisable}
-                      value={userData.email}
+                      value={userData.newEmail}
                       onChange={handleChange}
-                      type="email"
-                      id="email"
-                      name="email"
+                      type="newEmail"
+                      id="newEmail"
+                      name="newEmail"
                     />
                   </div>
                 </div>
@@ -190,7 +224,12 @@ function Settings() {
                     />
                   </div>
                 </div>
-                <Button href="#" className="btn btn-dark" name="Submit" />
+                <div
+                  className="d-flex justify-content-end"
+                  style={{ marginBottom: "1%" }}
+                >
+                  <Button href="#" className="btn btn-dark" name="Submit" />
+                </div>
               </form>
             </div>
           </div>
