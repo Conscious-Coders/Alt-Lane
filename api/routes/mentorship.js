@@ -1,3 +1,4 @@
+/* eslint-disable */
 const express = require('express')
 const router = express.Router()
 const db = require('../db')
@@ -100,6 +101,8 @@ router.post('/', verifyToken, async function (request, response) {
       subject: `Please verify ${menteeFirstName}'s Mentor`, 
       html: 
       `<head>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Chivo&display=swap" rel="stylesheet">
       <style>
         .card {
           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -121,7 +124,7 @@ router.post('/', verifyToken, async function (request, response) {
         .container {
           padding: 2px 16px;
           width: 80%;
-          font-family: Chivo, sans-serif;
+          font-family: 'Chivo', sans-serif;
           text-align: center;
           margin: 0 auto
         }
@@ -136,10 +139,10 @@ router.post('/', verifyToken, async function (request, response) {
       <div class='card'>
       <img src='${photo}' alt='Mentor pic'/>
         <div class='container'>
-          <h2><b>${firstName} ${lastName}</b></h2>
-          <h3>${careerField}</h3> 
-          <h3>${bio}</h3>
-          <h3><b>${company}</b><h3>
+          <h1>${firstName} ${lastName}</h1>
+          <h2>${careerField}</h2> 
+          <h2>${bio}</h2>
+          <h2>${company}<h2>
           <a href="${linkedInProfile}">Check out my LinkedIn!</a>   
         </div>
       </div>`
