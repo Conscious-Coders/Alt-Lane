@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react";
 
-export default function Form (initialData = {}) {
-  const [form, setForm] = React.useState(initialData)
+export default function Form(initialData = {}) {
+  const [form, setForm] = React.useState(initialData);
 
-  function handleChange (event) {
-    const name = event.target.name
-    const value = event.target.value
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
 
     setForm({
       ...form,
-      [name]: value
-    })
+      [name]: value,
+    });
   }
-  return { form, handleChange }
+  return { form, handleChange };
 }

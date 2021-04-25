@@ -25,13 +25,13 @@
   vertical-align: middle;
 }
 
-.nameMessage{
+.nameMessage {
   margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
   padding: 0 5%;
 }
-.otherMessage{
+.otherMessage {
   margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
@@ -77,7 +77,7 @@
 }
 
 .backgroundGradient {
-  background: linear-gradient(345deg, #A0AAE7 40%, #BA92F3 90%);
+  background: linear-gradient(345deg, #a0aae7 40%, #ba92f3 90%);
 }
 
 .backgroundLight {
