@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('career_fields', function (table) {
     table.increments('id')
-    table.string('name', 50).notNullable().unique() 
+    table.string('name', 50).notNullable().unique()
   })
 }
 

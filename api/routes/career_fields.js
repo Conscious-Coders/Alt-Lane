@@ -14,7 +14,7 @@ router.get('/', async function (request, response) {
   }
 })
 
-//Is used as a Get Method request
+// Is used as a Get Method request
 router.post('/get_id_data', async function (request, response) {
   try {
     const getUser = parseInt(request.body.id)
@@ -27,7 +27,6 @@ router.post('/get_id_data', async function (request, response) {
   }
 })
 
-
 router.post('/', async function (request, response) {
   try {
     await db.none('INSERT INTO career_fields (name) VALUES (${name})', request.body)
@@ -39,7 +38,6 @@ router.post('/', async function (request, response) {
     response.status(500).json(err)
   }
 })
-
 
 router.patch('/', async function (request, response) {
   try {
@@ -55,7 +53,6 @@ router.patch('/', async function (request, response) {
   }
 })
 
-
 router.put('/', async function (request, response) {
   try {
     const updateUser = parseInt(request.body.id)
@@ -69,7 +66,6 @@ router.put('/', async function (request, response) {
     response.status(500).json(err)
   }
 })
-
 
 router.delete('/', async function (request, response) {
   try {
