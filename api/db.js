@@ -1,5 +1,5 @@
-// could be in the kenxfile 
-// returns a pg promise used in server.js file 
+// could be in the kenxfile
+// returns a pg promise used in server.js file
 
 const knexfile = require('./knexfile')
 const pg = require('pg-promise')()
@@ -14,10 +14,8 @@ require('dotenv').config()
 //   "user": process.env.DB_USER,
 //   "password": process.env.DB_PASS,
 // }
-  
 
-const cn = `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:5432/alt_lane`; 
-
+const cn = `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:5432/alt_lane`
 
 const ENDPOINT = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : cn
 
@@ -25,4 +23,4 @@ const ENDPOINT = process.env.NODE_ENV === 'production' ? process.env.DATABASE_UR
 
 const db = pg(ENDPOINT)
 
-module.exports = db;
+module.exports = db

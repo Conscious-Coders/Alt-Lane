@@ -24,7 +24,7 @@ require('socket.io')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
-app.use(cors({origin: '*', credentials: true, methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']}))
+app.use(cors({origin: '*', credentials: true, methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']}))
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -57,11 +57,11 @@ app.use(function (err, req, res, next) {
 })
 
 // create out server that we'll ultimately export
-const server = http.createServer(app) 
+const server = http.createServer(app)
 
 /**
  * Configure socket.io on server
  */
- setupSocketIO(server)
+setupSocketIO(server)
 
 module.exports = server
