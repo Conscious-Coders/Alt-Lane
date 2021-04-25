@@ -106,4 +106,3 @@ dist
 # Ignore db file
 db
 knexfile
-
