@@ -106,5 +106,3 @@ dist
 # Ignore db file
 db
 knexfile
-api/.eslintrc.json
-client/.eslintrc.json
