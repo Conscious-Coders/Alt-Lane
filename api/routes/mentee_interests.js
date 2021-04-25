@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require('../db')
 const verifyToken = require('../middleware/verifytoken')
 
-router.get('/', async function (request, response) {
+router.get('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM mentee_interests')
     return response.json({
@@ -14,7 +14,7 @@ router.get('/', async function (request, response) {
   }
 })
 
-router.post('/', async function (request, response) {
+router.post('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT * FROM mentee_interests')
     return response.json({

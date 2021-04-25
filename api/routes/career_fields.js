@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../db')
+const verifyToken = require('../middleware/verifytoken')
 
 router.get('/', async function (request, response) {
   try {
@@ -14,8 +15,8 @@ router.get('/', async function (request, response) {
   }
 })
 
-// Is used as a Get Method request
-router.post('/get_id_data', async function (request, response) {
+//Is used as a Get Method request
+router.post('/get_id_data', verifyToken, async function (request, response) {
   try {
     const getUser = parseInt(request.body.id)
     const data = await db.any(`SELECT * FROM career_fields WHERE id=${getUser}`)
@@ -27,7 +28,8 @@ router.post('/get_id_data', async function (request, response) {
   }
 })
 
-router.post('/', async function (request, response) {
+
+router.post('/', verifyToken, async function (request, response) {
   try {
     await db.none('INSERT INTO career_fields (name) VALUES (${name})', request.body)
 
@@ -39,7 +41,8 @@ router.post('/', async function (request, response) {
   }
 })
 
-router.patch('/', async function (request, response) {
+
+router.patch('/', verifyToken, async function (request, response) {
   try {
     const updateUser = parseInt(request.body.id)
     await db.any(`UPDATE career_fields SET name=$<name> WHERE id=${updateUser}`, request.body)
@@ -53,7 +56,8 @@ router.patch('/', async function (request, response) {
   }
 })
 
-router.put('/', async function (request, response) {
+
+router.put('/', verifyToken, async function (request, response) {
   try {
     const updateUser = parseInt(request.body.id)
     await db.any(`UPDATE career_fields SET name=$<name> WHERE id=${updateUser}`, request.body)
@@ -67,7 +71,8 @@ router.put('/', async function (request, response) {
   }
 })
 
-router.delete('/', async function (request, response) {
+
+router.delete('/', verifyToken, async function (request, response) {
   try {
     const deleteUser = parseInt(request.body.id)
     await db.none('DELETE FROM career_fields WHERE id=$1', deleteUser)

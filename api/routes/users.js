@@ -38,7 +38,7 @@ router.post('/login', async function (req, res) {
   }
 })
 
-router.get('/', async function (request, response) {
+router.get('/', verifyToken, async function (request, response) {
   try {
     const data = await db.any('SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users')
 
@@ -51,8 +51,9 @@ router.get('/', async function (request, response) {
   }
 })
 
-// Is used as a Get Method request
-router.post('/get', async function (request, response) {
+
+//Is used as a Get Method request
+router.post('/get', verifyToken, async function (request, response) {
   try {
     const getUser = parseInt(request.body.user_id)
     const data = await db.any(`SELECT users.user_id, first_name, last_name, email, photo_url, user_type FROM users WHERE user_id=${getUser}`)
@@ -125,13 +126,13 @@ router.post('/register', async function (request, response) {
   }
 })
 
-router.post('/', async function (request, response) {
-  const hashed = bcrypt.hashSync(request.body.password, 10)
-  const first_name = request.body.first_name
-  const last_name = request.body.last_name
-  const email = request.body.email
-  const photo_url = request.body.photo_url
-  const user_type = request.body.user_type
+router.post('/', verifyToken, async function (request, response) {
+  let hashed = bcrypt.hashSync(request.body.password, 10)
+  let first_name = request.body.first_name
+  let last_name = request.body.last_name
+  let email = request.body.email
+  let photo_url = request.body.photo_url
+  let user_type = request.body.user_type
   try {
     await db.none(`INSERT INTO users (first_name, last_name, email, password, photo_url, user_type) VALUES ('${first_name}', '${last_name}', '${email}', '${hashed}', '${photo_url}', '${user_type}')`, hashed)
     return response.sendStatus(200)
