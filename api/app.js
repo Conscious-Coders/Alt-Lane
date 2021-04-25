@@ -41,7 +41,6 @@ app.use('/mentorship', mentorshipRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  console.log('line 52 error')
   next(createError(404))
 })
 
