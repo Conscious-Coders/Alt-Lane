@@ -38,6 +38,7 @@ router.post('/', verifyToken, async function (request, response) {
   let mentee = parseInt(request.body.mentee_id)
   let parent_name = request.body.parent_name
   let parent_email = request.body.parent_email  
+  parent_email = parent_email.toLowerCase()
     try {
       await db.none(`INSERT INTO mentees (mentee_id, parent_name, parent_email) VALUES (${mentee}, '${parent_name}', '${parent_email}')`)
       return response.sendStatus(200)
@@ -51,12 +52,14 @@ router.post('/', verifyToken, async function (request, response) {
 router.put('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const parent_name = request.body.parent_name
-  const parent_email = request.body.parent_email
-
+  let parent_email = request.body.parent_email
+  parent_email = parent_email.toLowerCase()
   try {
     if (parent_name) await db.any(`UPDATE mentees SET parent_name='${parent_name}' WHERE mentee_id=${mentee}`)
-    if (parent_email) await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
-
+    if (parent_email) {
+      parent_email = parent_email.toLowerCase()
+      await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`) 
+    }
     return response.sendStatus(200)
   } catch (err) {
     response.status(500).json(err)
@@ -66,11 +69,13 @@ router.put('/', verifyToken, async function (request, response) {
 router.patch('/', verifyToken, async function (request, response) {
   const mentee = parseInt(request.body.mentee_id)
   const parent_name = request.body.parent_name
-  const parent_email = request.body.parent_email
-
+  let parent_email = request.body.parent_email
   try {
     if (parent_name) await db.any(`UPDATE mentees SET parent_name='${parent_name}' WHERE mentee_id=${mentee}`)
-    if (parent_email) await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`)
+    if (parent_email) {
+      parent_email = parent_email.toLowerCase()
+      await db.any(`UPDATE mentees SET parent_email='${parent_email}' WHERE mentee_id=${mentee}`) 
+    }
 
     return response.sendStatus(200)
   } catch (err) {
