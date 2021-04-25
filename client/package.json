@@ -59,6 +59,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
+    "npx": "^10.2.2",
     "prettier": "^2.2.1",
     "standard": "^16.0.3"
   }
