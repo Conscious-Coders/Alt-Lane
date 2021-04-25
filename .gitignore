@@ -106,3 +106,8 @@ dist
 # Ignore db file
 db
 knexfile
+api/.eslintrc.json
+client/package.json
+client/package-lock.json
+api/package.json
+client/.eslintrc.json
