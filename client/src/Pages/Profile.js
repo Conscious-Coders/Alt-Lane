@@ -103,7 +103,6 @@ function Profile() {
   const getAllVals = () => {
     const values = careerChoice.current.getSelectedItems();
     form.careerField = values[0].id;
-    values.forEach((val) => form.careerFieldInterest.push(val.id));
   };
 
   // Gets any changed values in career fields form input
@@ -286,9 +285,7 @@ function Profile() {
     // If the user Logged in is a mentor
     if (authState.userType === "mentor") {
       const mentorValue = careerChoice.current.getSelectedItems();
-      const careerField = mentorValue;
-      mentorValue.forEach((val) => careerField.push(val.id));
-
+      const careerField = mentorValue[0].id;
       if (
         document.getElementById("company").value !== form.company &&
         document.getElementById("company").value !== ""
@@ -313,13 +310,14 @@ function Profile() {
         changedMentor = true;
       }
 
-      if (form.careerFieldInterest !== careerField) {
-        var field = careerField[0].id;
+      if (form.careerField !== careerField) {
+        var field = careerField;
         changedMentor = true;
       }
 
       // If a mentor changes any information
       if (changedMentor === true) {
+        console.log(field, mbio, linked, comp);
         try {
           const response = await fetch(`${FETCH_URL}mentors`, {
             method: "PUT",
@@ -328,7 +326,7 @@ function Profile() {
               Authorization: `Bearer ${authState.token}`,
             },
             body: JSON.stringify({
-              mentor_id: authState.user,
+              mentor_id: authState.user_id,
               bio: mbio,
               career_field_id: field,
               company: comp,
@@ -377,7 +375,7 @@ function Profile() {
               Authorization: `Bearer ${authState.token}`,
             },
             body: JSON.stringify({
-              mentee_id: authState.user,
+              mentee_id: authState.user_id,
               parent_name: pName,
               parent_email: pEmail,
             }),
