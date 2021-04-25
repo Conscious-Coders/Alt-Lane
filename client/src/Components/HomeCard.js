@@ -22,8 +22,8 @@ function HomeCard(props) {
     };
   } else {
     data = {
-      mentee_id: props.userId,
-      mentor_id: props.mentorshipId,
+      mentor_id: props.userId,
+      mentee_id: props.mentorshipId,
     };
   }
 

@@ -75,12 +75,9 @@ router.post('/deleteInterests', verifyToken, async function (request, response) 
 // Will return all interests for a single mentee
 // Is used as a Get Method request
 router.post('/interests_for_one_mentee', verifyToken, async function (request, response) {
-  console.log('In mentee interes route -> line 78')
   try {
     const mentee_id = parseInt(request.body.mentee_id)
-    console.log('DELTE LATER', mentee_id)
     const data = await db.any(`SELECT career_fields.name FROM mentee_interests JOIN career_fields ON mentee_interests.career_field_id = career_fields.id WHERE mentee_id=${mentee_id}`)
-    console.log('Delete later: ', data)
     return response.json({
       data: data
     })

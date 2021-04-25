@@ -108,6 +108,7 @@ function Register() {
 
     let data = {};
     if (form.userType === "mentee") {
+      menteeInterests();
       data = {
         first_name: menteeForm.firstName,
         last_name: menteeForm.lastName,
@@ -119,8 +120,8 @@ function Register() {
         parent_email: menteeForm.parentEmail,
         career_field_array: menteeForm.careerFieldInterest,
       };
-      menteeInterests();
     } else {
+      getAllVals();
       data = {
         first_name: form.firstName,
         last_name: form.lastName,
@@ -133,8 +134,6 @@ function Register() {
         company: form.company,
         linkedin_url: form.linkedin,
       };
-
-      getAllVals();
     }
 
     try {
