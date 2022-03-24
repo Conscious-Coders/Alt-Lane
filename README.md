@@ -23,7 +23,7 @@ Alt-Lane is a website to bring information about career opportunities to high sc
 
 ## Requirements
 
-- React (Add version here)
+- React 
 - Node
 - Express
 - PostgreSQL
